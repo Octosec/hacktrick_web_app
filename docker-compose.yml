@@ -1,0 +1,17 @@
+version: '2'
+services:
+  db:
+    restart: always
+    image: postgres
+    ports:
+      - "5432"
+  web:
+    restart: always
+    build: .
+    command: bash -c "python web/manage.py migrate && python web/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
