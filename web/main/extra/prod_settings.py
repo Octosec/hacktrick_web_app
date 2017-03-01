@@ -1,11 +1,12 @@
+import environ
+env = environ.Env(DEBUG=(bool, False),)
+environ.Env.read_env()
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': 'localhost',
-        'PORT': '5432'
-    }
+    'default': env.db()
 }
+
+SECRET_KEY = env('SECRET_KEY')
+
 DEBUG = False

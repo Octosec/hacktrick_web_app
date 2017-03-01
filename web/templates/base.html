@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{% block title %}Hacktrick Cyber Security Conference{% endblock %}</title>
+
+	<!-- Meta -->
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.ico" />
+
+    <!-- Mobile Specific Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Framework Styles -->
+    <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}"/>
+
+    <!-- Fonts Styles -->
+    <link rel="stylesheet" type="text/css" href="{% static "css/font-awesome.min.css" %}"/>
+
+    <!-- Plugins Styles -->
+    <link rel="stylesheet" href="{% static "css/jquery.fs.boxer.min.css" %}" />
+    <link rel="stylesheet" href="{% static "css/flexslider.css" %}" />
+    <link rel="stylesheet" href="{% static "css/swiper.min.css" %}" />
+    <link rel="stylesheet" href="{% static "css/hover-min.css" %}" />
+    <link rel="stylesheet" href="{% static "css/animate.css" %}" />
+
+    <!-- Project Styles -->
+    <link rel="stylesheet" href="{% static "css/style.css" %}" />
+    <link rel="stylesheet" href="{% static "css/responsive.css" %}" />
+</head>
+<body>
+	<!--  preloader  -->
+	<div id="loading">
+		<div id="loading-center">
+			<div id="loading-center-absolute">
+				<div class="object"></div>
+				<div class="object"></div>
+				<div class="object"></div>
+				<div class="object"></div>
+				<div class="object"></div>
+				<div class="object"></div>
+				<div class="object"></div>
+				<div class="object"></div>
+				<div class="object"></div>
+				<div class="object"></div>
+			</div>
+		</div>
+	</div>
+
+    {% include "includes/__header.html" %}
+
+    {% block content %}
+        <!-- Content goes here -->
+    {% endblock %}
+
+    {% include "includes/__footer.html" %}
+
+    <script type='text/javascript' src='{% static "js/plugins.js" %}'></script>
+	<script type='text/javascript' src='{% static "js/countdown.js" %}'></script>
+	<script type='text/javascript' src='{% static "js/modernizr.js" %}'></script>
+	<script type='text/javascript' src='{% static "js/functions.js" %}'></script>
+	<script type='text/javascript' src='{% static "js/custom.js" %}'></script>
+    <script>
+        countdown_init();
+    </script>
+</body>
+</html>

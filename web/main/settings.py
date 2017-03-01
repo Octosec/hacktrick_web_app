@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '&pyypn+a@83n2r0n8w@h89q#7-r!6cg^@yp)()jv!(0$rv&@cm'
+SECRET_KEY = 'this data will be changed'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 IS_DEV = True
@@ -40,10 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'hacktrick',
-    'api',
     'profiles',
-
-    'rest_framework',
 ]
 
 SITE_ID = 1
@@ -194,15 +191,8 @@ LOGGING = {
     }
 }
 
-# Rest Framework
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    )
-}
+# Auth User
+AUTH_USER_MODEL = 'profiles.Profile'
 
 if IS_DEV:
     from .extra.dev_settings import *

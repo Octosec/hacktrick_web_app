@@ -1,9 +1,7 @@
 from django.db import models
 
-"""
-SPONSOR_CATEGORY = (
-    (0, 'Other'),
-)
+from main.declarations import SPONSOR_CATEGORY
+from profiles.models import Profile
 
 
 class Sponsor(models.Model):
@@ -89,4 +87,66 @@ class TrainingDocument(models.Model):
         return self.name
 
 
-"""
+class UserTraining(models.Model):
+    first_selection = models.ForeignKey(
+        Training,
+        related_name='user_first_trainings',
+        related_query_name='user_first_training'
+    )
+    second_selection = models.ForeignKey(
+        Training,
+        related_name='user_second_trainings',
+        related_query_name='user_second_training'
+    )
+    accepted_selection = models.ForeignKey(
+        Training,
+        related_name='user_accepted_trainings',
+        related_query_name='user_accepted_training'
+    )
+    user = models.ForeignKey(
+        Profile,
+        related_name='user_trainings',
+        related_query_name='user_training'
+    )
+
+
+class Ticket(models.Model):
+    content = models.TextField()
+    status = models.BooleanField(default=False)
+    date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(
+        Profile,
+        related_name='tickets',
+        related_query_name='ticket'
+    )
+
+    def __str__(self):
+        return self.content
+
+
+class TicketComment(models.Model):
+    comment = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(
+        Profile,
+        related_name='ticket_comments',
+        related_query_name='ticket_comment'
+    )
+    ticket = models.ForeignKey(
+        Ticket,
+        related_name='ticket_comments',
+        related_query_name='ticket_comment'
+    )
+
+    def __str__(self):
+        return self.comment
+
+
+class Setting(models.Model):
+    place = models.CharField(max_length=100)
+    starting_date = models.DateTimeField()
+    ending_date = models.DateTimeField()
+    address = models.TextField(help_text='Google code')
+
+    def __str__(self):
+        return self.place

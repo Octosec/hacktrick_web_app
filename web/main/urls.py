@@ -20,6 +20,5 @@ urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'', include('hacktrick.urls', namespace='hacktrick')),
-    url(r'^api/', include('api.urls', namespace='api')),
     url(r'^profile/', include('profiles.urls', namespace='profiles'))
 ]

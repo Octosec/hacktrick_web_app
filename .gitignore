@@ -93,3 +93,4 @@ ENV/
 logs
 .idea/
 web/db.sqlite3
+web/main/extra/.env
