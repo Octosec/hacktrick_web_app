@@ -4247,10 +4247,7 @@ select.selection {
 .massage-response-area {
 	margin-bottom: 60px;
 }
-.massage-response-area form>.input-area>.input {
-	width: 48%;
-	float: left;
-}
+
 .massage-response-area form>.input-area>.input input {
 	width: 100%;
 	display: block;

@@ -5,6 +5,26 @@ services:
     image: postgres
     ports:
       - "5432"
+
+  rabbitmq:
+    restart: always
+    image: rabbitmq
+    ports:
+      - "5672:5672"
+
+  celery_worker_default:
+      build: .
+      restart: always
+      environment:
+        - C_FORCE_ROOT=true
+      working_dir: /code/web
+      command: bash -c "sleep 3 && celery -A main worker -l info -E --autoscale 3,16 -Q default -n worker.%%"
+      volumes:
+        - .:/code
+      links:
+        - db
+        - rabbitmq
+
   web:
     restart: always
     build: .

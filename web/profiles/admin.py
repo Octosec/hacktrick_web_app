@@ -6,14 +6,14 @@ from .models import Profile
 
 @admin.register(Profile)
 class ProfileAdmin(UserAdmin):
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'registered_ip')
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff',)
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
-        (_('Extra'), {'fields': ('user_type', )})
+        (_('Extra'), {'fields': ('user_type', 'institution', 'phone_number')})
     )
     add_fieldsets = (
         (None, {

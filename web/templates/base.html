@@ -51,10 +51,8 @@
 
     {% include "includes/__header.html" %}
 
-    {% block content %}
-        <!-- Content goes here -->
-    {% endblock %}
-
+    {% block page-header %}{% endblock %}
+    {% block content %}<!-- Content goes here -->{% endblock %}
     {% include "includes/__footer.html" %}
 
     <script type='text/javascript' src='{% static "js/plugins.js" %}'></script>

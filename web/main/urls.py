@@ -20,5 +20,6 @@ urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'', include('hacktrick.urls', namespace='hacktrick')),
-    url(r'^profile/', include('profiles.urls', namespace='profiles'))
+    url(r'^accounts/social/', include('social_django.urls', namespace='social')),
+    url(r'^accounts/', include('profiles.urls', namespace='profiles')),
 ]

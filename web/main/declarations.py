@@ -8,5 +8,9 @@ USER_TYPES = (
 )
 
 SPONSOR_CATEGORY = (
-    (0, 'Other'),
+    (0, 'Platin'),
+    (1, 'Altın'),
+    (2, 'Gümüş'),
+    (3, 'Media'),
+    (4, 'Destekleyenler'),
 )
