@@ -47,6 +47,8 @@ INSTALLED_APPS = [
 
     'social_django',
     'phonenumber_field',
+    'pure_pagination',
+    'django_cleanup',
 
     'hacktrick',
     'profiles',
@@ -136,6 +138,10 @@ STATICFILES_DIRS = (
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+# Media
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
+MEDIA_URL = "/m/"
+
 # Grappelli
 GRAPPELLI_ADMIN_TITLE = "Hacktrick Admin Panel"
 
@@ -209,6 +215,14 @@ LOGGING = {
 # Auth User
 AUTH_USER_MODEL = 'profiles.Profile'
 
+# Mail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = 'info@oltalama.com'
+EMAIL_USE_TLS = True
 
 # Social Auth
 SOCIAL_AUTH_GITHUB_KEY = env('SOCIAL_AUTH_GITHUB_KEY')
@@ -224,6 +238,12 @@ CELERY_QUEUES = (
     Queue('default', Exchange('default'), routing_key='default'),
 )
 
+# Pagination
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 10,
+    'MARGIN_PAGES_DISPLAYED': 2,
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}
 
 if IS_DEV:
     from .extra.dev_settings import *

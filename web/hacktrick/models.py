@@ -9,7 +9,7 @@ from profiles.models import Profile
 class Sponsor(models.Model):
     name = models.CharField(max_length=100)
     category = models.SmallIntegerField(choices=SPONSOR_CATEGORY)
-    image = models.ImageField(upload_to='sponsor/')
+    image = models.ImageField(upload_to='sponsor/', help_text='370x190')
     order = models.PositiveIntegerField()
 
     def __str__(self):
@@ -76,6 +76,11 @@ class Training(models.Model):
     content = models.TextField()
     capacity = models.PositiveIntegerField()
     reserve_quota = models.PositiveIntegerField()
+    instructor = models.ManyToManyField(
+        Profile,
+        related_name='trainings',
+        related_query_name='training'
+    )
 
     def __str__(self):
         return self.title

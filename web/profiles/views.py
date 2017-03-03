@@ -4,10 +4,11 @@ from django.contrib.auth import logout
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import FormView, UpdateView
+from django.views.generic.edit import UpdateView
 
-from .forms import UserProfileForm
-from .models import Profile
+from .mixins import InstructorRequiredMixin
+from .forms import UserProfileForm, InstructorForm
+from .models import Profile, Instructor
 
 
 class LoginView(TemplateView):
@@ -30,6 +31,18 @@ class ProfileView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('profiles:profile')
+
+
+class InstructorView(LoginRequiredMixin, InstructorRequiredMixin, UpdateView):
+    model = Instructor
+    template_name = 'pages/profile/instructor.html'
+    form_class = InstructorForm
+
+    def get_object(self, queryset=None):
+        return self.request.user.instructor
+
+    def get_success_url(self):
+        return reverse_lazy('profiles:instructor')
 
 
 @login_required

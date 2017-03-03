@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
@@ -22,4 +24,4 @@ urlpatterns = [
     url(r'', include('hacktrick.urls', namespace='hacktrick')),
     url(r'^accounts/social/', include('social_django.urls', namespace='social')),
     url(r'^accounts/', include('profiles.urls', namespace='profiles')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

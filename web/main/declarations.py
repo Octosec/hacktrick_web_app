@@ -1,10 +1,10 @@
 
 
 USER_TYPES = (
-    (0, 'Superuser'),
-    (1, 'Moderator'),
-    (2, 'Instructor'),
-    (3, 'Participant')
+    (0, 'Süperuser'),
+    (1, 'Moderatör'),
+    (2, 'Eğitmen'),
+    (3, 'Katılımcı')
 )
 
 SPONSOR_CATEGORY = (

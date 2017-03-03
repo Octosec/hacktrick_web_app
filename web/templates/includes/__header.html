@@ -26,6 +26,9 @@
 									<li class="dropdown menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-376 active">
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kullanıcı</a>
 										<ul class="dropdown-menu sub-menu menu-sub-content">
+                                            {% if request.user.user_type == 2 %}
+                                                {% include 'includes/__header_instructor.html' %}
+                                            {% endif %}
 											<li><a href="{% url "profiles:profile" %}">Profil</a></li>
 											<li><a href="{% url "profiles:logout" %}">Çıkış</a></li>
 										</ul>

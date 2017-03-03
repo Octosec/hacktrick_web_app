@@ -1,7 +1,19 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
-from .models import Profile
+from .models import Profile, Instructor
+
+
+class ProfileInline(admin.StackedInline):
+    model = Instructor
+    max_num = 1
+    can_delete = False
+    min_num = 1
+
+    def get_min_num(self, request, obj=None, **kwargs):
+        if obj.user_type == 2:
+            return self.min_num
+        return None
 
 
 @admin.register(Profile)
@@ -21,3 +33,9 @@ class ProfileAdmin(UserAdmin):
             'fields': ('username', 'email', 'password1', 'password2'),
         }),
     )
+    inlines = [ProfileInline]
+
+
+@admin.register(Instructor)
+class InstructorAdmin(admin.ModelAdmin):
+    list_display = ['user', 'title', 'institution']

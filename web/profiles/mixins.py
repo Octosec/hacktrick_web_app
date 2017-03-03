@@ -14,3 +14,10 @@ class SuperuserOrModeratorRequiredMixin(object):
         if request.user.user_type not in [0, 1]:
             return redirect(reverse_lazy('hacktrick:index'))
         return super(SuperuserOrModeratorRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+
+class InstructorRequiredMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.user_type == 2:
+            return redirect(reverse_lazy('hacktrick:index'))
+        return super(InstructorRequiredMixin, self).dispatch(request, *args, **kwargs)
