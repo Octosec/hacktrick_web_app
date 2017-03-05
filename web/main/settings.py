@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'pure_pagination',
     'django_cleanup',
+    'nocaptcha_recaptcha',
 
     'hacktrick',
     'profiles',
@@ -118,7 +119,7 @@ AUTHENTICATION_BACKENDS = (
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'tr-tr'
 
 TIME_ZONE = 'UTC'
 
@@ -244,6 +245,11 @@ PAGINATION_SETTINGS = {
     'MARGIN_PAGES_DISPLAYED': 2,
     'SHOW_FIRST_PAGE_WHEN_INVALID': True,
 }
+
+# Nocaptcha
+NORECAPTCHA_SITE_KEY = env('NORECAPTCHA_SITE_KEY')
+NORECAPTCHA_SECRET_KEY = env('NORECAPTCHA_SECRET_KEY')
+
 
 if IS_DEV:
     from .extra.dev_settings import *

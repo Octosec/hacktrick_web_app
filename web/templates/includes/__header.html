@@ -32,7 +32,10 @@
                                             {% if request.user.user_type == 2 %}
                                                 {% include 'includes/__header_instructor.html' %}
                                             {% endif %}
-											<li><a href="{% url "profiles:profile" %}">Profil</a></li>
+                                            {% if request.user.user_type == 3 %}
+                                                {% include 'includes/__header_participant.html' %}
+                                            {% endif %}
+                                            <li><a href="{% url "profiles:profile" %}">Profil</a></li>
 											<li><a href="{% url "profiles:logout" %}">Çıkış</a></li>
 										</ul>
 									</li>

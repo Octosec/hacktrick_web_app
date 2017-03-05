@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %} Sorular {% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <h3 class="page-title">SORULAR</h3>
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+	                    <li class="active">Sorular</li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+<section class="event-schedule" style="padding: 60px 0 60px 0">
+    <div class="container">
+        <div class="row">
+                <div class="massage-response-area" style="margin-bottom: 0 !important;">
+                        <div class="col-m-12">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                {% include 'includes/__form_messages.html' %}
+                                <form method="POST"  action="#">
+                                    {% csrf_token %}
+                                    <div class="input-area">
+                                        <div class="input">
+                                            {{ form.title }}
+                                            {{ form.content }}
+                                        </div>
+                                    </div>{{ form.captcha }}
+                                    <p class="form-submit text-center">
+                                        <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
+                                    </p>
+                                </form>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="event-schedule">
+		<div class="container">
+			<div class="row">
+				<div class="section-head">
+					<h2 class="header-title">Sorular</h2>
+					<p class="header-desc">Sizin tarafınızdan sorulmuş sorular. Cevaplamak için elimizden geleni yapıyoruz.</p>
+				</div>
+
+				<div class="event-schedule-inner">
+					<div class="event-schedule-inner-fixed">
+						<!-- Tab panes -->
+                        {% if object_list.count > 0 %}
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade in active" id="first-date">
+                                    <div class="schedule-wrapper">
+                                        <div class="schedule-item header">
+                                            <div class="col-xs-2 col-sm-2 col-md-2">
+                                                <div class="item-inner">
+                                                    <span><i class="fa fa-calendar"></i></span>
+                                                    <span>Tarih</span>
+                                                </div>
+                                            </div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
+                                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                                <div class="item-inner">
+                                                    <span><i class="fa fa-list-alt"></i></span>
+                                                    <span>Soru</span>
+                                                </div>
+                                            </div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
+                                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                                <div class="item-inner">
+                                                    <span><i class="fa fa-microphone"></i></span>
+                                                    <span>Durum</span>
+                                                </div>
+                                            </div><!-- /.col-md-3 -->
+                                        </div><!-- /.schedule-item -->
+                                            {% for ticket in object_list %}
+                                                <div class="schedule-item">
+                                                    <div class="col-xs-2 col-sm-2 col-md-2">
+                                                        <div class="item-inner event-time">
+                                                            <span>{{ ticket.date|date:"d M Y" }}</span>
+                                                        </div>
+                                                    </div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
+                                                    <div class="col-xs-4 col-sm-4 col-md-4">
+                                                        <div class="item-inner event-session">
+                                                            <span>{{ ticket.title }}</span>
+                                                        </div>
+                                                    </div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
+                                                    <div class="col-xs-2 col-sm-2 col-md-2">
+                                                        <div class="item-inner vanue">
+                                                            <span>
+                                                                {% if ticket.ticket_comments.count > 0 %}
+                                                                    Cevaplandı
+                                                                {% else %}
+                                                                    Cevaplanmadı
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                    </div><!-- /.col-md-3 -->
+                                                </div><!-- /.schedule-item -->
+                                            {% endfor %}
+                                    </div><!-- /.schedule-wrapper -->
+                                </div>
+                            </div>
+                        {% else %}
+                               <div class="alert alert-danger">
+                                    Onaylanmış bir soru bulunamadı. Aklınıza takılan bir soru varsa lütfen formu kullanarak bize sorun.
+                                </div>
+                        {% endif %}
+					</div><!-- /.event-schedule-inner-fixed -->
+				</div><!-- /.event-schedule-inner -->
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</section>
+{% endblock %}
+{% block script %}
+<script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
+{% endblock %}

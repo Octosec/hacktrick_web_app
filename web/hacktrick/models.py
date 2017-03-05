@@ -127,6 +127,7 @@ class UserTraining(models.Model):
 
 @python_2_unicode_compatible
 class Ticket(models.Model):
+    title = models.CharField(max_length=150)
     content = models.TextField()
     status = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now_add=True)

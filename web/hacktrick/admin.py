@@ -55,9 +55,15 @@ class TrainingDocument(admin.ModelAdmin):
     list_display = ['name', 'document', 'is_public']
 
 
+class TicketInline(admin.StackedInline):
+    model = TicketComment
+    can_delete = True
+    extra = 1
+
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ['status', 'date']
+    list_display = ['title', 'status', 'date']
+    inlines = [TicketInline]
 
 
 @admin.register(TicketComment)

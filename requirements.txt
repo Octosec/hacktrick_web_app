@@ -8,6 +8,7 @@ Django==1.10.5
 django-cleanup==0.4.2
 django-environ==0.4.1
 django-grappelli==2.9.1
+django-nocaptcha-recaptcha==0.0.19
 django-phonenumber-field==1.1.0
 django-pure-pagination==0.3.0
 httplib2==0.10.3

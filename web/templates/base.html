@@ -60,8 +60,6 @@
 	<script type='text/javascript' src='{% static "js/modernizr.js" %}'></script>
     <script type='text/javascript' src='{% static "js/functions.js" %}'></script>
 	<script type='text/javascript' src='{% static "js/custom.js" %}'></script>
-    <script>
-        countdown_init();
-    </script>
+    {% block script %}{% endblock %}
 </body>
 </html>

@@ -10,6 +10,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from main.declarations import USER_TYPES
 from main.utils import validate_avatar_dimensions
 
+
 @python_2_unicode_compatible
 class Profile(AbstractUser):
     user_type = models.SmallIntegerField(choices=USER_TYPES, default=3)
