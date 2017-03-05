@@ -56,7 +56,6 @@ Tags: html, template, Multi-Touch
 # 0 Typography
 --------------------------------------------------------------*/
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700|Poppins:400,600,700);
-
 body,
 button,
 input,
@@ -4534,3 +4533,7 @@ select.selection {
 input {
 	outline-color: #ff6f50 !important;
 }
+
+.g-recaptcha div { margin: auto}
+
+.g-recaptcha { margin-top: 10px }

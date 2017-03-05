@@ -7,7 +7,7 @@ from .models import Profile, Instructor
 class ProfileInline(admin.StackedInline):
     model = Instructor
     max_num = 1
-    can_delete = False
+    can_delete = True
     min_num = 1
 
     def get_min_num(self, request, obj=None, **kwargs):
