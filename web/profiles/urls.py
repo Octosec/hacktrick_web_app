@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^logout/$', user_logout, name='logout'),
     url(r'^profile/$', ProfileView.as_view(), name='profile'),
     url(r'^instructor/$', InstructorView.as_view(), name='instructor'),
-    url(r'^tickets/$', TicketListView.as_view(), name='tickets')
+    url(r'^tickets/$', TicketListView.as_view(), name='tickets'),
+    url(r'^faq/$', TicketListView.as_view(), name='tickets')
 ]

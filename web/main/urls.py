@@ -20,8 +20,8 @@ from django.conf import settings
 
 urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
-    url(r'^admin/', admin.site.urls),
+    url(r'^{}/'.format(settings.ADMIN_URL), admin.site.urls),
     url(r'', include('hacktrick.urls', namespace='hacktrick')),
-    url(r'^accounts/social/', include('social_django.urls', namespace='social')),
-    url(r'^accounts/', include('profiles.urls', namespace='profiles')),
+    # url(r'^accounts/social/', include('social_django.urls', namespace='social')),
+    # url(r'^accounts/', include('profiles.urls', namespace='profiles')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

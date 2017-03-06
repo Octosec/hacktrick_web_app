@@ -11,7 +11,8 @@ from .models import (
     TrainingDocument,
     Ticket,
     TicketComment,
-    Setting
+    Setting,
+    Speak
 )
 
 
@@ -32,17 +33,22 @@ class CFPAdmin(admin.ModelAdmin):
 
 @admin.register(FAQ)
 class FAQAdmin(admin.ModelAdmin):
-    list_display = ['question', 'answer', 'url', 'order']
+    list_display = ['question', 'answer', 'order']
 
 
 @admin.register(ConferenceSlot)
 class ConferenceAdmin(admin.ModelAdmin):
-    list_display = ['date', 'starting_time', 'ending_time']
+    list_display = ['date']
 
 
 @admin.register(Speaker)
 class SpeakerAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'image', 'corporate']
+    list_display = ['full_name', 'image', 'title', 'institution']
+
+
+@admin.register(Speak)
+class SpeakAdmin(admin.ModelAdmin):
+    list_display = ['title', 'starting_time', 'ending_time', 'slot']
 
 
 @admin.register(Training)
@@ -60,6 +66,7 @@ class TicketInline(admin.StackedInline):
     can_delete = True
     extra = 1
 
+
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
     list_display = ['title', 'status', 'date']
@@ -73,4 +80,4 @@ class TicketCommentAdmin(admin.ModelAdmin):
 
 @admin.register(Setting)
 class SettingAdmin(admin.ModelAdmin):
-    list_display = ['place', 'starting_date', 'ending_date', 'address']
+    list_display = ['place', 'date', 'starting_date', 'address']

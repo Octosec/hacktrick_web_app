@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -40,7 +43,6 @@ class CFP(models.Model):
 class FAQ(models.Model):
     question = models.CharField(max_length=300)
     answer = models.TextField()
-    url = models.URLField()
     order = models.PositiveIntegerField()
 
     def __str__(self):
@@ -48,25 +50,46 @@ class FAQ(models.Model):
 
 
 @python_2_unicode_compatible
-class ConferenceSlot(models.Model):
-    date = models.DateField()
-    starting_time = models.DateTimeField()
-    ending_time = models.DateTimeField()
-
-
-@python_2_unicode_compatible
 class Speaker(models.Model):
-    full_name = models.CharField(max_length=60)
-    image = models.ImageField(upload_to='speaker/')
-    corporate = models.CharField(max_length=100)
-    slot = models.ForeignKey(
-        ConferenceSlot,
-        related_name='speakers',
-        related_query_name='speaker'
-    )
+    full_name = models.CharField('Ad soyad', max_length=60)
+    image = models.ImageField('Resim', upload_to='speaker/', help_text="160x160")
+    title = models.CharField(max_length=100)
+    institution = models.CharField('Kurum', max_length=100)
+    facebook = models.CharField(help_text='facebook kullanıcı adı', max_length=50, blank=True)
+    twitter = models.CharField(help_text='twitter kullanıcı adı', max_length=50, blank=True)
+    linkedin = models.CharField(help_text='linkedin kullanıcı adı', max_length=50, blank=True)
 
     def __str__(self):
         return self.full_name
+
+
+@python_2_unicode_compatible
+class ConferenceSlot(models.Model):
+    date = models.DateField(unique=True)
+
+    def __str__(self):
+        return str(self.date)
+
+
+@python_2_unicode_compatible
+class Speak(models.Model):
+    slot = models.ForeignKey(
+        ConferenceSlot,
+        related_name='speaks',
+        related_query_name='speak'
+    )
+    title = models.CharField(max_length=150)
+    hall = models.CharField('Salon', max_length=100)
+    starting_time = models.TimeField()
+    ending_time = models.TimeField()
+    speaker = models.ForeignKey(
+        Speaker,
+        related_query_name='speak',
+        related_name='speaker'
+    )
+
+    def __str__(self):
+        return self.title
 
 
 @python_2_unicode_compatible
@@ -162,10 +185,27 @@ class TicketComment(models.Model):
 
 @python_2_unicode_compatible
 class Setting(models.Model):
-    place = models.CharField(max_length=100)
-    starting_date = models.DateTimeField()
-    ending_date = models.DateTimeField()
+    city = models.CharField('Şehir', max_length=100)
+    place_fullname = models.CharField('Konum tam', max_length=150)
+    expected_participant = models.PositiveIntegerField('Beklenen katılımcı sayısı')
+    expected_speaker = models.PositiveIntegerField('Beklenen konuşmacı sayısı')
+    place = models.CharField('Konum kısa',
+                             max_length=100,
+                             help_text="Anasayfa'da görünmesini istediğiniz şekilde yazınız.")
+    date = models.CharField('Tarih',
+                            max_length=100,
+                            help_text="Anasayfa'da görünmesini istediğiniz şekilde yazınız.")
+    starting_date = models.DateTimeField('Başlangıç tarihi')
     address = models.TextField(help_text='Google code')
+    about = models.TextField('Hakkında', help_text='HTML kodu yazabilirsiniz.')
 
     def __str__(self):
         return self.place
+
+    def validate_only_one_instance(self):
+        model = self.__class__
+        if model.objects.count() > 0 and self.id != model.objects.get().id:
+            raise ValidationError("Sadece 1 satır ekleme yapabilisiniz.")
+
+    def clean(self):
+        self.validate_only_one_instance()

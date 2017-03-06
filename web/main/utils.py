@@ -17,5 +17,5 @@ def get_client_ip(request):
 
 def validate_avatar_dimensions(image):
     w, h = get_image_dimensions(image)
-    if w != 450 and h != 450:
-        raise ValidationError("Resim boyutu 450x450 olmalıdır.")
+    if w != 160 and h != 160:
+        raise ValidationError("Resim boyutu 160x160 olmalıdır.")

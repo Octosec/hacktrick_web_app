@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Sıkça Sorulan Sorular {% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <h3 class="page-title">SIKÇA SORULAN SORULAR</h3>
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+	                    <li class="active">SSS</li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+	<!--  Start testimonial v2  -->
+	<section class="testimonial-v2">
+		<div class="container">
+			<div class="row">
+					<div class="testimonial-wrapper">
+						<div class="section-head">
+							<h2 class="header-title">Sıkça Sorulan Sorular</h2>
+							<p class="header-desc">Lütfen aklınıza takılan noktalar için soruları detaylıca okuyunuz.</p>
+						</div>
+						<div class="testimonial-inner">
+							<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                {% for question in object_list %}
+                                    <div class="panel panel-default">
+                                        <div id="collapse{{ question.order }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                                            <div class="panel-body">
+                                                {{ question.answer }}
+                                            </div>
+                                        </div>
+                                        <div class="panel-heading" role="tab" id="headingOne">
+                                            <a class="panel-title accordion-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ question.order }}" aria-expanded="true" aria-controls="collapseOne">
+                                                <h3><span>{{ question.question }}</span></h3>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+							</div>
+						</div><!-- /.testimonial-inner -->
+					</div><!-- /.testimonial-wrapper -->
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</section>
+	<!--  End testimonial v2  -->
+
+{% endblock %}

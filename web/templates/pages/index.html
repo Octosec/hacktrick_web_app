@@ -11,15 +11,15 @@
 				<div class="bannar-header">
 					<div class="container">
 						<div class="row">
-							<h1>HACKTRICK'17</h1>
+							<h1>HACKTRICK</h1>
 							<ul class="meta-post">
 								<li>
 									<i class="fa fa-calendar"></i>
-									12-13-14 Mayıs, 2017
+									{{ setting.date }}
 								</li>
 								<li>
 									<i class="fa fa-map-marker"></i>
-									TOBB ETU, Ankara
+									{{ setting.place }}
 								</li>
 							</ul>
 						</div><!-- /.row -->
@@ -33,20 +33,22 @@
 
 							<div class="header-countdown-wrapper">
 								<div class="header-countdown">
-									<div id="header-countdown" data-days="days" data-hrs="hrs" data-min="min" data-sec="sec" data-label="time left" data-gmt="0">2017-05-12 9:00:00</div>
+									<div id="header-countdown" data-days="days" data-hrs="hrs" data-min="min" data-sec="sec" data-label="time left" data-gmt="0">{{ setting.starting_date|date:"Y-m-d h:i:s" }}</div>
 								</div>
 							</div>
 							</div><!-- /.col-md-8 -->
 
-							<div class="col-sm-6 col-md-4">
-								<div class="row">
-									<div class="bannar-btn">
-										{% if request.user.is_authenticated == False %}
-											<a href="{% url "profiles:login" %}" class="register-now hvr-bounce-to-bottom">Kayıt Ol</a>
-										{% endif %}
-									</div>
-								</div><!-- /.row -->
-							</div><!-- /.col-md-4 -->
+                            {% comment %}
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="row">
+                                        <div class="bannar-btn">
+                                            {% if request.user.is_authenticated == False %}
+                                                <a href="{% url "profiles:login" %}" class="register-now hvr-bounce-to-bottom">Kayıt Ol</a>
+                                            {% endif %}
+                                        </div>
+                                    </div><!-- /.row -->
+                                </div><!-- /.col-md-4 -->
+                            {% endcomment %}
 						</div><!-- /.row -->
 					</div><!-- /.container -->
 				</div><!-- /.bannar-content -->
@@ -54,9 +56,8 @@
 		</div><!-- /.banner img -->
 	</section>
 	<!--  bannar section End  -->
-<<<<<<< HEAD
 
-	<section id="content" class="national-conference">
+	<section id="content">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-8">
@@ -66,13 +67,9 @@
 							<p class="header-desc">Türkiye'nin en kapsamlı siber güvenlik etkinliği</p>
 						</div>
 
-						<p>2014 yılında Ankara Üniversitesi ev sahipliğinde "Üniversiteler arası siber güvenlik zirvesi" sloganıyla başladığımız Hacktrick'te siber güvenlik sektörünün önde gelen kurumlarını üniversiteler ile buluşturmayı hedeflemiştik. Sonraki yıllarda Sabancı Üniversitesi ve Anadolu Üniversitesi'nde düzenlenen Hacktrick, 1000 kişinin üzerinde katılımcıyı ağırlayarak özel sektörün, devlet kurumlarının ve üniversitelerin siber güvenlik çerçevesinde buluşmasını sağlamıştır.</p>
-						<p>Hacktrick, zeka, eğlence, heyecan ve biraz da mücadele ortamı oluştururken pratik ve teorik güvenlik çalışmalarını da katılımcılarla paylaşmak üzere organize edilmiş bir etkinliktir. Katılımcılarına faydalı eğitimler, ilgi çekici sunumlar ve birbirinden eğlenceli yarışmalarla bilgi dolu ve eğlenceli üç gün geçirmeyi vadetmektedir.</p>
-						<div class="button-group">
-							{% if request.user.is_authenticated == False %}
-								<a href="/" class="custom-btn hvr-bounce-to-bottom">Kayıt Ol</a>
-							{% endif %}
-						</div>
+                        {{ setting.about | safe }}
+
+
 					</div><!-- /.conference-main -->
 				</div><!-- /.col-md-8 -->
 				<div class="col-md-4">
@@ -82,28 +79,28 @@
 								<li>
 									<span class="c-info-icon"><i class="fa fa-map-marker"></i></span>
 									<span class="c-info-content">
-										<strong>Ankara</strong>
-										<span class="i-text">TOBB Eğitim ve Teknoloji Üniversitesi</span>
+										<strong>{{ setting.city }}</strong>
+										<span class="i-text">{{ setting.place_fullname }}</span>
 									</span>
 								</li>
 								<li>
 									<span class="c-info-icon"><i class="fa fa-calendar"></i></span>
 									<span class="c-info-content">
-										<strong>12-13-14 Mayıs</strong>
-										<span class="i-text">2017</span>
+										<strong>{{ setting.date }}</strong>
+										<span class="i-text">{{ setting.starting_date|date:"Y" }}</span>
 									</span>
 								</li>
 								<li>
 									<span class="c-info-icon"><i class="fa fa-sitemap"></i></span>
 									<span class="c-info-content">
-										<strong>1000+ Katılımcı</strong>
+										<strong>{{ setting.expected_participant }}+ Katılımcı</strong>
 										<span class="i-text">Geniş katılımcı kitlesi</span>
 									</span>
 								</li>
 								<li>
 									<span class="c-info-icon"><i class="fa fa-microphone"></i></span>
 									<span class="c-info-content">
-										<strong>36+ Konuşmacı</strong>
+										<strong>{{ setting.expected_speaker }}+ Konuşmacı</strong>
 										<span class="i-text">Sektörün önde gelen isimleri</span>
 									</span>
 								</li>
@@ -136,117 +133,123 @@
 	</section>
 	<!--  end become-sponsor  -->
 
-	<!--  start sponsor section  -->
-	<section class="sponsor">
+	<section>
 		<div class="container">
 			<div class="row">
-				<div class="section-head">
-					<h2 class="header-title">Sponsorlar</h2>
-					<p class="header-desc">Sponsorlar</p>
-				</div>
+				<section class="sponsor">
+					<div class="container">
+						<div class="row">
+							<div class="section-head">
+								<h2 class="header-title">SPONSORLAR</h2>
+								<p class="header-desc">HACKTRICK'e sponsor olarak bize destek olanlar.</p>
+							</div>
 
-				<div class="sponsor-wrapper">
-					<div class="ccr-sponsor">
-						<h3 class="sponsor-title">Platin Sponsor</h3>
-						<div class="sponsor-area">
-							<div class="row">
-								<div class="col-sm-4 col-md-4 col-sm-offset-4 col-md-offset-4">
-									<div class="sponsor-item">
-										<img src="assets/images/homepage1/sponsor/02.jpg" alt="sponsor">
+							<div class="sponsor-wrapper">
+								<div class="ccr-sponsor">
+									<h3 class="sponsor-title">PLATİN SPONSORLAR</h3>
+                                    {% if platinum_sponsors.count > 0 %}
+									<div class="sponsor-area">
+										<div class="row">
+                                            {% for sponsor in platinum_sponsors %}
+											<div class="col-sm-4 col-md-4">
+												<div class="sponsor-item">
+													<img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}">
+												</div>
+											</div>
+                                            {% endfor %}
+										</div>
 									</div>
+                                    {% else %}
+                                        Yakında açıklanacaktır.
+                                    {% endif %}
 								</div>
+
+								<div class="ccr-sponsor">
+									<h3 class="sponsor-title">ALTIN SPONSORLAR</h3>
+                                    {% if gold_sponsors.count > 0 %}
+									<div class="sponsor-area">
+										<div class="row">
+                                            {% for sponsor in gold_sponsors %}
+											<div class="col-sm-3 col-md-3">
+												<div class="sponsor-item">
+													<img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}">
+												</div>
+											</div>
+                                            {% endfor %}
+										</div>
+									</div>
+                                    {% else %}
+                                        Yakında açıklanacaktır.
+                                    {% endif %}
+								</div>
+
+								<div class="ccr-sponsor">
+									<h3 class="sponsor-title">GÜMÜŞ SPONSORLAR</h3>
+                                    {% if silver_sponsors.count > 0 %}
+									<div class="sponsor-area">
+										<div class="row">
+                                            {% for sponsor in silver_sponsors %}
+											<div class="silver-item">
+												<div class="silver-item-inner">
+													<img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}">
+												</div>
+											</div>
+                                            {% endfor %}
+										</div>
+									</div>
+                                    {% else %}
+                                        Yakında açıklancaktır.
+                                    {% endif %}
+                                </div>
+
+								<div class="ccr-sponsor">
+									<h3 class="sponsor-title">DESTEKLEYENLER</h3>
+                                    {% if supporter.count > 0 %}
+									<div class="sponsor-area">
+										<div class="row">
+                                            {% for sponsor in supporter %}
+											<div class="silver-item">
+												<div class="silver-item-inner">
+													<img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}">
+												</div>
+											</div>
+                                            {% endfor %}
+										</div>
+									</div>
+                                    {% else %}
+                                        Yakında açıklancaktır.
+                                    {% endif %}
+								</div>
+
+
+								<div class="ccr-sponsor">
+									<h3 class="sponsor-title">MEDYA SPONSORLARI</h3>
+                                    {% if media_sponsors.count > 0 %}
+									<div class="sponsor-area">
+										<div class="row">
+                                            {% for sponsor in media_sponsors %}
+											<div class="silver-item">
+												<div class="silver-item-inner">
+													<img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}">
+												</div>
+											</div>
+                                            {% endfor %}
+										</div>
+									</div>
+                                    {% else %}
+                                        Yakında açıklancaktır.
+                                    {% endif %}
+								</div>
+
 							</div>
 						</div>
 					</div>
-
-					<div class="ccr-sponsor">
-						<h3 class="sponsor-title">Altın Sponsorlar</h3>
-						<div class="sponsor-area">
-							<div class="row">
-								<div class="col-sm-4 col-md-4">
-									<div class="sponsor-item">
-										<img src="assets/images/homepage1/sponsor/01.jpg" alt="sponsor">
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="sponsor-item">
-										<img src="assets/images/homepage1/sponsor/02.jpg" alt="sponsor">
-									</div>
-								</div>
-								<div class="col-sm-4 col-md-4">
-									<div class="sponsor-item">
-										<img src="assets/images/homepage1/sponsor/03.jpg" alt="sponsor">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="ccr-sponsor">
-						<h3 class="sponsor-title">Gümüş Sponsorlar</h3>
-						<div class="sponsor-area">
-							<div class="row">
-								<div class="col-sm-3 col-md-3">
-									<div class="sponsor-item">
-										<img src="assets/images/homepage1/sponsor/01.jpg" alt="sponsor">
-									</div>
-								</div>
-								<div class="col-sm-3 col-md-3">
-									<div class="sponsor-item">
-										<img src="assets/images/homepage1/sponsor/02.jpg" alt="sponsor">
-									</div>
-								</div>
-								<div class="col-sm-3 col-md-3">
-									<div class="sponsor-item">
-										<img src="assets/images/homepage1/sponsor/01.jpg" alt="sponsor">
-									</div>
-								</div>
-								<div class="col-sm-3 col-md-3">
-									<div class="sponsor-item">
-										<img src="assets/images/homepage1/sponsor/02.jpg" alt="sponsor">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="ccr-sponsor">
-						<h3 class="sponsor-title">Destekleyenler</h3>
-						<div class="sponsor-area">
-							<div class="row">
-								<div class="silver-item">
-									<div class="silver-item-inner">
-										<img src="assets/images/homepage1/sponsor/03.jpg" alt="sponsor">
-									</div>
-								</div>
-								<div class="silver-item">
-									<div class="silver-item-inner">
-										<img src="assets/images/homepage1/sponsor/01.jpg" alt="sponsor">
-									</div>
-								</div>
-								<div class="silver-item">
-									<div class="silver-item-inner">
-										<img src="assets/images/homepage1/sponsor/03.jpg" alt="sponsor">
-									</div>
-								</div>
-								<div class="silver-item">
-									<div class="silver-item-inner">
-										<img src="assets/images/homepage1/sponsor/02.jpg" alt="sponsor">
-									</div>
-								</div>
-								<div class="silver-item">
-									<div class="silver-item-inner">
-										<img src="assets/images/homepage1/sponsor/01.jpg" alt="sponsor">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				</section>
 			</div>
 		</div>
 	</section>
-	<!--  end sponsor section  -->
+
+
 
 	<!-- start event speaker  -->
 	<section class="event-speaker" id="speakers">
@@ -254,35 +257,103 @@
 		<div class="container">
 			<div class="row">
 				<div class="section-head">
-					<h2 class="header-title">Konuşmacı ve Eğitmenler</h2>
-					<p class="header-desc">Birbirinden değerli konuşmacılar ve alanında uzman eğitmenlerle tanışın!</p>
+					<h2 class="header-title">KONUŞMACILAR ve EĞİTMENLER</h2>
+					<p class="header-desc">Birbirinden değerli konuşmacılar ve alanında uzman eğitmenler ile tanışın!</p>
 				</div>
-				<div class="speak-wrapper">
-					<div class="col-sm-6 col-md-3">
-						<div class="row">
-							<div class="speaker-item">
-								<div class="speaker-thumb">
-									<a href="#"><img src="assets/images/homepage1/speaker/01.jpg" alt="speaker"></a>
-								</div><!-- /.speaker-thumb -->
-								<div class="speaker-content">
-									<div class="speaker-content-inner">
-										<a href="#" class="speaker-name">Yakında</a>
-										<p class="designation">Açıklanacaktır</p>
-									</div>
-								</div>
-								<div class="speaker-social">
-									<ul class="social-media">
-										<li><a href="#"><i class="fa fa-facebook"></i></a></li>
-										<li><a href="#"><i class="fa fa-twitter"></i></a></li>
-										<li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-										<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-										<li><a href="#"><i class="fa fa-camera"></i></a></li>
-									</ul>
-								</div>
-							</div><!-- /.speaker-item -->
-						</div><!-- /.row -->
-					</div><!-- /.col-sm-6 col-md-3 -->
-				</div><!-- /.speak-wrapper -->
+
+                {% if speakers.count > 0 or instructors.count > 0 %}
+                    <div class="speak-wrapper">
+                        {% for speaker in speakers %}
+                            <div class="col-sm-6 col-md-3">
+                                <div class="row">
+                                    <div class="speaker-item">
+                                        <div class="speaker-thumb">
+                                            <a href="#"><img src="{{ speaker.image.url }}" alt="{{ speaker.full_name }}"></a>
+                                        </div><!-- /.speaker-thumb -->
+                                        <div class="speaker-content">
+                                            <div class="speaker-content-inner">
+                                                <a href="#" class="speaker-name">{{ speaker.full_name }}</a>
+                                                <p class="designation">{{ speaker.institution }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="speaker-social">
+                                            <ul class="social-media">
+                                                {% if speaker.facebook %}
+                                                    <li>
+                                                        <a href="https://www.facebook.com/{{ speaker.facebook }}" target="_blank">
+                                                        <i class="fa fa-facebook"></i>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                                {% if speaker.twitter %}
+                                                    <li>
+                                                        <a href="https://twitter.com/{{ speaker.twitter }}" target="_blank">
+                                                            <i class="fa fa-twitter"></i>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                                {% if speaker.linkedin %}
+                                                    <li>
+                                                        <a href="https://www.linkedin.com/in/{{ speaker.linkedin }}" target="_blank">
+                                                            <i class="fa fa-linkedin"></i>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div><!-- /.row -->
+                            </div><!-- /.col-sm-6 col-md-3 -->
+                            {% endfor %}
+
+                            {% for speaker in instructors %}
+                            <div class="col-sm-6 col-md-3">
+                                <div class="row">
+                                    <div class="speaker-item">
+                                        <div class="speaker-thumb">
+                                            <a href="#"><img src="{{ speaker.image.url }}" alt="{{ speaker.full_name }}"></a>
+                                        </div><!-- /.speaker-thumb -->
+                                        <div class="speaker-content">
+                                            <div class="speaker-content-inner">
+                                                <a href="#" class="speaker-name">{{ speaker.full_name }}</a>
+                                                <p class="designation">{{ speaker.institution }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="speaker-social">
+                                            <ul class="social-media">
+                                                {% if speaker.facebook %}
+                                                    <li>
+                                                        <a href="https://www.facebook.com/{{ speaker.facebook }}" target="_blank">
+                                                        <i class="fa fa-facebook"></i>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                                {% if speaker.twitter %}
+                                                    <li>
+                                                        <a href="https://twitter.com/{{ speaker.twitter }}" target="_blank">
+                                                            <i class="fa fa-twitter"></i>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                                {% if speaker.linkedin %}
+                                                    <li>
+                                                        <a href="https://www.linkedin.com/in/{{ speaker.linkedin }}" target="_blank">
+                                                            <i class="fa fa-linkedin"></i>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                            {% endfor %}
+                    </div><!-- /.speak-wrapper -->
+                {% else %}
+                    <div class="section-head">
+                        <p class="header-desc">Yakında açıklanacaktır.</p>
+                    </div>
+                {% endif %}
 			</div><!-- /.row -->
 		</div><!-- /.container -->
 	</section>
@@ -297,201 +368,97 @@
 					<p class="header-desc">Konferans ve eğitim takvimini inceleyin!</p>
 				</div>
 
+                {% if speaking_count > 0 %}
 				<div class="event-schedule-inner">
 					<div class="event-schedule-inner-fixed">
 
 						<!-- Nav tabs -->
+
 						<ul id="myTab" class="nav-tab" role="tablist">
-							<li role="presentation" class="active"><a href="#first-date" aria-controls="first-date" role="tab" data-toggle="tab">
-								<strong>12</strong>
-								<span class="date">Mayıs<br>2017, Cuma</span>
-							</a></li>
-							<li role="presentation"><a href="#second-date" aria-controls="second-date" role="tab" data-toggle="tab">
-								<strong>13</strong>
-								<span class="date">Mayıs<br>2017, Cumartesi</span>
-							</a></li>
-							<li role="presentation"><a href="#third-date" aria-controls="third-date" role="tab" data-toggle="tab">
-								<strong>14</strong>
-								<span class="date">Mayıs<br>2017, Pazar</span>
-							</a></li>
+                             {% for slot in conference_slots %}
+							<li role="presentation" {% if forloop.counter0 == 0 %}class="active"{% endif %}>
+                                <a href="#{{ slot.date|date:"d-M" }}" aria-controls="first-date" role="tab" data-toggle="tab">
+								    <strong>{{ slot.date|date:"d" }}</strong>
+								    <span class="date">{{ slot.date|date:"M" }}<br>{{ slot.date|date:"Y" }}, {{ slot.date|date:"D" }}</span>
+							    </a>
+                            </li>
+                            {% endfor %}
 						</ul>
-
-						<!-- Tab panes -->
-						<div class="tab-content">
-							<div role="tabpanel" class="tab-pane fade in active" id="first-date">
-								<div class="schedule-wrapper">
-									<div class="schedule-item header">
-										<div class="col-xs-2 col-sm-2 col-md-2">
-											<div class="item-inner">
-												<span><i class="fa fa-calendar"></i></span>
-												<span>Saat</span>
-											</div>
-										</div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
-										<div class="col-xs-4 col-sm-4 col-md-4">
-											<div class="item-inner">
-												<span><i class="fa fa-list-alt"></i></span>
-												<span>Oturum</span>
-											</div>
-										</div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
-										<div class="col-xs-4 col-sm-4 col-md-4">
-											<div class="item-inner">
-												<span><i class="fa fa-microphone"></i></span>
-												<span>Konuşmacı</span>
-											</div>
-										</div><!-- /.col-md-3 -->
-										<div class="col-xs-2 col-sm-2 col-md-2">
-											<div class="item-inner">
-												<span><i class="fa fa-map-marker"></i></span>
-												<span>Salon</span>
-											</div>
-										</div><!-- /.col-md-3 -->
-									</div><!-- /.schedule-item -->
-
-									<div class="schedule-item">
-										<div class="col-xs-2 col-sm-2 col-md-2">
-											<div class="item-inner event-time">
-												<span>09:00</span>
-											</div>
-										</div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
-										<div class="col-xs-4 col-sm-4 col-md-4">
-											<div class="item-inner event-session">
-												<span>Yakında</span>
-											</div>
-										</div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
-										<div class="col-xs-4 col-sm-4 col-md-4">
-											<div class="item-inner event-schedule-speaker">
-												<img src="assets/images/homepage1/event-schedule/01.png" alt="speaker">
-												<a href="#">-</a>
-											</div>
-										</div><!-- /.col-md-3 -->
-										<div class="col-xs-2 col-sm-2 col-md-2">
-											<div class="item-inner vanue">
-												<span>-</span>
-											</div>
-										</div><!-- /.col-md-3 -->
-									</div><!-- /.schedule-item -->
-								</div><!-- /.schedule-wrapper -->
-							</div>
-							<div role="tabpanel" class="tab-pane fade" id="second-date">
-								<div class="schedule-wrapper">
-									<div class="schedule-item header">
-										<div class="col-xs-2 col-sm-2 col-md-2">
-											<div class="item-inner">
-												<span><i class="fa fa-calendar"></i></span>
-												<span>Saat</span>
-											</div>
-										</div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
-										<div class="col-xs-4 col-sm-4 col-md-4">
-											<div class="item-inner">
-												<span><i class="fa fa-list-alt"></i></span>
-												<span>Oturum</span>
-											</div>
-										</div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
-										<div class="col-xs-4 col-sm-4 col-md-4">
-											<div class="item-inner">
-												<span><i class="fa fa-microphone"></i></span>
-												<span>Konuşmacı</span>
-											</div>
-										</div><!-- /.col-md-3 -->
-										<div class="col-xs-2 col-sm-2 col-md-2">
-											<div class="item-inner">
-												<span><i class="fa fa-map-marker"></i></span>
-												<span>Salon</span>
-											</div>
-										</div><!-- /.col-md-3 -->
-									</div><!-- /.schedule-item -->
-
-									<div class="schedule-item">
-										<div class="col-xs-2 col-sm-2 col-md-2">
-											<div class="item-inner event-time">
-												<span>09:00</span>
-											</div>
-										</div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
-										<div class="col-xs-4 col-sm-4 col-md-4">
-											<div class="item-inner event-session">
-												<span>Yakında</span>
-											</div>
-										</div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
-										<div class="col-xs-4 col-sm-4 col-md-4">
-											<div class="item-inner event-schedule-speaker">
-												<img src="assets/images/homepage1/event-schedule/01.png" alt="speaker">
-												<a href="#">-</a>
-											</div>
-										</div><!-- /.col-md-3 -->
-										<div class="col-xs-2 col-sm-2 col-md-2">
-											<div class="item-inner vanue">
-												<span>-</span>
-											</div>
-										</div><!-- /.col-md-3 -->
-									</div><!-- /.schedule-item -->
-								</div>
-							</div>
-							<div role="tabpanel" class="tab-pane fade" id="third-date">
-								<div class="schedule-wrapper">
-									<div class="schedule-item header">
-										<div class="col-xs-2 col-sm-2 col-md-2">
-											<div class="item-inner">
-												<span><i class="fa fa-calendar"></i></span>
-												<span>Saat</span>
-											</div>
-										</div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
-										<div class="col-xs-4 col-sm-4 col-md-4">
-											<div class="item-inner">
-												<span><i class="fa fa-list-alt"></i></span>
-												<span>Oturum</span>
-											</div>
-										</div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
-										<div class="col-xs-4 col-sm-4 col-md-4">
-											<div class="item-inner">
-												<span><i class="fa fa-microphone"></i></span>
-												<span>Konuşmacı</span>
-											</div>
-										</div><!-- /.col-md-3 -->
-										<div class="col-xs-2 col-sm-2 col-md-2">
-											<div class="item-inner">
-												<span><i class="fa fa-map-marker"></i></span>
-												<span>Salon</span>
-											</div>
-										</div><!-- /.col-md-3 -->
-									</div><!-- /.schedule-item -->
-
-									<div class="schedule-item">
-										<div class="col-xs-2 col-sm-2 col-md-2">
-											<div class="item-inner event-time">
-												<span>09:00</span>
-											</div>
-										</div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
-										<div class="col-xs-4 col-sm-4 col-md-4">
-											<div class="item-inner event-session">
-												<span>Yakında</span>
-											</div>
-										</div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
-										<div class="col-xs-4 col-sm-4 col-md-4">
-											<div class="item-inner event-schedule-speaker">
-												<img src="assets/images/homepage1/event-schedule/01.png" alt="speaker">
-												<a href="#">-</a>
-											</div>
-										</div><!-- /.col-md-3 -->
-										<div class="col-xs-2 col-sm-2 col-md-2">
-											<div class="item-inner vanue">
-												<span>-</span>
-											</div>
-										</div><!-- /.col-md-3 -->
-									</div><!-- /.schedule-item -->
-								</div>
-							</div>
-						</div>
+                        <div class="tab-content">
+                            {% for slot in conference_slots %}
+                                <div role="tabpanel" class="tab-pane fade {% if forloop.counter0 == 0 %}in active{% endif %}" id="{{ slot.date|date:"d-M" }}">
+                                    <div class="schedule-wrapper">
+                                        <div class="schedule-item header">
+                                            <div class="col-xs-2 col-sm-2 col-md-2">
+                                                <div class="item-inner">
+                                                    <span><i class="fa fa-calendar"></i></span>
+                                                    <span>Saat</span>
+                                                </div>
+                                            </div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
+                                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                                <div class="item-inner">
+                                                    <span><i class="fa fa-list-alt"></i></span>
+                                                    <span>Başlık</span>
+                                                </div>
+                                            </div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
+                                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                                <div class="item-inner">
+                                                    <span><i class="fa fa-microphone"></i></span>
+                                                    <span>Konuşmacı</span>
+                                                </div>
+                                            </div><!-- /.col-md-3 -->
+                                            <div class="col-xs-2 col-sm-2 col-md-2">
+                                                <div class="item-inner">
+                                                    <span><i class="fa fa-map-marker"></i></span>
+                                                    <span>Salon</span>
+                                                </div>
+                                            </div><!-- /.col-md-3 -->
+                                        </div><!-- /.schedule-item -->
+                                {% for training in slot.speaks.all %}
+                                    <div class="schedule-item">
+                                        <div class="col-xs-2 col-sm-2 col-md-2">
+                                            <div class="item-inner event-time">
+                                                <span>{{ training.starting_time }}</span>
+                                            </div>
+                                        </div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
+                                        <div class="col-xs-4 col-sm-4 col-md-4">
+                                            <div class="item-inner event-session">
+                                                <span>{{ training.title }}</span>
+                                            </div>
+                                        </div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
+                                        <div class="col-xs-4 col-sm-4 col-md-4">
+                                            <div class="item-inner event-schedule-speaker">
+                                                <img width="60"
+                                                     style="border-radius: 40px"
+                                                     src="{{ training.speaker.image.url }}"
+                                                     alt="{{ training.speaker.full_name }}">
+                                                {{ training.speaker.full_name }}
+                                            </div>
+                                        </div><!-- /.col-md-3 -->
+                                        <div class="col-xs-2 col-sm-2 col-md-2">
+                                            <div class="item-inner vanue">
+                                                <span>{{ training.hall }}</span>
+                                            </div>
+                                        </div><!-- /.col-md-3 -->
+                                    </div><!-- /.schedule-item -->
+                                {% endfor %}
+                                </div><!-- /.schedule-wrapper -->
+                            </div>
+                        {% endfor %}
+                        </div>
 					</div><!-- /.event-schedule-inner-fixed -->
 				</div><!-- /.event-schedule-inner -->
+                {% else %}
+                    Yakında açıklanacaktır.
+                {% endif %}
 			</div><!-- /.row -->
 		</div><!-- /.container -->
 	</section>
 
-=======
+
 {% endblock %}
 {% block script %}
     <script>
         countdown_init();
     </script>
->>>>>>> backend
 {% endblock %}
