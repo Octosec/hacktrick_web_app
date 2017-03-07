@@ -1,15 +1,17 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http.response import Http404
 from django.views.generic.base import TemplateView
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, FormMixin
 from django.views.generic.list import ListView
 from django.contrib import messages
 
-from .mixins import InstructorRequiredMixin
-from .forms import UserProfileForm, InstructorForm, TicketForm
+from .mixins import InstructorRequiredMixin, InfoRequiredMixin
+from .forms import UserProfileForm, InstructorForm, TicketForm, TicketCommentForm
 from .models import Profile, Instructor
 from hacktrick.models import Ticket
 
@@ -48,7 +50,7 @@ class InstructorView(LoginRequiredMixin, InstructorRequiredMixin, UpdateView):
         return reverse_lazy('profiles:instructor')
 
 
-class TicketListView(LoginRequiredMixin, FormMixin, ListView):
+class TicketListView(LoginRequiredMixin, InfoRequiredMixin, FormMixin, ListView):
     model = Ticket
     template_name = 'pages/profile/tickets.html'
     form_class = TicketForm
@@ -84,6 +86,45 @@ class TicketListView(LoginRequiredMixin, FormMixin, ListView):
         })
         return kwargs
 
+
+class TicketDetailView(LoginRequiredMixin, FormMixin, DetailView):
+    model = Ticket
+    template_name = 'pages/profile/ticket_detail.html'
+    form_class = TicketCommentForm
+    success_message = 'Yorum başarı ile eklendi.'
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.save(user=self.request.user, ticket=self.get_object())
+        messages.add_message(self.request, messages.SUCCESS, self.success_message)
+        return super(TicketDetailView, self).form_valid(form)
+
+    def form_invalid(self, form, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(form=form, object=self.object)
+        return self.render_to_response(context)
+
+    def get_success_url(self):
+        return reverse_lazy('profiles:ticket_detail', kwargs={'pk': self.kwargs['pk']})
+
+    def get_object(self, queryset=None):
+        try:
+            return Ticket.objects.get(user=self.request.user, status=True, pk=self.kwargs['pk'])
+        except:
+            raise Http404
+
+    def get_form_kwargs(self):
+        kwargs = super(TicketDetailView, self).get_form_kwargs()
+        kwargs.update({
+            'ticket': self.get_object()
+        })
+        return kwargs
 
 @login_required
 def user_logout(request):

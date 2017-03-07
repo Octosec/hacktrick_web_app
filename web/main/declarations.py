@@ -12,5 +12,7 @@ SPONSOR_CATEGORY = (
     (1, 'Altın'),
     (2, 'Gümüş'),
     (3, 'Destekleyenler'),
-    (4, 'Medya')
+    (4, 'Medya'),
+    (5, 'Bronz'),
+    (6, 'Stand')
 )

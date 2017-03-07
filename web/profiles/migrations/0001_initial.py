@@ -8,7 +8,7 @@ import django.contrib.auth.validators
 from django.db import migrations, models
 import django.db.models.deletion
 import django.utils.timezone
-import main.utils
+import profiles.utils
 import phonenumber_field.modelfields
 
 
@@ -56,7 +56,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=100)),
                 ('institution', models.CharField(max_length=100)),
-                ('image', models.ImageField(blank=True, null=True, upload_to='instructor/', validators=[main.utils.validate_avatar_dimensions])),
+                ('image', models.ImageField(blank=True, null=True, upload_to='instructor/', validators=[profiles.utils.validate_avatar_dimensions])),
                 ('facebook', models.CharField(blank=True, help_text='facebook kullanıcı adı', max_length=50)),
                 ('twitter', models.CharField(blank=True, help_text='twitter kullanıcı adı', max_length=50)),
                 ('linkedin', models.CharField(blank=True, help_text='linkedin kullanıcı adı', max_length=50)),

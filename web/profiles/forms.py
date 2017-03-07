@@ -8,7 +8,7 @@ from django.forms.widgets import TextInput, Textarea
 from nocaptcha_recaptcha.fields import NoReCaptchaField
 
 from .models import Profile, Instructor
-from hacktrick.models import Ticket
+from hacktrick.models import Ticket, TicketComment
 
 
 class UserProfileForm(ModelForm):
@@ -73,4 +73,39 @@ class TicketForm(ModelForm):
         cleaned_data = super(TicketForm, self).clean()
         if Ticket.objects.filter(user=self.request.user).count() >= 5:
             raise ValidationError("Bir kullanıcı 5'den fazla soru soramaz.")
+        return cleaned_data
+
+
+class TicketCommentForm(ModelForm):
+    captcha = NoReCaptchaField()
+
+    class Meta:
+        model = TicketComment
+        fields = ['comment']
+
+        widgets = {
+            'comment': Textarea(attrs={'placeHolder': 'Yorum yap', 'style': 'width:100% !important;'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.ticket = kwargs.pop('ticket')
+        super(TicketCommentForm, self).__init__(*args, **kwargs)
+
+    def save(self, user=None, ticket=None, commit=True):
+        instance = super(TicketCommentForm, self).save(commit=False)
+        instance.user = user
+        instance.ticket = ticket
+        if commit:
+            instance.save()
+            # TODO: Send email to admin
+        return instance
+
+    def clean(self):
+        cleaned_data = super(TicketCommentForm, self).clean()
+        comment_count =  TicketComment.objects.filter(ticket=self.ticket).count()
+        if comment_count == 0:
+            raise ValidationError("Cevap verilmeyen bir soruya yorum yapamazsınız. "
+                                  "Lütfen moderatörün cevap vermesini bekleyin.")
+        elif comment_count >= 10:
+            raise ValidationError("Bir soruya 10'dan fazla yorum eklenemez.")
         return cleaned_data

@@ -24,7 +24,7 @@
                                 <li><a href="{% url "hacktrick:index" %}#sponsors">Sponsorlar</a></li>
                                 <li><a href="{% url "hacktrick:index" %}#speakers">Konuşmacılar</a></li>
                                 <li><a href="{% url "hacktrick:faq" %}">SSS</a> </li>
-                                {# Extra header #}
+                                {% include "includes/__header_extra.html" %}
                             </ul>
                         </div><!-- /.navbar-collapse -->
                     </div><!-- /.menu-area -->

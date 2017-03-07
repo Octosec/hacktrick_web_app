@@ -160,7 +160,7 @@
                                             {% for sponsor in platinum_sponsors %}
 											<div class="col-sm-4 col-md-4 col-sm-offset-4 col-md-offset-4">
 												<div class="sponsor-item">
-													<img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}">
+													<a href="{{ sponsor.website }}" target="_blank"> <img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
 												</div>
 											</div>
                                             {% endfor %}
@@ -179,7 +179,7 @@
                                             {% for sponsor in gold_sponsors %}
 											<div class="col-sm-4 col-md-4">
 												<div class="sponsor-item">
-													<img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}">
+                                                    <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
 												</div>
 											</div>
                                             {% endfor %}
@@ -198,7 +198,7 @@
                                             {% for sponsor in silver_sponsors %}
 											<div class="col-sm-3 col-md-3">
 												<div class="sponsor-item">
-													<img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}">
+                                                    <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
 												</div>
 											</div>
                                             {% endfor %}
@@ -211,13 +211,13 @@
 
 								<div class="ccr-sponsor">
 									<h3 class="sponsor-title">BRONZ SPONSORLAR</h3>
-                                    {% if silver_sponsors.count > 0 %}
+                                    {% if bronze_sponsors.count > 0 %}
 									<div class="sponsor-area">
 										<div class="row">
-                                            {% for sponsor in silver_sponsors %}
+                                            {% for sponsor in bronze_sponsors %}
 											<div class="silver-item">
 												<div class="silver-item-inner">
-													<img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}">
+                                                    <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
 												</div>
 											</div>
                                             {% endfor %}
@@ -230,13 +230,13 @@
 
 								<div class="ccr-sponsor">
 									<h3 class="sponsor-title">STAND SPONSORLARI</h3>
-                                    {% if silver_sponsors.count > 0 %}
+                                    {% if stand_sponsors.count > 0 %}
 									<div class="sponsor-area">
 										<div class="row">
-                                            {% for sponsor in silver_sponsors %}
+                                            {% for sponsor in stand_sponsors %}
 											<div class="silver-item">
 												<div class="silver-item-inner">
-													<img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}">
+                                                    <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
 												</div>
 											</div>
                                             {% endfor %}
@@ -255,7 +255,7 @@
                                             {% for sponsor in supporter %}
 											<div class="silver-item">
 												<div class="silver-item-inner">
-													<img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}">
+                                                    <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
 												</div>
 											</div>
                                             {% endfor %}
@@ -275,7 +275,7 @@
                                             {% for sponsor in media_sponsors %}
 											<div class="silver-item">
 												<div class="silver-item-inner">
-													<img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}">
+                                                    <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
 												</div>
 											</div>
                                             {% endfor %}

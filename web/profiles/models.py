@@ -8,7 +8,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from phonenumber_field.modelfields import PhoneNumberField
 
 from main.declarations import USER_TYPES
-from main.utils import validate_avatar_dimensions
+from .utils import validate_avatar_dimensions
 
 
 @python_2_unicode_compatible

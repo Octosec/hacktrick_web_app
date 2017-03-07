@@ -55,6 +55,7 @@
 
                     <div class="col-md-12">
                         <div class="col-md-6">
+                            {% include "includes/__form_messages.html" %}
                             <form method="POST"  action="#">
                                 {% csrf_token %}
                                 <div class="input-area">

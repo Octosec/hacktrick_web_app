@@ -6,14 +6,21 @@ from django.utils.encoding import python_2_unicode_compatible
 
 from main.declarations import SPONSOR_CATEGORY
 from profiles.models import Profile
+from .utils import validate_sponsor_image_dimensions, validate_speaker_image_dimensions
 
 
 @python_2_unicode_compatible
 class Sponsor(models.Model):
     name = models.CharField(max_length=100)
     category = models.SmallIntegerField(choices=SPONSOR_CATEGORY)
-    image = models.ImageField(upload_to='sponsor/', help_text='370x190')
+    image = models.ImageField(
+        upload_to='sponsor/',
+        help_text='372x191',
+        validators=[validate_sponsor_image_dimensions]
+    )
     order = models.PositiveIntegerField()
+    website = models.URLField()
+
 
     def __str__(self):
         return self.name
@@ -52,7 +59,12 @@ class FAQ(models.Model):
 @python_2_unicode_compatible
 class Speaker(models.Model):
     full_name = models.CharField('Ad soyad', max_length=60)
-    image = models.ImageField('Resim', upload_to='speaker/', help_text="160x160")
+    image = models.ImageField(
+        'Resim',
+        upload_to='speaker/',
+        help_text="160x160",
+        validators=[validate_speaker_image_dimensions]
+    )
     title = models.CharField(max_length=100)
     institution = models.CharField('Kurum', max_length=100)
     facebook = models.CharField(help_text='facebook kullanıcı adı', max_length=50, blank=True)
@@ -178,6 +190,9 @@ class TicketComment(models.Model):
         related_name='ticket_comments',
         related_query_name='ticket_comment'
     )
+
+    class Meta:
+        ordering = ('date', )
 
     def __str__(self):
         return self.comment

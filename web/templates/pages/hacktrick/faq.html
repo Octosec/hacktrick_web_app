@@ -30,6 +30,8 @@
 							<h2 class="header-title">Sıkça Sorulan Sorular</h2>
 							<p class="header-desc">Lütfen aklınıza takılan noktalar için soruları detaylıca okuyunuz.</p>
 						</div>
+
+                        {% if object_list.count > 0 %}
 						<div class="testimonial-inner">
 							<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 {% for question in object_list %}
@@ -47,7 +49,10 @@
                                     </div>
                                 {% endfor %}
 							</div>
-						</div><!-- /.testimonial-inner -->
+						</div>
+                        {% else %}
+                            <div class="alert alert-danger">Soru bulunamadı. En kısa sürede ekleyeceğiz.</div>
+                        {% endif %}
 					</div><!-- /.testimonial-wrapper -->
 			</div><!-- /.row -->
 		</div><!-- /.container -->
