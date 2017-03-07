@@ -97,7 +97,7 @@ class TicketCommentForm(ModelForm):
         instance.ticket = ticket
         if commit:
             instance.save()
-            # TODO: Send email to admin
+            # TODO: Send email to admin and user
         return instance
 
     def clean(self):
@@ -106,6 +106,6 @@ class TicketCommentForm(ModelForm):
         if comment_count == 0:
             raise ValidationError("Cevap verilmeyen bir soruya yorum yapamazsınız. "
                                   "Lütfen moderatörün cevap vermesini bekleyin.")
-        elif comment_count >= 10:
-            raise ValidationError("Bir soruya 10'dan fazla yorum eklenemez.")
+        elif comment_count >= 5:
+            raise ValidationError("Bir soruya 5'dan fazla yorum eklenemez.")
         return cleaned_data
