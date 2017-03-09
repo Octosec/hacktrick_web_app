@@ -7,25 +7,33 @@ from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView, FormMixin, DeleteView
+from django.views.generic.edit import UpdateView, FormMixin, DeleteView, FormView
 from django.views.generic.list import ListView
 from django.contrib import messages
 
-from .mixins import InstructorRequiredMixin, InfoRequiredMixin
+from .mixins import (
+    InstructorRequiredMixin,
+    InfoRequiredMixin,
+    ParticipantRequiredMixin,
+    TrainingSelectionRequiredMixin
+)
+
 from .forms import (
     UserProfileForm,
     InstructorForm,
     TicketForm,
     TicketCommentForm,
     TrainingUpdateForm,
-    DocumentForm
+    DocumentForm,
+    TrainingSelectForm
 )
 from .models import Profile, Instructor
 from hacktrick.models import (
     Ticket,
     Training,
     Setting,
-    TrainingDocument
+    TrainingDocument,
+    UserTraining
 )
 
 
@@ -235,6 +243,35 @@ class TrainingDocumentDeleteView(LoginRequiredMixin, InfoRequiredMixin, Instruct
     def get_success_url(self):
         training_pk = self.get_object().training.pk
         return reverse_lazy('profiles:training_documents', kwargs={'pk': training_pk})
+
+class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, ParticipantRequiredMixin,
+                                    TrainingSelectionRequiredMixin, FormView):
+    template_name = 'pages/profile/participant/select_training.html'
+    form_class = TrainingSelectForm
+    success_message = "Seçim işleminizi başarı ile gerçekleştirdiniz."
+
+    def form_valid(self, form):
+        cleaned_data = form.cleaned_data
+        first_selection = cleaned_data.get('training_first', None)
+        second_selection = cleaned_data.get('training_second', None)
+        user_training, _ = UserTraining.objects.get_or_create(user=self.request.user)
+        user_training.first_selection = first_selection
+        user_training.second_selection = second_selection
+        user_training.save()
+        messages.add_message(self.request, messages.SUCCESS, self.success_message)
+        return super(ParticipantSelectTrainingView, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('profiles:training_select')
+
+    def get_initial(self):
+        initial = super(ParticipantSelectTrainingView, self).get_initial()
+        try:
+            initial['training_first'] = self.request.user.user_training.first_selection
+            initial['training_second'] = self.request.user.user_training.second_selection
+        except UserTraining.DoesNotExist:
+            pass
+        return initial
 
 @login_required
 def user_logout(request):

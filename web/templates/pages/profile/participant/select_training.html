@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %} Eğitim Seç {% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <h3 class="page-title">EĞİTİM SEÇ</h3>
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+	                    <li><a href="{% url "profiles:profile" %}">Profil</a> </li>
+	                    <li class="active">Eğitim seç</li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+	<section class="event-speaker homepage2">
+		<div class="container">
+			<div class="row">
+				<div class="section-head">
+					<h2 class="header-title">EĞİTİM SEÇİMİ</h2>
+				</div>
+				<div class="speak-wrapper-h2">
+                    <div class="col-sm-12 col-md-12">
+                        Form'u kullanarak eğitim seçimi yapabilirsiniz. Eğitmenler tarafından onaylandıktan sonra tarafınıza bildirim yapılacaktır.
+                        <hr />
+                        <div class="massage-response-area">
+                            {% include 'includes/__form_messages.html' %}
+                            <form method="POST" action=""  enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="input-area">
+                                    <div class="form-group input calculate-shipping">
+                                        <label>Birinci seçim *</label>
+                                            {{ form.training_first }}
+                                    </div>
+                                    <div class="form-group input calculate-shipping">
+                                        <label>İkinci seçim *</label>
+                                            {{ form.training_second }}
+                                    </div>
+                                </div> {{ form.captcha }}
+                                <p class="form-submit centered-area">
+                                    <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+{% block script %}
+<script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
+{% endblock %}

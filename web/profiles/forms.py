@@ -3,8 +3,9 @@ from __future__ import unicode_literals
 
 from django.core.exceptions import ValidationError
 from django.forms.fields import CharField
-from django.forms.models import ModelForm
-from django.forms.widgets import TextInput, Textarea, NumberInput, URLInput
+from django.forms.models import ModelForm, ModelChoiceField
+from django.forms.widgets import TextInput, Textarea, NumberInput, URLInput, Select
+from django import forms
 
 from nocaptcha_recaptcha.fields import NoReCaptchaField
 from ckeditor.widgets import CKEditorWidget
@@ -154,7 +155,6 @@ class DocumentForm(ModelForm):
             # TODO: Send email to admin and user
         return instance
 
-
     def clean(self):
         cleaned_data = super(DocumentForm, self).clean()
         training_count =  TrainingDocument.objects.filter(training=self.training).count()
@@ -165,3 +165,27 @@ class DocumentForm(ModelForm):
     def __init__(self, *args, **kwargs):
         self.training = kwargs.pop('training')
         super(DocumentForm, self).__init__(*args, **kwargs)
+
+
+class TrainingSelectForm(forms.Form):
+    training_first = ModelChoiceField(
+        queryset=None,
+        widget=Select(attrs={'id': 'country'})
+    )
+    training_second = ModelChoiceField(
+        queryset=None,
+        widget=Select(attrs={'id': 'country'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(TrainingSelectForm, self).__init__(*args, **kwargs)
+        self.fields['training_first'].queryset = Training.objects.filter(status=True)
+        self.fields['training_second'].queryset = Training.objects.filter(status=True)
+        self.fields['training_first'].empty_label = 'Birinci eğtimi seçiniz.'
+        self.fields['training_second'].empty_label = 'İkinci eğtimi seçiniz.'
+
+    def clean(self):
+        cleaned_data = super(TrainingSelectForm, self).clean()
+        if cleaned_data.get('training_first', None) == cleaned_data.get('training_second', None):
+            raise ValidationError('Seçilen iki eğitim aynı olamaz.')
+        return cleaned_data

@@ -10,6 +10,7 @@ from .views import (
     TrainingUpdateView,
     TrainingDocumentListView,
     TrainingDocumentDeleteView,
+    ParticipantSelectTrainingView,
     user_logout
 )
 
@@ -23,5 +24,6 @@ urlpatterns = [
     url(r'^trainings/$', TrainingListView.as_view(), name='trainings'),
     url(r'^trainings/(?P<pk>[0-9]+)$', TrainingUpdateView.as_view(), name='training_update'),
     url(r'^trainings/(?P<pk>[0-9]+)/documents/$', TrainingDocumentListView.as_view(), name='training_documents'),
-    url(r'^trainings/documents/delete/(?P<pk>[0-9]+)$', TrainingDocumentDeleteView.as_view(), name='delete_documents')
+    url(r'^trainings/documents/delete/(?P<pk>[0-9]+)$', TrainingDocumentDeleteView.as_view(), name='delete_documents'),
+    url(r'^trainings/select/$', ParticipantSelectTrainingView.as_view(), name='training_select')
 ]

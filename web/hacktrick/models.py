@@ -151,23 +151,39 @@ class UserTraining(models.Model):
     first_selection = models.ForeignKey(
         Training,
         related_name='user_first_trainings',
-        related_query_name='user_first_training'
+        related_query_name='user_first_training',
+        null=True
     )
     second_selection = models.ForeignKey(
         Training,
         related_name='user_second_trainings',
-        related_query_name='user_second_training'
+        related_query_name='user_second_training',
+        null=True
     )
     accepted_selection = models.ForeignKey(
         Training,
         related_name='user_accepted_trainings',
-        related_query_name='user_accepted_training'
+        related_query_name='user_accepted_training',
+        blank=True,
+        null=True
     )
-    user = models.ForeignKey(
+    user = models.OneToOneField(
         Profile,
-        related_name='user_trainings',
+        related_name='user_training',
         related_query_name='user_training'
     )
+
+    def get_first_selection_title(self):
+        return self.first_selection.title if self.first_selection else ''
+
+    def get_second_selection_title(self):
+        return self.second_selection.title if self.second_selection else ''
+
+    def get_accepted_selection_title(self):
+        return self.accepted_selection.title if self.accepted_selection else ''
+
+    def get_username(self):
+        return self.user.username
 
 
 @python_2_unicode_compatible
@@ -225,6 +241,8 @@ class Setting(models.Model):
     address = models.TextField(help_text='Google code')
     about = RichTextField('Hakkında')
     training_note = RichTextField('Eğitim notu')
+    training_selection = models.BooleanField('Eğitim seçimi', default=False)
+    participant_selection = models.BooleanField('Öğrenci seçimi', default=False)
 
     def __str__(self):
         return self.place

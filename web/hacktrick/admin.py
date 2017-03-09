@@ -12,7 +12,8 @@ from .models import (
     Ticket,
     TicketComment,
     Setting,
-    Speak
+    Speak,
+    UserTraining
 )
 
 
@@ -87,3 +88,13 @@ class TicketCommentAdmin(admin.ModelAdmin):
 @admin.register(Setting)
 class SettingAdmin(admin.ModelAdmin):
     list_display = ['place', 'date', 'starting_date', 'address']
+
+
+@admin.register(UserTraining)
+class UserTrainingAdmin(admin.ModelAdmin):
+    list_display = [
+        'get_first_selection_title',
+        'get_second_selection_title',
+        'get_accepted_selection_title',
+        'get_username'
+    ]
