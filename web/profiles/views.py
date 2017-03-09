@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.http.response import Http404
 from django.views.generic.base import TemplateView
 from django.contrib.auth import logout
@@ -6,24 +7,37 @@ from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView, FormMixin
+from django.views.generic.edit import UpdateView, FormMixin, DeleteView
 from django.views.generic.list import ListView
 from django.contrib import messages
 
 from .mixins import InstructorRequiredMixin, InfoRequiredMixin
-from .forms import UserProfileForm, InstructorForm, TicketForm, TicketCommentForm
+from .forms import (
+    UserProfileForm,
+    InstructorForm,
+    TicketForm,
+    TicketCommentForm,
+    TrainingUpdateForm,
+    DocumentForm
+)
 from .models import Profile, Instructor
-from hacktrick.models import Ticket
+from hacktrick.models import (
+    Ticket,
+    Training,
+    Setting,
+    TrainingDocument
+)
 
 
 class LoginView(TemplateView):
     template_name = 'pages/profile/login.html'
 
 
-class ProfileView(LoginRequiredMixin, UpdateView):
+class ProfileView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = UserProfileForm
     template_name = 'pages/profile/profile.html'
     model = Profile
+    success_message = "Bilgiler başarı ile güncellendi."
 
     def get_initial(self):
         return {
@@ -38,9 +52,9 @@ class ProfileView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('profiles:profile')
 
 
-class InstructorView(LoginRequiredMixin, InstructorRequiredMixin, UpdateView):
+class InstructorView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin, UpdateView):
     model = Instructor
-    template_name = 'pages/profile/instructor.html'
+    template_name = 'pages/profile/instructor/instructor.html'
     form_class = InstructorForm
 
     def get_object(self, queryset=None):
@@ -87,7 +101,7 @@ class TicketListView(LoginRequiredMixin, InfoRequiredMixin, FormMixin, ListView)
         return kwargs
 
 
-class TicketDetailView(LoginRequiredMixin, FormMixin, DetailView):
+class TicketDetailView(LoginRequiredMixin, InfoRequiredMixin, FormMixin, DetailView):
     model = Ticket
     template_name = 'pages/profile/ticket_detail.html'
     form_class = TicketCommentForm
@@ -125,6 +139,102 @@ class TicketDetailView(LoginRequiredMixin, FormMixin, DetailView):
             'ticket': self.get_object()
         })
         return kwargs
+
+
+class TrainingListView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin, ListView):
+    template_name = 'pages/profile/instructor/trainings.html'
+    model = Training
+
+    def get_queryset(self):
+        return Training.objects.filter(status=True, instructor=self.request.user.instructor)
+
+
+class TrainingUpdateView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin, UpdateView):
+    template_name = 'pages/profile/instructor/training_update.html'
+    model = Training
+    form_class = TrainingUpdateForm
+
+    def get_context_data(self, **kwargs):
+        context = super(TrainingUpdateView, self).get_context_data(**kwargs)
+        try:
+            context["training_note"] = Setting.objects.get().training_note
+        except Setting.DoesNotExist:
+            context["training_note"] = ""
+        return context
+
+    def get_object(self, queryset=None):
+        try:
+            return Training.objects.get(
+                instructor=self.request.user.instructor,
+                status=True,
+                pk=self.kwargs['pk']
+            )
+        except:
+            raise Http404
+
+    def get_success_url(self):
+        return reverse_lazy('profiles:training_update', kwargs={'pk': self.kwargs['pk']})
+
+
+class TrainingDocumentListView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin, FormMixin, DetailView):
+    model = Training
+    template_name = 'pages/profile/instructor/training_documents.html'
+    training = None
+    form_class = DocumentForm
+    success_message = 'Dökümana başarı ile eklendi.'
+
+    def get_object(self, queryset=None):
+        try:
+            return Training.objects.get(
+                instructor=self.request.user.instructor,
+                status=True,
+                pk=self.kwargs['pk']
+            )
+        except:
+            raise Http404
+
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.save(training=self.get_object())
+        messages.add_message(self.request, messages.SUCCESS, self.success_message)
+        return super(TrainingDocumentListView, self).form_valid(form)
+
+    def form_invalid(self, form, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(form=form, object=self.object)
+        return self.render_to_response(context)
+
+    def get_success_url(self):
+        return reverse_lazy('profiles:training_documents', kwargs={'pk': self.kwargs['pk']})
+
+
+    def get_form_kwargs(self):
+        kwargs = super(TrainingDocumentListView, self).get_form_kwargs()
+        kwargs.update({
+            'training': self.get_object()
+        })
+        return kwargs
+
+
+class TrainingDocumentDeleteView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin, DeleteView):
+    model = TrainingDocument
+    template_name = 'pages/profile/instructor/training_document_delete.html'
+
+    def get_object(self, queryset=None):
+        obj = super(TrainingDocumentDeleteView, self).get_object()
+        if not self.request.user.instructor in obj.training.instructor.all():
+            raise Http404
+        return obj
+
+    def get_success_url(self):
+        training_pk = self.get_object().training.pk
+        return reverse_lazy('profiles:training_documents', kwargs={'pk': training_pk})
 
 @login_required
 def user_logout(request):

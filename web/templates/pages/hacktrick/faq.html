@@ -38,7 +38,7 @@
                                     <div class="panel panel-default">
                                         <div id="collapse{{ question.order }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                                             <div class="panel-body">
-                                                {{ question.answer }}
+                                                {{ question.answer|safe }}
                                             </div>
                                         </div>
                                         <div class="panel-heading" role="tab" id="headingOne">

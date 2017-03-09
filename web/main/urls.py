@@ -21,6 +21,8 @@ from django.conf import settings
 urlpatterns = [
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^{}/'.format(settings.ADMIN_URL), admin.site.urls),
+    url(r'^hijack/', include('hijack.urls')),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
     url(r'', include('hacktrick.urls', namespace='hacktrick')),
     url(r'^accounts/social/', include('social_django.urls', namespace='social')),
     url(r'^accounts/', include('profiles.urls', namespace='profiles')),

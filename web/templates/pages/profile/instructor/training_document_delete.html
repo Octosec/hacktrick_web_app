@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %} Döküman Sil {% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <h3 class="page-title">Eğitim Dökümanları</h3>
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+                        <li><a href="{% url "profiles:trainings" %}">Eğitimlerim</a></li>
+                        <li class="active">Döküman sil</li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+	<section class="homepage2" style="margin-top: 40px">
+		<div class="container">
+			<div class="row">
+				<div class="section-head">
+					<h2 class="header-title">EĞİTİM DÖKÜMANI SİL</h2>
+				</div>
+				<div class="speak-wrapper-h2">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="massage-response-area">
+                            <form action="" method="post">{% csrf_token %}
+                                <p>"{{ object.name }}" isimli dökümanı silmek istediğinize emin misiniz?</p>
+                                <p class="form-submit">
+                                    <input name="submit" type="submit" id="submit" class="submit" value="Sil">
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bleach_tags %}
+
+{% block title %} Eğitimlerim {% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <h3 class="page-title">EĞİTİMLERİM</h3>
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+	                    <li class="active"><a href="{% url "hacktrick:trainings" %}">Eğitimlerim</a></li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+	<!-- start event-schedule  -->
+	<section class="event-schedule">
+		<div class="container">
+			<div class="row">
+				<div class="section-head">
+					<h2 class="header-title">Eğitimlerim</h2>
+				</div>
+                {% if not object_list.count > 0 %}
+                    <div class="alert alert-danger">Size ait bir eğitim bulunamadı. Lütfen moderatör ile iletişime geçin.</div>
+                {% else %}
+                    <div class="event-schedule-inner">
+                        <div class="event-schedule-inner-fixed">
+
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade in active" id="first-date">
+                                    <div class="schedule-wrapper">
+                                        <div class="schedule-item header">
+                                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                                <div class="item-inner">
+                                                    <span><i class="fa fa-train"></i></span>
+                                                    <span>Eğitim</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                                <div class="item-inner">
+                                                    <span><i class="fa fa-thumbs-up"></i></span>
+                                                    <span>Kontenjan</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                                <div class="item-inner">
+                                                    <span><i class="fa fa-calendar"></i></span>
+                                                    <span>Tarih</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {% for training in object_list %}
+                                            <div class="schedule-item">
+                                                <div class="col-xs-4 col-sm-4 col-md-4">
+                                                    <div class="item-inner event-session">
+                                                        <span><a href="{% url "profiles:training_update" training.pk %}">{{ training.title|title }}</a></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-4 col-sm-4 col-md-4">
+                                                    <div class="item-inner event-session">
+                                                        <span>%90</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-4 col-sm-4 col-md-4">
+                                                    <div class="item-inner event-session">
+                                                        <span>{{ training.date }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</section>
+{% endblock %}

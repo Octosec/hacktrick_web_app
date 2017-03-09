@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bleach_tags %}
+
+{% block title %} Eğitim Düzenle {% endblock %}
+
+{% block style %}
+    <style type="text/css">
+        .comment:before {
+            content: none !important;
+        }
+        .social-media li:before {
+            content: none !important;
+        }
+    </style>
+{% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <h3 class="page-title">EĞİTMEN DÜZENLE</h3>
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+	                    <li><a href="{% url "profiles:trainings" %}">Eğitimlerim</a> </li>
+	                    <li class="active">{{ object.title }}</li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+	<section id="content">
+		<div class="container">
+			<div class="row">
+				<div class="section-head">
+					<h2 class="header-title">Eğitim Önizleme</h2>
+				</div>
+				<main id="main-content" class="col-md-8">
+					<div class="theiaStickySidebar">
+						<article class="entry-single">
+							<div class="entry-header">
+                                {% if not object.cover_image or form.cover_image.errors %}
+								    <img src="{% static "images/default/cover_image.jpg" %}" alt="cover">
+                                {% else  %}
+                                     <img src="{{ object.cover_image.url }}" alt="cover">
+                                {% endif %}
+							</div>
+							<div class="entry-content-outer">
+								<div class="entry-content">
+									<h2>{{ object.title }}</h2>
+									<div class="meta-post">
+										<span class="date"><i class="fa fa-calendar"></i>{{ object.date }}</span>
+									</div>
+
+									<div class="row">
+			                            <ul class="comment-list">
+                                            {% for instructor in object.instructor.all %}
+			                                <li class="comment">
+			                                    <article class="comment-item">
+			                                        <div class="profile-image">
+                                                        {% if not instructor.user.image %}
+                                                            <img src="{% static "images/default/user.jpg" %}" alt="Eğitmen">
+                                                        {% else  %}
+                                                             <img src="{{ instructor.user.image.url }}" alt="Eğitmen">
+                                                        {% endif %}
+			                                        </div>
+			                                        <div class="contents border-none">
+			                                            <div class="comment-meta">
+			                                                <strong>{{ instructor.user.get_full_name }}</strong> |
+			                                                <span class="date-time">
+		                                            			{{ instructor.title }} - {{ instructor.institution }}
+															</span>
+			                                            </div>
+			                                            <div class="content">
+				                                                <ul class="social-media">
+                                                                    {% if instructor.facebook %}
+                                                                        <li>
+                                                                            <a href="https://www.facebook.com/{{ instructor.facebook }}" target="_blank">
+                                                                            <i class="fa fa-facebook"></i>
+                                                                            </a>
+                                                                        </li>
+                                                                    {% endif %}
+                                                                    {% if instructor.twitter %}
+                                                                        <li>
+                                                                            <a href="https://twitter.com/{{ instructor.twitter }}" target="_blank">
+                                                                                <i class="fa fa-twitter"></i>
+                                                                            </a>
+                                                                        </li>
+                                                                    {% endif %}
+                                                                    {% if instructor.linkedin %}
+                                                                        <li>
+                                                                            <a href="https://www.linkedin.com/in/{{ instructor.linkedin }}" target="_blank">
+                                                                                <i class="fa fa-linkedin"></i>
+                                                                            </a>
+                                                                        </li>
+                                                                    {% endif %}
+																</ul>
+			                                            </div>
+			                                        </div>
+			                                    </article>
+			                                </li>
+                                            {% endfor %}
+			                            </ul>
+									</div>
+									<blockquote>
+										<p>{{ training_note|safe }}</p>
+									</blockquote>
+
+									<p>{{ object.content|bleach }}</p>
+
+                                    <h3>Dökümanlar</h3><br/>
+                                    <ul>
+                                        {% for document in object.documents.all %}
+                                            <li><a href="{{ document.document_url }}" target="_blank">{{ document.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+								</div>
+							</div>
+						</article>
+					</div>
+				</main>
+
+				<aside id="sidebar" class="col-md-4 page-sidebar">
+					<div class="widget-area theiaStickySidebar">
+
+	                    <div class="widget catagory">
+	                        <div class="clearfix"></div>
+                            Eğitiminiz sol tarafta göründüğü gibi yayınlanmaktadır. Aşağıdaki formu kullanarak eğitim bigilerini güncelleyebilirsiniz.
+	                    </div>
+	                </div>
+				</aside>
+			</div>
+		</div>
+	</section>
+
+	<section class="homepage2">
+		<div class="container">
+			<div class="row">
+				<div class="section-head">
+					<h2 class="header-title">EĞİTİM BİLGİLERİ GÜNCELLE</h2>
+				</div>
+				<div class="speak-wrapper-h2">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="massage-response-area">
+                            {% include 'includes/__form_messages.html' %}
+                            <form method="POST" action=""  enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="input-area">
+                                    <div class="form-group input">
+                                        <label>Başlık *</label>
+                                            {{ form.title }}
+                                    </div>
+                                    <div class="form-group input">
+                                        <label>İçerik *</label><br/>
+                                            {{ form.content }}
+                                    </div>
+                                    <div class="form-group input">
+                                        <label>Kapasite</label>
+                                            {{ form.capacity }}
+                                    </div>
+                                    <div class="form-group input">
+                                        <label>Tarih</label>
+                                            {{ form.date }}
+                                        <div class="help-text">Tarih formatı: 00-00-0000</div>
+                                    </div>
+                                    <div class="form-group input">
+                                        <label>Resim</label>
+                                        {{ form.cover_image }}
+                                    </div>
+                                    <div class="form-group">
+                                        Dökümanları güncellemek için <a href="{% url "profiles:training_documents" object.pk %}">tıklayınız</a>.
+                                    </div>
+                                </div> {{ form.captcha }}
+                                <p class="form-submit centered-area">
+                                    <input name="submit" type="submit" id="submit" class="submit" value="Güncelle">
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
+{% endblock %}

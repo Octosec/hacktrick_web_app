@@ -313,7 +313,13 @@
                                 <div class="row">
                                     <div class="speaker-item">
                                         <div class="speaker-thumb">
-                                            <a href="#"><img src="{{ speaker.image.url }}" alt="{{ speaker.full_name }}"></a>
+                                            <a href="#">
+                                                {% if not speaker.image %}
+                                                    <img src="{% static "images/default/user.jpg" %}" alt="Konuşmacı">
+                                                {% else  %}
+                                                     <img src="{{ speaker.image.url }}" alt="Konuşmacı">
+                                                {% endif %}
+                                            </a>
                                         </div><!-- /.speaker-thumb -->
                                         <div class="speaker-content">
                                             <div class="speaker-content-inner">
@@ -356,7 +362,13 @@
                                 <div class="row">
                                     <div class="speaker-item">
                                         <div class="speaker-thumb">
-                                            <a href="#"><img src="{{ speaker.image.url }}" alt="{{ speaker.full_name }}"></a>
+                                            <a href="#">
+                                                {% if not speaker.image %}
+                                                    <img src="{% static "images/default/user.jpg" %}" alt="Eğitmen">
+                                                {% else  %}
+                                                     <img src="{{ speaker.image.url }}" alt="Eğitmen">
+                                                {% endif %}
+                                            </a>
                                         </div><!-- /.speaker-thumb -->
                                         <div class="speaker-content">
                                             <div class="speaker-content-inner">

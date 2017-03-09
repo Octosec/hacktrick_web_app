@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Sorular {% endblock %}
+{% block title %} Eğitim Dökümanları {% endblock %}
 
 {% block page-header %}
 	<section class="page-header-content">
@@ -8,10 +8,12 @@
 		<div class="container">
 			<div class="row">
 				<div class="page-header-content-inner">
-	                <h3 class="page-title">SORULAR</h3>
+	                <h3 class="page-title">Eğitim Dökümanları</h3>
 	                <ul class="breadcrumb">
 	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
-	                    <li class="active">Sorular</li>
+                        <li><a href="{% url "profiles:trainings" %}">Eğitimlerim</a></li>
+                        <li><a href="{% url "profiles:training_update" object.pk %}">{{ object.title }}</a></li>
+                        <li class="active">Dökümanlar</li>
 	                </ul>
 	            </div>
 			</div>
@@ -32,12 +34,12 @@
                                     {% csrf_token %}
                                     <div class="input-area">
                                         <div class="input">
-                                            {{ form.title }}
-                                            {{ form.content }}
+                                            {{ form.name }}
+                                            {{ form.document_url }}
                                         </div>
                                     </div>{{ form.captcha }}
                                     <p class="form-submit text-center">
-                                        <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
+                                        <input name="submit" type="submit" id="submit" class="submit" value="Ekle">
                                     </p>
                                 </form>
                             </div>
@@ -54,14 +56,14 @@
 		<div class="container">
 			<div class="row">
 				<div class="section-head">
-					<h2 class="header-title">Sorular</h2>
-					<p class="header-desc">Sizin tarafınızdan sorulmuş sorular. Cevaplamak için elimizden geleni yapıyoruz.</p>
+					<h2 class="header-title">Dökümanlar</h2>
+					<p class="header-desc">"{{ object.title }}" eğitim dökümanları. Eğitim için döküman paylaşımını dosya yükleme siteleri(drive, yandex vs) aracılığı ile yapabilirsiniz.</p>
 				</div>
 
 				<div class="event-schedule-inner">
 					<div class="event-schedule-inner-fixed">
 						<!-- Tab panes -->
-                        {% if object_list.count > 0 %}
+                        {% if object.documents.all.count > 0 %}
                             <div class="tab-content">
                                 <div role="tabpanel" class="tab-pane fade in active" id="first-date">
                                     <div class="schedule-wrapper">
@@ -69,56 +71,37 @@
                                             <div class="col-xs-2 col-sm-2 col-md-2">
                                                 <div class="item-inner">
                                                     <span><i class="fa fa-calendar"></i></span>
-                                                    <span>Tarih</span>
+                                                    <span>İsim</span>
                                                 </div>
                                             </div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
                                             <div class="col-xs-6 col-sm-6 col-md-6">
                                                 <div class="item-inner">
                                                     <span><i class="fa fa-list-alt"></i></span>
-                                                    <span>Soru</span>
+                                                    <span>URL</span>
                                                 </div>
                                             </div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
                                             <div class="col-xs-2 col-sm-2 col-md-2">
                                                 <div class="item-inner">
                                                     <span><i class="fa fa-microphone"></i></span>
-                                                    <span>Durum</span>
-                                                </div>
-                                            </div><!-- /.col-md-3 -->
-                                            <div class="col-xs-2 col-sm-3 col-md-2">
-                                                <div class="item-inner">
-                                                    <span><i class="fa fa-comment"></i></span>
-                                                    <span>Yorum Sayısı</span>
+                                                    <span>İşlem</span>
                                                 </div>
                                             </div><!-- /.col-md-3 -->
                                         </div><!-- /.schedule-item -->
-                                            {% for ticket in object_list %}
+                                            {% for document in object.documents.all %}
                                                 <div class="schedule-item">
                                                     <div class="col-xs-2 col-sm-2 col-md-2">
                                                         <div class="item-inner event-time">
-                                                            <span>{{ ticket.date|date:"d M Y" }}</span>
+                                                            <span>{{ document.name }}</span>
                                                         </div>
                                                     </div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
                                                     <div class="col-xs-6 col-sm-6 col-md-6">
                                                         <div class="item-inner event-session">
-                                                            <span><a href="{% url "profiles:ticket_detail" ticket.pk %}">{{ ticket.title }}</a></span>
+                                                            <span><a href="{{ document.document_url }}" target="_blank">{{ document.document_url }}</a></span>
                                                         </div>
                                                     </div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
-                                                    <div class="col-xs-2 col-sm-2 col-md-2">
-                                                        <div class="item-inner vanue">
-                                                            <span>
-                                                                {% if ticket.ticket_status %}
-                                                                    Açık
-                                                                {% else %}
-                                                                    Kapalı
-                                                                {% endif %}
-                                                            </span>
-                                                        </div>
-                                                    </div><!-- /.col-md-3 -->
-                                                     <div class="col-xs-2 col-sm-2 col-md-2">
-                                                        <div class="item-inner vanue">
-                                                            <span>
-                                                                {{ ticket.ticket_comments.count }}
-                                                            </span>
+                                                   <div class="col-xs-2 col-sm-2 col-md-2">
+                                                        <div class="item-inner">
+                                                            <span><a href="{% url "profiles:delete_documents" document.pk %} "> <i class="fa fa-remove"></i></a></span>
                                                         </div>
                                                     </div><!-- /.col-md-3 -->
                                                 </div><!-- /.schedule-item -->
@@ -128,7 +111,7 @@
                             </div>
                         {% else %}
                                <div class="alert alert-danger">
-                                    Onaylanmış bir soru bulunamadı. Aklınıza takılan bir soru varsa lütfen formu kullanarak bize sorun.
+                                    Bu eğitime ait döküman bulunamadı. Formu kullanarak döküman ekleyebilirsiniz.
                                 </div>
                         {% endif %}
 					</div><!-- /.event-schedule-inner-fixed -->

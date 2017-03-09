@@ -1,11 +1,20 @@
 import logging
 
+from django.http.response import Http404
 from django.views.generic.base import TemplateView
 from django.db.models.aggregates import Count
+from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from .models import Setting, Sponsor, Speaker, ConferenceSlot, Speak, FAQ
-
+from .models import (
+    Setting,
+    Sponsor,
+    Speaker,
+    ConferenceSlot,
+    Speak,
+    FAQ,
+    Training
+)
 from profiles.models import Instructor
 
 log = logging.getLogger(__name__)
@@ -38,3 +47,30 @@ class FAQListView(ListView):
     model = FAQ
     ordering = 'order'
 
+
+class TrainingListView(ListView):
+    template_name = 'pages/hacktrick/trainings.html'
+    model = Training
+
+    def get_queryset(self):
+        return Training.objects.filter(status=True)
+
+
+class TrainingDetailView(DetailView):
+    template_name = 'pages/hacktrick/training_detail.html'
+    model = Training
+
+    def get_context_data(self, **kwargs):
+        context = super(TrainingDetailView, self).get_context_data(**kwargs)
+        try:
+            context["training_note"] = Setting.objects.get().training_note
+        except Setting.DoesNotExist:
+            context["training_note"] = ""
+        context['trainings'] = Training.objects.all()
+        return context
+
+    def get_object(self, queryset=None):
+        try:
+            return Training.objects.get(status=True, pk=self.kwargs['pk'])
+        except:
+            raise Http404

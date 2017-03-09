@@ -4538,3 +4538,7 @@ input {
 .g-recaptcha div { margin: auto}
 
 .g-recaptcha { margin-top: 10px }
+
+.centered-area {
+	text-align: center;
+}

@@ -21,7 +21,6 @@
 {% endblock %}
 
 {% block content %}
-	<!-- start event speaker  -->
 	<section class="event-speaker homepage2">
 		<div class="container">
 			<div class="row">
@@ -107,8 +106,8 @@
                                         <label>Resim</label>
                                             {{ form.image }}
                                     </div>
-                                </div>
-                                <p class="form-submit">
+                                </div> {{ form.captcha }}
+                                <p class="form-submit centered-area">
                                     <input name="submit" type="submit" id="submit" class="submit" value="Güncelle">
                                 </p>
                             </form>
@@ -118,4 +117,7 @@
 			</div>
 		</div>
 	</section>
+{% endblock %}
+{% block script %}
+<script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
 {% endblock %}

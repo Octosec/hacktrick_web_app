@@ -2,23 +2,27 @@
 from __future__ import unicode_literals
 
 from django.core.exceptions import ValidationError
+from django.forms.fields import CharField
 from django.forms.models import ModelForm
-from django.forms.widgets import TextInput, Textarea
+from django.forms.widgets import TextInput, Textarea, NumberInput, URLInput
 
 from nocaptcha_recaptcha.fields import NoReCaptchaField
+from ckeditor.widgets import CKEditorWidget
 
 from .models import Profile, Instructor
-from hacktrick.models import Ticket, TicketComment
+from hacktrick.models import Ticket, TicketComment, Training, TrainingDocument
 
 
 class UserProfileForm(ModelForm):
+    captcha = NoReCaptchaField()
+
     class Meta:
         model = Profile
         fields = ['institution', 'phone_number']
 
         widgets = {
             'institution': TextInput(attrs={'placeHolder': 'Kurum/Üniversite'}),
-            'phone_number': TextInput(attrs={'placeHolder': 'Telelfon numarası(+90 000 000 00 00)'}),
+            'phone_number': TextInput(attrs={'placeHolder': 'Telefon numarası(+90 000 000 00 00)'}),
         }
         labels = {
             'institution': 'Kurum/Üniversite',
@@ -32,16 +36,18 @@ class UserProfileForm(ModelForm):
 
 
 class InstructorForm(ModelForm):
+    captcha = NoReCaptchaField()
+
     class Meta:
         model = Instructor
         fields = ['title', 'institution', 'image', 'facebook', 'twitter', 'linkedin']
 
         widgets = {
-            'institution': TextInput(attrs={'placeHolder': 'Kurum/Üniversite'}),
-            'title': TextInput(attrs={'placeHolder': 'Ünvan'}),
-            'facebook': TextInput(attrs={'placeHolder': 'Facebook kullanıcı adı'}),
-            'twitter': TextInput(attrs={'placeHolder': 'Twitter kullanıcı adı'}),
-            'linkedin': TextInput(attrs={'placeHolder': 'Linkedin kullanıcı adı'}),
+            'institution': TextInput(),
+            'title': TextInput(),
+            'facebook': TextInput(),
+            'twitter': TextInput(),
+            'linkedin': TextInput(),
         }
 
 
@@ -103,9 +109,59 @@ class TicketCommentForm(ModelForm):
     def clean(self):
         cleaned_data = super(TicketCommentForm, self).clean()
         comment_count =  TicketComment.objects.filter(ticket=self.ticket).count()
-        if comment_count == 0:
+        if not self.ticket.ticket_status:
+            raise ValidationError("Bu soru moderatör tarafından kapatıldığı için yorum yapamazsınız.")
+        elif comment_count == 0:
             raise ValidationError("Cevap verilmeyen bir soruya yorum yapamazsınız. "
                                   "Lütfen moderatörün cevap vermesini bekleyin.")
         elif comment_count >= 5:
             raise ValidationError("Bir soruya 5'dan fazla yorum eklenemez.")
         return cleaned_data
+
+
+class TrainingUpdateForm(ModelForm):
+    captcha = NoReCaptchaField()
+    content = CharField(widget=CKEditorWidget(config_name='filtered'))
+
+    class Meta:
+        model = Training
+        fields = ['title', 'cover_image', 'content', 'capacity', 'date']
+
+        widgets = {
+            'title': TextInput(),
+            'capacity': NumberInput(),
+            'date': TextInput(),
+        }
+
+
+class DocumentForm(ModelForm):
+    captcha = NoReCaptchaField()
+
+    class Meta:
+        model = TrainingDocument
+        fields = ['name', 'document_url']
+
+        widgets = {
+            'name': TextInput(attrs={'placeHolder': 'Döküman adı'}),
+            'document_url': URLInput(attrs={'placeHolder': 'Döküman URLi'})
+        }
+
+    def save(self, training=None, commit=True):
+        instance = super(DocumentForm, self).save(commit=False)
+        instance.training = training
+        if commit:
+            instance.save()
+            # TODO: Send email to admin and user
+        return instance
+
+
+    def clean(self):
+        cleaned_data = super(DocumentForm, self).clean()
+        training_count =  TrainingDocument.objects.filter(training=self.training).count()
+        if training_count >= 10:
+            raise ValidationError('Bir eğitime en fazla 10 döküman eklenebilir.')
+        return cleaned_data
+
+    def __init__(self, *args, **kwargs):
+        self.training = kwargs.pop('training')
+        super(DocumentForm, self).__init__(*args, **kwargs)

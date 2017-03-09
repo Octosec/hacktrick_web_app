@@ -11,10 +11,9 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-
-from django.urls.base import reverse_lazy
 from kombu import Exchange, Queue
 import environ
+
 env = environ.Env(DEBUG=(bool, False),)
 
 
@@ -45,14 +44,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    'hacktrick',
+    'profiles',
+
     'social_django',
     'phonenumber_field',
     'pure_pagination',
     'django_cleanup',
     'nocaptcha_recaptcha',
-
-    'hacktrick',
-    'profiles',
+    'ckeditor',
+    'django_bleach',
+    'hijack',
+    'compat',
+    'hijack_admin'
 ]
 
 SITE_ID = 1
@@ -255,6 +259,41 @@ NORECAPTCHA_SECRET_KEY = env('NORECAPTCHA_SECRET_KEY')
 # ADMIN URL
 ADMIN_URL = env('ADMIN_PAGE_URL')
 
+# Ckeditor
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'NumberedList',
+        'width': 1200,
+        'autoParagraph': False,
+        'allowedContent': True
+    },
+    'filtered': {
+        'toolbar': [
+            ['Format', 'Bold', 'Italic', 'Underline', 'Strike', 'SpellChecker', 'Undo', 'Redo'],
+            ['NumberedList', 'BulletedList']
+        ],
+        'width': 800,
+        'autoParagraph': False,
+        'allowedContent': True,
+        'format_tags': 'p;h1;h2;h3;h4;h5;h6'
+    },
+}
+CKEDITOR_JQUERY_URL = '{}js/jquery.min.js'.format(STATIC_URL)
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+
+# BLEACH
+BLEACH_ALLOWED_TAGS = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'li', 'strong', 's', 'u', 'em']
+BLEACH_ALLOWED_ATTRIBUTES = []
+BLEACH_ALLOWED_STYLES = []
+BLEACH_DEFAULT_WIDGET = 'wysiwyg.widgets.WysiwygWidget'
+BLEACH_STRIP_TAGS = True
+BLEACH_STRIP_COMMENTS = True
+
+# Hijack
+HIJACK_LOGIN_REDIRECT_URL = '/accounts/profile/'
+HIJACK_LOGOUT_REDIRECT_URL = ADMIN_URL
+HIJACK_REGISTER_ADMIN = False
+HIJACK_ALLOW_GET_REQUESTS = True
 
 if IS_DEV:
     from .extra.dev_settings import *

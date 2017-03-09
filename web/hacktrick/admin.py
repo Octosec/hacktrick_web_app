@@ -51,14 +51,20 @@ class SpeakAdmin(admin.ModelAdmin):
     list_display = ['title', 'starting_time', 'ending_time', 'slot']
 
 
+class TrainingInline(admin.StackedInline):
+    model = TrainingDocument
+    can_delete = True
+    extra = 2
+
+
 @admin.register(Training)
 class TrainingAdmin(admin.ModelAdmin):
     list_display = ['title', 'capacity', 'reserve_quota']
-
+    inlines = [TrainingInline]
 
 @admin.register(TrainingDocument)
 class TrainingDocument(admin.ModelAdmin):
-    list_display = ['name', 'document', 'is_public']
+    list_display = ['name', 'document_url']
 
 
 class TicketInline(admin.StackedInline):
@@ -69,7 +75,7 @@ class TicketInline(admin.StackedInline):
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
-    list_display = ['title', 'status', 'date']
+    list_display = ['title', 'status', 'ticket_status', 'date']
     inlines = [TicketInline]
 
 

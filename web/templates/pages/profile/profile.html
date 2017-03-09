@@ -63,8 +63,8 @@
                                         {{ form.institution }}
                                         {{ form.phone_number }}
                                     </div>
-                                </div>
-                                <p class="form-submit">
+                                </div>{{ form.captcha }}
+                                <p class="form-submit centered-area">
                                     <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
                                 </p>
                             </form>
@@ -77,4 +77,7 @@
         </div>
     </div>
 </section>
+{% endblock %}
+{% block script %}
+<script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
 {% endblock %}

@@ -27,6 +27,10 @@
 				<div class="section-head">
 					<h2 class="header-title">{{ object.title }}</h2>
                     <p class="header-desc">{{ object.content }}</p>
+
+                    {% if not object.ticket_status %}
+                        <div class="alert alert-danger" style="margin-top: 10px"> Bu ticket kapatıldığı için yorum yapamazsınız. </div>
+                    {% endif %}
 				</div>
                     {% if object.ticket_comments.all.count > 0 %}
                         {% for comment in object.ticket_comments.all %}
@@ -36,7 +40,7 @@
 									<div class="meta-post">
 										<span class="date"><i class="fa fa-calendar"></i>{{ comment.date }}</span>
 										<span class="border"></span>
-										<a href="#" class="comment"><i class="fa fa-user"></i>{{ comment.user }}</a>
+										<i class="fa fa-user"></i>{{ comment.user }}
 									</div>
 									<div class="excerpt">
                                         {{ comment.comment }}
@@ -54,34 +58,35 @@
 		</div><!-- /.container -->
 	</section>
 
-<section style="padding: 60px 0 60px 0">
-    <div class="container">
-        <div class="row">
-                <div class="massage-response-area" style="margin-bottom: 0 !important;">
-                        <div class="col-m-12">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-6">
-                                {% include 'includes/__form_messages.html' %}
-                                <form method="POST"  action="">
-                                    {% csrf_token %}
-                                    <div class="input-area">
-                                        <div class="input">
-                                            {{ form.comment }}
-                                        </div>
-                                    </div>{{ form.captcha }}
-                                    <p class="form-submit text-center">
-                                        <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
-                                    </p>
-                                </form>
+    {% if object.ticket_status %}
+        <section style="padding: 60px 0 60px 0">
+            <div class="container">
+                <div class="row">
+                    <div class="massage-response-area" style="margin-bottom: 0 !important;">
+                            <div class="col-m-12">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6">
+                                    {% include 'includes/__form_messages.html' %}
+                                    <form method="POST"  action="">
+                                        {% csrf_token %}
+                                        <div class="input-area">
+                                            <div class="input">
+                                                {{ form.comment }}
+                                            </div>
+                                        </div>{{ form.captcha }}
+                                        <p class="form-submit text-center">
+                                            <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
+                                        </p>
+                                    </form>
+                                </div>
+                                <div class="col-md-3"></div>
                             </div>
-                            <div class="col-md-3"></div>
                         </div>
                     </div>
                 </div>
-        </div>
-    </div>
-</section>
-
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}
 {% block script %}
 <script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>

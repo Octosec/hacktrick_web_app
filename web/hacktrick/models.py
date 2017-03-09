@@ -5,9 +5,14 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
 from main.declarations import SPONSOR_CATEGORY
-from profiles.models import Profile
-from .utils import validate_sponsor_image_dimensions, validate_speaker_image_dimensions
+from profiles.models import Profile, Instructor
+from .utils import (
+    validate_sponsor_image_dimensions,
+    validate_speaker_image_dimensions,
+    validate_training_image_dimensions
+)
 
+from ckeditor.fields import RichTextField
 
 @python_2_unicode_compatible
 class Sponsor(models.Model):
@@ -49,7 +54,7 @@ class CFP(models.Model):
 @python_2_unicode_compatible
 class FAQ(models.Model):
     question = models.CharField(max_length=300)
-    answer = models.TextField()
+    answer = RichTextField()
     order = models.PositiveIntegerField()
 
     def __str__(self):
@@ -107,12 +112,18 @@ class Speak(models.Model):
 @python_2_unicode_compatible
 class Training(models.Model):
     title = models.CharField(max_length=200)
-    cover_image = models.ImageField(upload_to='training/')
-    content = models.TextField()
+    cover_image = models.ImageField(
+        upload_to='training/',
+        help_text='770×420',
+        validators=[validate_training_image_dimensions]
+    )
+    content = RichTextField(config_name='filtered')
     capacity = models.PositiveIntegerField()
     reserve_quota = models.PositiveIntegerField()
+    date = models.CharField(max_length=20)
+    status = models.BooleanField(default=False)
     instructor = models.ManyToManyField(
-        Profile,
+        Instructor,
         related_name='trainings',
         related_query_name='training'
     )
@@ -124,8 +135,7 @@ class Training(models.Model):
 @python_2_unicode_compatible
 class TrainingDocument(models.Model):
     name = models.CharField(max_length=100)
-    document = models.FileField(upload_to='document/')
-    is_public = models.BooleanField(default=True)
+    document_url = models.URLField()
     training = models.ForeignKey(
         Training,
         related_name='documents',
@@ -165,6 +175,7 @@ class Ticket(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     status = models.BooleanField(default=False)
+    ticket_status = models.BooleanField(default=True)
     date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         Profile,
@@ -212,7 +223,8 @@ class Setting(models.Model):
                             help_text="Anasayfa'da görünmesini istediğiniz şekilde yazınız.")
     starting_date = models.DateTimeField('Başlangıç tarihi')
     address = models.TextField(help_text='Google code')
-    about = models.TextField('Hakkında', help_text='HTML kodu yazabilirsiniz.')
+    about = RichTextField('Hakkında')
+    training_note = RichTextField('Eğitim notu')
 
     def __str__(self):
         return self.place
