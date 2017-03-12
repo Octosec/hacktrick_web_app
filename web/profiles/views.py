@@ -10,14 +10,18 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, FormMixin, DeleteView, FormView
 from django.views.generic.list import ListView
 from django.contrib import messages
+from django.db.models import Q
 
+from pure_pagination.mixins import PaginationMixin
+from .models import Profile, Instructor
 from .mixins import (
     InstructorRequiredMixin,
     InfoRequiredMixin,
     ParticipantRequiredMixin,
-    TrainingSelectionRequiredMixin
+    TrainingSelectionRequiredMixin,
+    ParticipantSelectionRequiredMixin,
+    ParticipantTrainingAcceptRequiredMixin
 )
-
 from .forms import (
     UserProfileForm,
     InstructorForm,
@@ -27,7 +31,6 @@ from .forms import (
     DocumentForm,
     TrainingSelectForm
 )
-from .models import Profile, Instructor
 from hacktrick.models import (
     Ticket,
     Training,
@@ -272,6 +275,182 @@ class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
         except UserTraining.DoesNotExist:
             pass
         return initial
+
+
+class InstructorAcceptParticipantView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin,
+                                      ParticipantSelectionRequiredMixin, DetailView):
+    template_name = 'pages/profile/instructor/accept_participant.html'
+    model = Training
+
+    def get_object(self, queryset=None):
+        try:
+            return Training.objects.get(
+                instructor=self.request.user.instructor,
+                status=True,
+                pk=self.kwargs['pk']
+            )
+        except:
+            raise Http404
+
+
+class InstructorAcceptFistParticipantView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin,
+                                      ParticipantSelectionRequiredMixin, PaginationMixin, ListView):
+    template_name = 'pages/profile/instructor/accept_participant_first.html'
+    model = UserTraining
+    training = None
+    accepted_count = None
+    paginate_by = 50
+    accepted_count_error_message = 'Kabul ettiğiniz kullanıcı sayısı sınıf kontenjanını aştığı için kabul işlemi gerçekleşmemiştir.'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.get_training_object()
+        self.accepted_count = UserTraining.objects.filter(accepted_selection=self.training).count()
+        return super(InstructorAcceptFistParticipantView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(InstructorAcceptFistParticipantView, self).get_context_data(**kwargs)
+        context["accepted_count"] = self.accepted_count
+        context["training"] = self.training
+        return context
+
+    def get_training_object(self):
+        try:
+            self.training = Training.objects.get(instructor=self.request.user.instructor, pk=self.kwargs['pk'])
+        except Training.DoesNotExist:
+            raise Http404
+
+    def get_queryset(self):
+        term = self.request.GET.get('search', None)
+        query = UserTraining.objects.filter(first_selection=self.training)
+        if term:
+            query = query.filter(Q(user__first_name__icontains = term) | Q(user__last_name__icontains = term))
+        return query.order_by('accepted_selection')
+
+    def post(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        selected_users = request.POST.getlist('first')
+        if self.accepted_count + len(selected_users) > self.training.capacity:
+            messages.add_message(self.request, messages.ERROR, self.accepted_count_error_message)
+        else:
+            for pk in selected_users:
+                try:
+                    user_training = UserTraining.objects.get(pk=pk)
+                    if user_training.first_selection == self.training:
+                        user_training.accepted_selection = self.training
+                        user_training.save()
+                        self.accepted_count += 1
+                except UserTraining.DoesNotExist:
+                    pass
+
+        context = self.get_context_data(object_list=self.object_list)
+        return self.render_to_response(context)
+
+
+class InstructorAcceptSecondParticipantView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin,
+                                      ParticipantSelectionRequiredMixin, PaginationMixin, ListView):
+    template_name = 'pages/profile/instructor/accept_participant_second.html'
+    model = UserTraining
+    training = None
+    accepted_count = None
+    paginate_by = 50
+    accepted_count_error_message = 'Kabul ettiğiniz kullanıcı sayısı sınıf kontenjanını aştığı için kabul işlemi gerçekleşmemiştir.'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.get_training_object()
+        self.accepted_count = UserTraining.objects.filter(accepted_selection=self.training).count()
+        return super(InstructorAcceptSecondParticipantView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(InstructorAcceptSecondParticipantView, self).get_context_data(**kwargs)
+        context["accepted_count"] = self.accepted_count
+        context["training"] = self.training
+        return context
+
+    def get_training_object(self):
+        try:
+            self.training = Training.objects.get(instructor=self.request.user.instructor, pk=self.kwargs['pk'])
+        except Training.DoesNotExist:
+            raise Http404
+
+    def get_queryset(self):
+        term = self.request.GET.get('search', None)
+        query = UserTraining.objects.filter(second_selection=self.training)
+        if term:
+            query = query.filter(Q(user__first_name__icontains=term) | Q(user__last_name__icontains=term))
+        return query.order_by('accepted_selection')
+
+    def post(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        selected_users = request.POST.getlist('first')
+        if self.accepted_count + len(selected_users) > self.training.capacity:
+            messages.add_message(self.request, messages.ERROR, self.accepted_count_error_message)
+        else:
+            for pk in selected_users:
+                try:
+                    user_training = UserTraining.objects.get(pk=pk)
+                    if user_training.second_selection == self.training and not user_training.accepted_selection:
+                        user_training.accepted_selection = self.training
+                        user_training.save()
+                        self.accepted_count += 1
+                except UserTraining.DoesNotExist:
+                    pass
+
+        context = self.get_context_data(object_list=self.object_list)
+        return self.render_to_response(context)
+
+
+class ParticipantAcceptTrainingView(LoginRequiredMixin, InfoRequiredMixin, ParticipantRequiredMixin,
+                                    ParticipantTrainingAcceptRequiredMixin, TemplateView):
+    template_name = 'pages/profile/participant/accept_training.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ParticipantAcceptTrainingView, self).get_context_data(**kwargs)
+        context["user_training"] = self.get_object
+        return context
+
+    def post(self, request, *args, **kwargs):
+        user_training = self.get_object()
+        if user_training and user_training.accepted_selection:
+            user_training.user_status = True
+            user_training.save()
+            messages.add_message(self.request, messages.SUCCESS, "İşleminiz başarı ile gerçekleşti.")
+        context = self.get_context_data()
+        return self.render_to_response(context)
+
+    def get_object(self, queryset=None):
+        return self.request.user.user_training
+
+
+class ParticipantTrainingAcceptedList(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin,
+                               PaginationMixin, ListView):
+    model = UserTraining
+    paginate_by = 1
+    template_name = 'pages/profile/instructor/training_accepted_participants.html'
+    training = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.get_training_object()
+        self.accepted_count = UserTraining.objects.filter(accepted_selection=self.training).count()
+        return super(ParticipantTrainingAcceptedList, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ParticipantTrainingAcceptedList, self).get_context_data(**kwargs)
+        context["training"] = self.training
+        return context
+
+    def get_training_object(self):
+        try:
+            self.training = Training.objects.get(instructor=self.request.user.instructor, pk=self.kwargs['pk'])
+        except Training.DoesNotExist:
+            raise Http404
+
+    def get_queryset(self):
+        term = self.request.GET.get('search', None)
+        query = UserTraining.objects.filter(accepted_selection=self.training, user_status=True)
+        if term:
+            query = query.filter(Q(user__first_name__icontains=term) | Q(user__last_name__icontains=term))
+        return query.order_by('accepted_selection')
+
 
 @login_required
 def user_logout(request):

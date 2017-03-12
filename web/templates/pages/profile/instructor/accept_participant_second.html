@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bleach_tags %}
+
+{% block title %} Katılımcı Onayla {% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <h3 class="page-title">KATILIMCI ONAYLA</h3>
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+	                    <li><a href="{% url "hacktrick:trainings" %}">Eğitimlerim</a></li>
+	                    <li><a href="{% url "profiles:training_update" training.pk %}">{{ training.title|title }}</a></li>
+                        <li class="active">İkinci tercih onayla</li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+	<!-- start event-schedule  -->
+	<section class="event-schedule">
+		<div class="container">
+			<div class="row">
+				<div class="section-head">
+					<h2 class="header-title">Katılımcı Onayla</h2>
+                    <div>
+                        "{{ training.title|title }}" eğitimi için ikinci tercihleri onayla. Kabul edilen katılımcının onayını kaldıramazsınız. Bir kullanıcının birinci tercihi onaylanırsa ikinci tercihi geçersiz kalacaktır.
+                        <br/> Yeşil (Birinci tercihleri kabul edilenler)
+                        <br/> Kırmızı (İkinci tercihi kabul ettikleriniz)
+                    </div>
+
+				</div>
+
+                    {% if object_list.count > 0 %}
+                    <div class="widget search" style="margin-top: 4px; margin-bottom: 20px">
+	                        <form action="#" method="GET">
+	                            <input type="text" value="{{ request.GET.search }}" name="search" placeholder="Katılımcı ara">
+	                            <span><i class="fa fa-search"></i></span>
+	                        </form>
+                    </div>
+                    <div style="float: right">Kontenjan: {{ training.capacity }} | Kabul edilen: {{ accepted_count }}</div>
+                    <br/>
+                    {% include "includes/__messages.html" %}
+                    <div class="event-schedule-inner">
+                        <div class="event-schedule-inner-fixed">
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade in active" id="first-date">
+                                    <div class="schedule-wrapper">
+                                        <form action="" method="POST" id="accept-form">
+                                        {% csrf_token %}
+                                            <div class="schedule-item header">
+                                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                                    <div class="item-inner">
+                                                        <span><i class="fa fa-user"></i></span>
+                                                        <span>İsim</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                                    <div class="item-inner">
+                                                        <span><i class="fa fa-envelope"></i></span>
+                                                        <span>Mail</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-4 col-sm-4 col-md-4">
+                                                    <div class="item-inner">
+                                                        <span><i class="fa fa-thumbs-up"></i></span>
+                                                        <span>Kurum</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                                    <div class="item-inner">
+                                                        <span><i class="fa fa-check"></i></span>
+                                                        <span>Onay</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {% for participant in object_list %}
+                                                <div class="schedule-item"
+                                                        {% if participant.first_selection == participant.accepted_selection %}
+                                                            style="background-color: indianred"
+                                                        {% elif participant.second_selection == participant.accepted_selection %}
+                                                            style="background-color: lightgreen"
+                                                        {% endif %}
+
+                                                >
+                                                    <div class="col-xs-3 col-sm-3 col-md-3">
+                                                        <div class="item-inner event-session">
+                                                            <span>{{ participant.user.get_full_name }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-3 col-sm-3 col-md-3">
+                                                        <div class="item-inner event-session">
+                                                            <span>{{ participant.user.email }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-4 col-sm-4 col-md-4">
+                                                        <div class="item-inner event-session">
+                                                            <span>{{ participant.user.institution }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-2 col-sm-2 col-md-2">
+                                                        <div class="item-inner">
+                                                            <span>
+                                                                {% if not participant.first_selection == participant.accepted_selection and not participant.second_selection == participant.accepted_selection %}
+                                                                    <input type="checkbox" name="first" value="{{ participant.pk }}"/>
+                                                                {% endif %}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                            <div class="checkout" style="float: none">
+                                                <button class="custom-btn hvr-bounce-to-bottom">Onayla</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    {% include "includes/__pagination.html" %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                        <div class="alert alert-danger">Bu eğitimi ikinci tercih olarak seçen katılımcı bulunamadı.</div>
+                    {% endif %}
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</section>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#accept-form").submit(function(event) {
+                if( !confirm('Onaylama işlemini gerçekleştirmek istediğinize emin misini? Onaylamadan sonra bir kullanıcının onayını kaldıramazsınız.') )
+                    event.preventDefault();
+            });
+        });
+    </script>
+{% endblock %}

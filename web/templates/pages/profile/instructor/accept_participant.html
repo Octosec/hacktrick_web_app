@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bleach_tags %}
+
+{% block title %} Katılımcı Onayla {% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <h3 class="page-title">KATILIMCI ONAYLA</h3>
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+	                    <li><a href="{% url "hacktrick:trainings" %}">Eğitimlerim</a></li>
+                        <li class="active">Katılımcı onayla</li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+	<!-- start event-schedule  -->
+	<section class="event-schedule">
+		<div class="container">
+			<div class="row">
+				<div class="section-head">
+					<h2 class="header-title">Katılımcı Onayla</h2>
+                    <div>"{{ object.title|title }}" eğitimi için katılımcı onayla.</div>
+				</div>
+                <div class="checkout centered-area" style="float: none;">
+                    <a class="custom-btn hvr-bounce-to-bottom" href="{% url "profiles:participant_accept_first" object.pk %}">
+                        Birinci tercih onayla
+                    </a>
+                    <a class="custom-btn hvr-bounce-to-bottom" href="{% url "profiles:participant_accept_second" object.pk %}">
+                        İkinci tercih onayla
+                    </a>
+                </div>
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</section>
+{% endblock %}

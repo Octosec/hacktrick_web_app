@@ -28,7 +28,7 @@
                     Sistem üzerinde işlemlere devam edebilmek için kullanıcı bilgilerini doldurmak zorundasınız. Lütfen aşağıdaki formu kullanarak güncelleyiniz.
                 </div>
             {% endif %}
-            {% include "includes/__messages.html" %}
+            {% include "includes/__form_messages.html" %}
 
                 <div class="contact-info">
                     <div class="contact-item">
@@ -57,7 +57,6 @@
 
                     <div class="col-md-12">
                         <div class="col-md-6">
-                            {% include "includes/__form_messages.html" %}
                             <form method="POST"  action="#">
                                 {% csrf_token %}
                                 <div class="input-area">

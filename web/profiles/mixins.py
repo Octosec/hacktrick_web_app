@@ -53,4 +53,16 @@ class ParticipantSelectionRequiredMixin(object):
                 return redirect(reverse_lazy('profiles:profile'))
         except:
             pass
-        return super(TrainingSelectionRequiredMixin, self).dispatch(request, *args, **kwargs)
+        return super(ParticipantSelectionRequiredMixin, self).dispatch(request, *args, **kwargs)
+
+
+class ParticipantTrainingAcceptRequiredMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            setting = Setting.objects.first()
+            if setting==None or setting.participant_accept == False:
+                messages.add_message(self.request, messages.ERROR, 'Eğitim onay henüz açılmamıştır.')
+                return redirect(reverse_lazy('profiles:profile'))
+        except:
+            pass
+        return super(ParticipantTrainingAcceptRequiredMixin, self).dispatch(request, *args, **kwargs)

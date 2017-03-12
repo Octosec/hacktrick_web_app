@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %} Eğitim Onayla {% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <h3 class="page-title">EĞİTİM SEÇ</h3>
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+	                    <li><a href="{% url "profiles:profile" %}">Profil</a> </li>
+	                    <li class="active">Eğitim onayla</li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+	<section class="event-speaker homepage2">
+		<div class="container">
+			<div class="row">
+				<div class="section-head">
+					<h2 class="header-title">EĞİTİM ONAYLA</h2>
+                    <div>Lütfen seçtiğiniz eğitimi onaylayarak katılacağınızı belirtiniz.</div>
+				</div>
+				<div class="speak-wrapper-h2">
+                    <div class="col-sm-12 col-md-12">
+                            {% include "includes/__messages.html" %}
+                            {% if not user_training %}
+                                <div class="alert alert-danger">Herhangi bir eğitim seçmedğiniz için eğitim onaylama işlemi yapamazsınız.</div>
+                            {% else %}
+                                {% if not user_training.accepted_selection %}
+                                    <div class="alert alert-danger">Kabul edildiğiniz bir eğitim bulunmamaktadır.</div>
+                                {% else %}
+                                    {% if not user_training.user_status %}
+                                        <div class="centered-area">"{{ user_training.accepted_selection.title }}" eğitimine kabul edilmiş bulunmaktasınız. Butonu kullanarak lütfen katılacağınızı onaylayıp veya iptal edebilirsiniz.</div>
+                                        <form action="" method="POST" >
+                                             <div class="checkout centered-area" style="float: none">
+                                                {% csrf_token %}
+                                                <button class="custom-btn hvr-bounce-to-bottom">ONAYLA</button>
+                                             </div>
+                                        </form>
+                                    {% else %}
+                                        <div class="centered-area">"{{ user_training.accepted_selection.title }}" eğitimine kabul edilmiş ve katılacağınızı bildirmiş bulunmaktasınız. Aksi bir durum oluştu ise lütfen bizimle iletişime geçiniz.</div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

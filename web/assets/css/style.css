@@ -262,7 +262,7 @@ a:active {
 	width: 90px;
 }
 
-.post-pagination > li:nth-child(4) a {
+.post-pagination > li > span a {
 	width: 15px;
 	border: none;
 }
@@ -281,7 +281,7 @@ a:active {
 	border-radius: 0px !important;
 }
 
-.post-pagination > li:nth-child(4) a:hover {
+.post-pagination > li > span a:hover {
 	background-color: transparent;
 	border: none;
 	color: #363636;

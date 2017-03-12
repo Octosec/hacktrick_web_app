@@ -172,6 +172,25 @@ class UserTraining(models.Model):
         related_name='user_training',
         related_query_name='user_training'
     )
+    user_status = models.BooleanField("Katılımcı durumu", default=False)
+
+    def save(self, *args, **kwargs):
+        if self.accepted_selection is not None:
+            # TODO: Send mail to user
+            # TODO: User katılacagini belirtince egitmene mail at
+            pass
+        super(UserTraining, self).save(*args, **kwargs)
+
+    def clean(self, *args, **kwargs):
+        if not self.first_selection.status or not self.second_selection.status:
+            raise ValidationError('Onaylanmamış eğitim seçemezsiniz.')
+        if self.accepted_selection and not self.accepted_selection.status:
+            raise ValidationError('Onaylanmamış eğitim seçemezsiniz.')
+        if self.first_selection == self.second_selection:
+            raise ValidationError('Birinci ve ikinci tercih aynı olamaz.')
+        if self.accepted_selection and not self.accepted_selection in [self.first_selection, self.second_selection]:
+            raise ValidationError('Kabul edilen eğitim kullanıcı tercihleri arasında olmalıdır.')
+        super(UserTraining, self).clean(*args, **kwargs)
 
     def get_first_selection_title(self):
         return self.first_selection.title if self.first_selection else ''
@@ -199,6 +218,12 @@ class Ticket(models.Model):
         related_query_name='ticket'
     )
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            # TODO: Send mail to admin
+            pass
+        super(Ticket, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.content
 
@@ -224,6 +249,11 @@ class TicketComment(models.Model):
     def __str__(self):
         return self.comment
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            # TODO: Send mail to user
+            pass
+        super(TicketComment, self).save(*args, **kwargs)
 
 @python_2_unicode_compatible
 class Setting(models.Model):
@@ -242,7 +272,8 @@ class Setting(models.Model):
     about = RichTextField('Hakkında')
     training_note = RichTextField('Eğitim notu')
     training_selection = models.BooleanField('Eğitim seçimi', default=False)
-    participant_selection = models.BooleanField('Öğrenci seçimi', default=False)
+    participant_selection = models.BooleanField('Katılımcı seçimi', default=False)
+    participant_accept = models.BooleanField('Katılımcı onay', default=False)
 
     def __str__(self):
         return self.place

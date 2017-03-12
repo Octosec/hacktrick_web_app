@@ -11,7 +11,7 @@ from nocaptcha_recaptcha.fields import NoReCaptchaField
 from ckeditor.widgets import CKEditorWidget
 
 from .models import Profile, Instructor
-from hacktrick.models import Ticket, TicketComment, Training, TrainingDocument
+from hacktrick.models import Ticket, TicketComment, Training, TrainingDocument, UserTraining
 
 
 class UserProfileForm(ModelForm):

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Eğitime Katılmayı Onaylayan Eden Katılımcılar {% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <h3 class="page-title">EĞİTİME KATILMAYI ONAYLAYAN KULLANICILAR</h3>
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+	                    <li><a href="{% url "hacktrick:trainings" %}">Eğitimlerim</a></li>
+	                    <li><a href="{% url "profiles:training_update" training.pk %}">{{ training.title|title }}</a></li>
+                        <li class="active">Katılımcılar</li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+	<section class="event-schedule">
+		<div class="container">
+			<div class="row">
+				<div class="section-head">
+					<h2 class="header-title">Eğitime Katılmayı Onaylayan Katılımcılar</h2>
+                    <div>"{{ training.title|title }}" eğitimine katılmayı onaylamış olan kullanıcılar listesidir.</div>
+				</div>
+                    {% if object_list.count > 0 %}
+                    <div class="widget search" style="margin-top: 4px; margin-bottom: 20px">
+	                        <form action="#" method="GET">
+	                            <input type="text" value="{{ request.GET.search }}" name="search" placeholder="Katılımcı ara">
+	                            <span><i class="fa fa-search"></i></span>
+	                        </form>
+                    </div>
+
+                    <div class="event-schedule-inner">
+                        <div class="event-schedule-inner-fixed">
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane fade in active" id="first-date">
+                                    <div class="schedule-wrapper">
+                                            <div class="schedule-item header">
+                                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                                    <div class="item-inner">
+                                                        <span><i class="fa fa-user"></i></span>
+                                                        <span>İsim</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3 col-sm-3 col-md-3">
+                                                    <div class="item-inner">
+                                                        <span><i class="fa fa-envelope"></i></span>
+                                                        <span>Mail</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                                    <div class="item-inner">
+                                                        <span><i class="fa fa-thumbs-up"></i></span>
+                                                        <span>Kurum</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {% for participant in object_list %}
+                                                <div class="schedule-item">
+                                                    <div class="col-xs-3 col-sm-3 col-md-3">
+                                                        <div class="item-inner event-session">
+                                                            <span>{{ participant.user.get_full_name }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-3 col-sm-3 col-md-3">
+                                                        <div class="item-inner event-session">
+                                                            <span>{{ participant.user.email }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                                        <div class="item-inner event-session">
+                                                            <span>{{ participant.user.institution }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                    </div>
+                                    {% include "includes/__pagination.html" %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                         <div class="alert alert-danger">Katılımcı bulunamadı.</div>
+                    {% endif %}
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</section>
+{% endblock %}

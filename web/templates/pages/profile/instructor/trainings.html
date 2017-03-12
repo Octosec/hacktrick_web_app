@@ -45,16 +45,22 @@
                                                     <span>Eğitim</span>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                            <div class="col-xs-3 col-sm-3 col-md-3">
                                                 <div class="item-inner">
                                                     <span><i class="fa fa-thumbs-up"></i></span>
                                                     <span>Kontenjan</span>
                                                 </div>
                                             </div>
-                                            <div class="col-xs-4 col-sm-4 col-md-4">
+                                            <div class="col-xs-3 col-sm-3 col-md-3">
                                                 <div class="item-inner">
                                                     <span><i class="fa fa-calendar"></i></span>
                                                     <span>Tarih</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2 col-sm-2 col-md-2">
+                                                <div class="item-inner">
+                                                    <span><i class="fa fa-check"></i></span>
+                                                    <span>İşlem</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -66,19 +72,32 @@
                                                         <span><a href="{% url "profiles:training_update" training.pk %}">{{ training.title|title }}</a></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-xs-4 col-sm-4 col-md-4">
+                                                <div class="col-xs-3 col-sm-3 col-md-3"">
                                                     <div class="item-inner event-session">
                                                         <span>%90</span>
                                                     </div>
                                                 </div>
-                                                <div class="col-xs-4 col-sm-4 col-md-4">
+                                                <div class="col-xs-3 col-sm-3 col-md-3"">
                                                     <div class="item-inner event-session">
                                                         <span>{{ training.date }}</span>
                                                     </div>
                                                 </div>
+                                                <div class="col-xs-2 col-sm-2 col-md-2">
+                                                    <div class="item-inner">
+                                                        <span>
+                                                            <a href="{% url "profiles:participant_accept" training.pk %}" title="Katılımcı kabul et">
+                                                                <i class="fa fa-check"></i>
+                                                            </a>
+                                                        </span>
+                                                        <span>
+                                                            <a href="{% url "profiles:accepted_participants" training.pk %}" title="Katılmayı onaylayan kullanıcılar">
+                                                                <i class="fa fa-user"></i>
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         {% endfor %}
-
                                     </div>
                                 </div>
                             </div>
