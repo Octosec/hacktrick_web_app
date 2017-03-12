@@ -74,3 +74,12 @@ class TrainingDetailView(DetailView):
             return Training.objects.get(status=True, pk=self.kwargs['pk'])
         except:
             raise Http404
+
+
+class CFPView(TemplateView):
+    template_name = 'pages/cfp.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(CFPView, self).get_context_data(**kwargs)
+        context["setting"] = Setting.objects.first()
+        return context

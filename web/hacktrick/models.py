@@ -43,15 +43,6 @@ class Contributor(models.Model):
 
 
 @python_2_unicode_compatible
-class CFP(models.Model):
-    title = models.CharField(max_length=100)
-    order = models.PositiveIntegerField()
-
-    def __str__(self):
-        return self.title
-
-
-@python_2_unicode_compatible
 class FAQ(models.Model):
     question = models.CharField(max_length=300)
     answer = RichTextField()
@@ -271,6 +262,7 @@ class Setting(models.Model):
     address = models.TextField(help_text='Google code')
     about = RichTextField('Hakkında')
     training_note = RichTextField('Eğitim notu')
+    cfp = RichTextField("CFP")
     training_selection = models.BooleanField('Eğitim seçimi', default=False)
     participant_selection = models.BooleanField('Katılımcı seçimi', default=False)
     participant_accept = models.BooleanField('Katılımcı onay', default=False)

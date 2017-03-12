@@ -3,7 +3,6 @@ from django.contrib import admin
 from .models import (
     Sponsor,
     Contributor,
-    CFP,
     FAQ,
     ConferenceSlot,
     Speaker,
@@ -25,11 +24,6 @@ class SponsorAdmin(admin.ModelAdmin):
 @admin.register(Contributor)
 class ContributorAdmin(admin.ModelAdmin):
     list_display = ['full_name', 'title', 'mission']
-
-
-@admin.register(CFP)
-class CFPAdmin(admin.ModelAdmin):
-    list_display = ['title', 'order']
 
 
 @admin.register(FAQ)
