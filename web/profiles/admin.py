@@ -19,7 +19,7 @@ class ProfileInline(admin.StackedInline):
 
 @admin.register(Profile)
 class ProfileAdmin(UserAdmin, HijackUserAdminMixin):
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'hijack_field')
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'user_type', 'hijack_field')
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'email')}),
@@ -35,8 +35,10 @@ class ProfileAdmin(UserAdmin, HijackUserAdminMixin):
         }),
     )
     inlines = [ProfileInline]
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups', 'user_type')
 
 
 @admin.register(Instructor)
 class InstructorAdmin(admin.ModelAdmin):
-    list_display = ['user', 'title', 'institution']
+    list_display = ['user', 'title', 'institution', 'facebook', 'twitter', 'linkedin']
+    search_fields = ['user__first_name', 'user__last_name']

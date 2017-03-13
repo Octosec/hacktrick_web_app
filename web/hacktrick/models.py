@@ -17,15 +17,20 @@ from ckeditor.fields import RichTextField
 
 @python_2_unicode_compatible
 class Sponsor(models.Model):
-    name = models.CharField(max_length=100)
-    category = models.SmallIntegerField(choices=SPONSOR_CATEGORY)
+    name = models.CharField("İsim", max_length=100)
+    category = models.SmallIntegerField("Kategori", choices=SPONSOR_CATEGORY)
     image = models.ImageField(
+        "Logo",
         upload_to='sponsor/',
         help_text='372x191',
         validators=[validate_sponsor_image_dimensions]
     )
-    order = models.PositiveIntegerField()
-    website = models.URLField()
+    order = models.PositiveIntegerField("Sıralama")
+    website = models.URLField("Websitesi")
+
+    class Meta:
+        verbose_name_plural = "Sponsorlar"
+        verbose_name = "Sponsor"
 
 
     def __str__(self):
@@ -34,23 +39,31 @@ class Sponsor(models.Model):
 
 @python_2_unicode_compatible
 class Contributor(models.Model):
-    full_name = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='contributor/')
-    title = models.CharField(max_length=100)
-    mission = models.CharField(max_length=100)
+    full_name = models.CharField("Ad sayad", max_length=50)
+    image = models.ImageField('Resim', upload_to='contributor/')
+    title = models.CharField('Başlık', max_length=100)
+    mission = models.CharField('Görev', max_length=100)
 
     def __str__(self):
         return self.full_name
 
+    class Meta:
+        verbose_name_plural = "Katkıda bulunanlar"
+        verbose_name = "Katkıda bulunan"
+
 
 @python_2_unicode_compatible
 class FAQ(models.Model):
-    question = models.CharField(max_length=300)
-    answer = RichTextField()
-    order = models.PositiveIntegerField()
+    question = models.CharField('Soru', max_length=300)
+    answer = RichTextField('Cevap')
+    order = models.PositiveIntegerField('Sıralama')
 
     def __str__(self):
         return self.question
+
+    class Meta:
+        verbose_name_plural = "Sıkça Sorulan Sorular"
+        verbose_name = "Soru"
 
 
 @python_2_unicode_compatible
@@ -62,7 +75,7 @@ class Speaker(models.Model):
         help_text="160x160",
         validators=[validate_speaker_image_dimensions]
     )
-    title = models.CharField(max_length=100)
+    title = models.CharField('Başlık', max_length=100)
     institution = models.CharField('Kurum', max_length=100)
     facebook = models.CharField(help_text='facebook kullanıcı adı', max_length=50, blank=True)
     twitter = models.CharField(help_text='twitter kullanıcı adı', max_length=50, blank=True)
@@ -71,28 +84,38 @@ class Speaker(models.Model):
     def __str__(self):
         return self.full_name
 
+    class Meta:
+        verbose_name_plural = "Konuşmacılar"
+        verbose_name = "Konuşmacı"
+
 
 @python_2_unicode_compatible
 class ConferenceSlot(models.Model):
-    date = models.DateField(unique=True)
+    date = models.DateField("Tarih", unique=True)
 
     def __str__(self):
         return str(self.date)
+
+    class Meta:
+        verbose_name_plural = "Konferans Slotları"
+        verbose_name = "Konferans Slotu"
 
 
 @python_2_unicode_compatible
 class Speak(models.Model):
     slot = models.ForeignKey(
         ConferenceSlot,
+        verbose_name='Tarih',
         related_name='speaks',
         related_query_name='speak'
     )
-    title = models.CharField(max_length=150)
+    title = models.CharField("Başlık", max_length=150)
     hall = models.CharField('Salon', max_length=100)
-    starting_time = models.TimeField()
-    ending_time = models.TimeField()
+    starting_time = models.TimeField("Başlangıç zamanı")
+    ending_time = models.TimeField("Bitiş zamanı")
     speaker = models.ForeignKey(
         Speaker,
+        verbose_name='Konuşmacı',
         related_query_name='speak',
         related_name='speaker'
     )
@@ -100,25 +123,36 @@ class Speak(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name_plural = "Konuşmalar"
+        verbose_name = "Konuşma"
+
 
 @python_2_unicode_compatible
 class Training(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField('Başlık', max_length=200)
     cover_image = models.ImageField(
+        'Resim',
         upload_to='training/',
         help_text='770×420',
         validators=[validate_training_image_dimensions]
     )
-    content = RichTextField(config_name='filtered')
-    capacity = models.PositiveIntegerField()
-    reserve_quota = models.PositiveIntegerField()
-    date = models.CharField(max_length=20)
-    status = models.BooleanField(default=False)
+    content = RichTextField('İçerik', config_name='filtered')
+    capacity = models.PositiveIntegerField('Kontenjan')
+    reserve_quota = models.PositiveIntegerField('Ek kontenjan')
+    date = models.CharField('Tarih', max_length=20)
+    status = models.BooleanField('Durum', default=False)
     instructor = models.ManyToManyField(
         Instructor,
+        verbose_name='Eğitmen',
         related_name='trainings',
         related_query_name='training'
     )
+
+    class Meta:
+        verbose_name_plural = "Eğitimler"
+        verbose_name = "Eğitim"
+
 
     def save(self, *args, **kwargs):
         if self.pk is not None:
@@ -135,13 +169,19 @@ class Training(models.Model):
 
 @python_2_unicode_compatible
 class TrainingDocument(models.Model):
-    name = models.CharField(max_length=100)
-    document_url = models.URLField()
+    name = models.CharField('İsim', max_length=100)
+    document_url = models.URLField('Site')
     training = models.ForeignKey(
         Training,
+        verbose_name='Eğitim',
         related_name='documents',
         related_query_name='document'
     )
+
+    class Meta:
+        verbose_name_plural = "Eğitim dökümanları"
+        verbose_name = "Eğitim dökümanı"
+
     def save(self, *args, **kwargs):
         if self.pk is None:
             mail_list = list(Profile.objects.filter(
@@ -160,12 +200,14 @@ class TrainingDocument(models.Model):
 class UserTraining(models.Model):
     first_selection = models.ForeignKey(
         Training,
+        verbose_name='İlk seçim',
         related_name='user_first_trainings',
         related_query_name='user_first_training',
         null=True
     )
     second_selection = models.ForeignKey(
         Training,
+        verbose_name='ikinci seçim',
         related_name='user_second_trainings',
         related_query_name='user_second_training',
         null=True
@@ -174,15 +216,21 @@ class UserTraining(models.Model):
         Training,
         related_name='user_accepted_trainings',
         related_query_name='user_accepted_training',
+        verbose_name='Kabul edilen seçim',
         blank=True,
         null=True
     )
     user = models.OneToOneField(
         Profile,
         related_name='user_training',
-        related_query_name='user_training'
+        related_query_name='user_training',
+        verbose_name='Katılımcı',
     )
     user_status = models.BooleanField("Katılımcı durumu", default=False)
+
+    class Meta:
+        verbose_name_plural = "Katılımcı eğitim"
+        verbose_name = "Katılımcı eğitim"
 
     def save(self, *args, **kwargs):
         if self.pk is not None:
@@ -232,16 +280,21 @@ class UserTraining(models.Model):
 
 @python_2_unicode_compatible
 class Ticket(models.Model):
-    title = models.CharField(max_length=100)
-    content = models.TextField()
-    status = models.BooleanField(default=False)
-    ticket_status = models.BooleanField(default=True)
-    date = models.DateTimeField(auto_now_add=True)
+    title = models.CharField('Başlık', max_length=100)
+    content = models.TextField('İçerik')
+    status = models.BooleanField('Durum', default=False)
+    ticket_status = models.BooleanField('Cevaplanabilirlik', default=True)
+    date = models.DateTimeField('Tarih', auto_now_add=True)
     user = models.ForeignKey(
         Profile,
+        verbose_name='Katılımcı',
         related_name='tickets',
         related_query_name='ticket'
     )
+
+    class Meta:
+        verbose_name_plural = "Sorular"
+        verbose_name = "Soru"
 
     def save(self, *args, **kwargs):
         if self.pk is None:
@@ -258,21 +311,26 @@ class Ticket(models.Model):
 
 @python_2_unicode_compatible
 class TicketComment(models.Model):
-    comment = models.TextField()
-    date = models.DateTimeField(auto_now_add=True)
+    comment = models.TextField("Yorum")
+    date = models.DateTimeField("Tarih", auto_now_add=True)
     user = models.ForeignKey(
         Profile,
+        verbose_name='Katılımcı',
         related_name='ticket_comments',
         related_query_name='ticket_comment'
     )
     ticket = models.ForeignKey(
         Ticket,
+        verbose_name='Soru',
         related_name='ticket_comments',
         related_query_name='ticket_comment'
     )
 
     class Meta:
         ordering = ('date', )
+        verbose_name_plural = "Soru yorumları"
+        verbose_name = "Soru yorumu"
+
 
     def __str__(self):
         return self.comment
@@ -304,6 +362,10 @@ class Setting(models.Model):
     participant_selection = models.BooleanField('Katılımcı seçimi', default=False)
     participant_accept = models.BooleanField('Katılımcı onay', default=False)
 
+    class Meta:
+        verbose_name_plural = "Ayarlar"
+        verbose_name = "Ayarlar"
+
     def __str__(self):
         return self.place
 
@@ -327,3 +389,7 @@ class Mail(models.Model):
 
     def __str__(self):
         return self.get_type_display()
+
+    class Meta:
+        verbose_name_plural = "Mailler"
+        verbose_name = "Mail"

@@ -14,10 +14,11 @@ from .utils import validate_avatar_dimensions
 
 @python_2_unicode_compatible
 class Profile(AbstractUser):
-    user_type = models.SmallIntegerField(choices=USER_TYPES, default=3)
+    user_type = models.SmallIntegerField('user tipi', choices=USER_TYPES, default=3)
     email = models.EmailField('email address', unique=True)
     institution = models.CharField('kurum/üniversite', blank=True, max_length=100)
     phone_number = PhoneNumberField('telefon', blank=True, help_text='format: +905306602321')
+
 
     def save(self, *args, **kwargs):
         if self.pk is None:
@@ -39,13 +40,15 @@ class Profile(AbstractUser):
 class Instructor(models.Model):
     user = models.OneToOneField(
         Profile,
+        verbose_name='Kullanıcı',
         related_name='instructor',
         related_query_name='instructor'
     )
-    title = models.CharField(max_length=100)
-    institution = models.CharField(max_length=100)
+    title = models.CharField('Başlık', max_length=100)
+    institution = models.CharField('Kuruö', max_length=100)
     image = models.ImageField(
         upload_to='instructor/',
+        verbose_name='Resim',
         blank=True,
         null=True,
         validators=[validate_avatar_dimensions]
@@ -53,6 +56,10 @@ class Instructor(models.Model):
     facebook = models.CharField(help_text='facebook kullanıcı adı', max_length=50, blank=True)
     twitter = models.CharField(help_text='twitter kullanıcı adı', max_length=50, blank=True)
     linkedin = models.CharField(help_text='linkedin kullanıcı adı', max_length=50, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Eğitmenler"
+        verbose_name = "Eğitmen"
 
     def __str__(self):
         return self.user.username
