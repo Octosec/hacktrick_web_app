@@ -45,7 +45,7 @@ class Instructor(models.Model):
         related_query_name='instructor'
     )
     title = models.CharField('Başlık', max_length=100)
-    institution = models.CharField('Kuruö', max_length=100)
+    institution = models.CharField('Kurum', max_length=100)
     image = models.ImageField(
         upload_to='instructor/',
         verbose_name='Resim',

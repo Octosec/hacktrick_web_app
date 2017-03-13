@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load bleach_tags %}
+{% load hacktrick_extras %}
 
 {% block title %} Eğitimler - {{ object.title }}{% endblock %}
 
@@ -132,7 +133,7 @@
                                         <li>
                                             <a href="{% url "hacktrick:training_detail" training.pk %}">
                                                 {{ training.title }}
-                                            </a><span>%90</span>
+                                            </a><span>% {{ training|calculate_percent }}</span>
                                         </li>
                                     {% endif %}
                                 {% endfor %}

@@ -167,6 +167,11 @@ class Training(models.Model):
             send_email_for_information.delay(email_type=3, email_to=mail_list, extra=extra)
         super(Training, self).save(*args, **kwargs)
 
+    def clean(self, *args, **kwargs):
+        if self.capacity < 10:
+            raise ValidationError("Bir eğitimin kapasitesi 10'dan az olamaz.")
+        super(Training, self).clean(*args, **kwargs)
+
     def __str__(self):
         return self.title
 

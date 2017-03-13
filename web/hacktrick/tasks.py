@@ -11,7 +11,7 @@ def send_email_for_information(email_type, email_to, extra):
         mail_object = Mail.objects.get(type=email_type)
         content = mail_object.content + extra
         content += "<br/><br/><a href='http://www.hacktrickconf.com'>http://www.hacktrickconf.com</a>"
-        content += "Hacktrick Organizasyon Ekibi"
+        content += "<br/>Hacktrick Organizasyon Ekibi"
         subject, email_from = mail_object.title, "noreply@hacktrickconf.com"
         mail_send = EmailMultiAlternatives(mail_object.title, content, email_from, email_to)
         mail_send.attach_alternative(content, "text/html")

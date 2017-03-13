@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load bleach_tags %}
+{% load hacktrick_extras %}
 
 {% block title %} Eğitimlerim {% endblock %}
 
@@ -74,7 +75,7 @@
                                                 </div>
                                                 <div class="col-xs-3 col-sm-3 col-md-3"">
                                                     <div class="item-inner event-session">
-                                                        <span>%90</span>
+                                                        <span>% {{ training|calculate_percent }}</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-3 col-sm-3 col-md-3"">

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load hacktrick_extras %}
 
 {% block title %} Eğitimler {% endblock %}
 
@@ -66,7 +67,7 @@
                                                 </div>
                                                 <div class="col-xs-4 col-sm-4 col-md-4">
                                                     <div class="item-inner event-session">
-                                                        <span>%90</span>
+                                                        <span>% {{ training|calculate_percent }}</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-4 col-sm-4 col-md-4">
