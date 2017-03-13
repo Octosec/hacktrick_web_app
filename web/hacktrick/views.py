@@ -13,7 +13,8 @@ from .models import (
     ConferenceSlot,
     Speak,
     FAQ,
-    Training
+    Training,
+    Contributor
 )
 from profiles.models import Instructor
 
@@ -77,9 +78,17 @@ class TrainingDetailView(DetailView):
 
 
 class CFPView(TemplateView):
-    template_name = 'pages/cfp.html'
+    template_name = 'pages/hacktrick/cfp.html'
 
     def get_context_data(self, **kwargs):
         context = super(CFPView, self).get_context_data(**kwargs)
         context["setting"] = Setting.objects.first()
         return context
+
+
+class ContributorListView(ListView):
+    template_name = 'pages/hacktrick/contributor.html'
+    model = Contributor
+
+    def get_queryset(self):
+        return Contributor.objects.filter(status=True)

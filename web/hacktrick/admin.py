@@ -27,9 +27,9 @@ class SponsorAdmin(admin.ModelAdmin):
 
 @admin.register(Contributor)
 class ContributorAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'title', 'mission']
+    list_display = ['full_name', 'title', 'mission', 'status', 'twitter', 'linkedin']
     search_fields = ['full_name', 'title']
-
+    list_filter = ['status']
 
 @admin.register(FAQ)
 class FAQAdmin(admin.ModelAdmin):

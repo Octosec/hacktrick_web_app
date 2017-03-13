@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Katkıda Bulunanlar {% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <h3 class="page-title">Katkıda Bulunanlar</h3>
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+	                    <li class="active">Katkıda Bulunanlar</li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+	<!-- start event speaker  -->
+	<section class="event-speaker homepage2">
+		<div class="container">
+			<div class="row">
+				<div class="section-head">
+					<h2 class="header-title">Katkıda Bulunanlar</h2>
+					<p class="header-desc">Hacktrick Cyber Security Conference için katkıda bulunanlar</p>
+				</div>
+
+                {% if object_list.count > 0 %}
+                    {% for contributor in object_list %}
+                        <div class="speak-wrapper-h2">
+                            <div class="col-sm-4 col-md-4">
+                                <div class="speaker-item-h2">
+                                    <div class="speaker-pic">
+                                        <img src="{{ contributor.image.url }}" alt="{{ contributor.full_name }}">
+                                    </div>
+                                    <div class="speaker-content-bg"></div>
+                                    <div class="speaker-content-h2-out-side">
+                                        <div class="speaker-content-h2">
+                                            <div class="speaker-content-header-h2">
+                                                <h3><a href="#" class="speaker-name">{{ contributor.full_name }}</a></h3>
+                                                <p class="designation">{{ contributor.title }}</p>
+                                                <p class="designation">{{ contributor.mission }}</p>
+                                            </div>
+
+                                            <div class="speaker-social-h2">
+                                                <ul class="social-media">
+                                                {% if contributor.twitter %}
+                                                    <li>
+                                                        <a href="https://twitter.com/{{ contributor.twitter }}" target="_blank">
+                                                            <i class="fa fa-twitter"></i>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                                {% if contributor.linkedin %}
+                                                    <li>
+                                                        <a href="https://www.linkedin.com/in/{{ contributor.linkedin }}" target="_blank">
+                                                            <i class="fa fa-linkedin"></i>
+                                                        </a>
+                                                    </li>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- /.speaker-item -->
+                            </div><!-- /.col-sm-4 col-md-4 -->
+                        </div><!-- /.speak-wrapper -->
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-danger">Yakın zamanda açıklanacaktır.</div>
+                {% endif %}
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</section>
+	<!-- end event speaker  -->
+{% endblock %}

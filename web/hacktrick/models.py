@@ -10,8 +10,9 @@ from profiles.models import Profile, Instructor
 from .utils import (
     validate_sponsor_image_dimensions,
     validate_speaker_image_dimensions,
-    validate_training_image_dimensions
+    validate_training_image_dimensions,
 )
+from .utils import validate_contributor_image_dimensions
 
 from ckeditor.fields import RichTextField
 
@@ -40,9 +41,12 @@ class Sponsor(models.Model):
 @python_2_unicode_compatible
 class Contributor(models.Model):
     full_name = models.CharField("Ad sayad", max_length=50)
-    image = models.ImageField('Resim', upload_to='contributor/')
+    image = models.ImageField('Resim', upload_to='contributor/', validators=[validate_contributor_image_dimensions])
     title = models.CharField('Başlık', max_length=100)
     mission = models.CharField('Görev', max_length=100)
+    status = models.BooleanField('Durum')
+    twitter = models.CharField('Twitter', max_length=50, help_text='Kullanıcı adı', blank=True)
+    linkedin = models.CharField('Linkedin', blank=True, max_length=50, help_text='Kullanıcı adı')
 
     def __str__(self):
         return self.full_name
