@@ -12,7 +12,8 @@ from .models import (
     TicketComment,
     Setting,
     Speak,
-    UserTraining
+    UserTraining,
+    Mail
 )
 
 
@@ -92,3 +93,8 @@ class UserTrainingAdmin(admin.ModelAdmin):
         'get_accepted_selection_title',
         'get_username'
     ]
+
+
+@admin.register(Mail)
+class MailAdmin(admin.ModelAdmin):
+    list_display = ['type']

@@ -69,7 +69,6 @@ class TicketForm(ModelForm):
         instance.user = user
         if commit:
             instance.save()
-            # TODO: Send email to admin
         return instance
 
     def __init__(self, *args, **kwargs):
@@ -104,7 +103,6 @@ class TicketCommentForm(ModelForm):
         instance.ticket = ticket
         if commit:
             instance.save()
-            # TODO: Send email to admin and user
         return instance
 
     def clean(self):
@@ -152,7 +150,6 @@ class DocumentForm(ModelForm):
         instance.training = training
         if commit:
             instance.save()
-            # TODO: Send email to admin and user
         return instance
 
     def clean(self):

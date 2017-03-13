@@ -8,6 +8,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from phonenumber_field.modelfields import PhoneNumberField
 
 from main.declarations import USER_TYPES
+from hacktrick.tasks import send_email_for_information
 from .utils import validate_avatar_dimensions
 
 
@@ -20,8 +21,15 @@ class Profile(AbstractUser):
 
     def save(self, *args, **kwargs):
         if self.pk is None:
-            # TODO: Send mail
-            pass
+            extra = "<br/> İsim: {}".format(self.get_full_name())
+            extra = "<br/>"
+            extra += "Kullanıcı adı: {}".format(self.username)
+            send_email_for_information.delay(email_type=0, email_to=[self.email], extra=extra)
+        else:
+            prev = Profile.objects.get(pk=self.pk)
+            if prev.user_type != self.user_type and self.user_type == 2:
+                send_email_for_information.delay(email_type=5, email_to=[self.email], extra="")
+
         super(Profile, self).save(*args, **kwargs)
 
     def __unicode__(self):

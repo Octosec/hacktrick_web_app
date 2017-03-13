@@ -4,7 +4,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 
-from main.declarations import SPONSOR_CATEGORY
+from main.declarations import SPONSOR_CATEGORY, MAIL_TYPES
+from hacktrick.tasks import send_email_for_information
 from profiles.models import Profile, Instructor
 from .utils import (
     validate_sponsor_image_dimensions,
@@ -119,6 +120,15 @@ class Training(models.Model):
         related_query_name='training'
     )
 
+    def save(self, *args, **kwargs):
+        if self.pk is not None:
+            training = Training.objects.get(pk=self.pk)
+            mail_list = list(Profile.objects.filter(
+                user_training__accepted_selection=training).values_list('email', flat=True))
+            extra = "<br/> Eğitim: {}<br/>".format(self.title)
+            send_email_for_information.delay(email_type=3, email_to=mail_list, extra=extra)
+        super(Training, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.title
 
@@ -132,6 +142,15 @@ class TrainingDocument(models.Model):
         related_name='documents',
         related_query_name='document'
     )
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            mail_list = list(Profile.objects.filter(
+                user_training__accepted_selection=self.training).values_list('email', flat=True))
+            extra = "<br/> Eğitim: {}<br/>".format(self.training.title)
+            extra += "Döküman başlığı: {}<br/>".format(self.name)
+            extra += "Döküman linki: {}<br/>".format(self.document_url)
+            send_email_for_information.delay(email_type=4, email_to=mail_list, extra=extra)
+        super(TrainingDocument, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -166,10 +185,25 @@ class UserTraining(models.Model):
     user_status = models.BooleanField("Katılımcı durumu", default=False)
 
     def save(self, *args, **kwargs):
-        if self.accepted_selection is not None:
-            # TODO: Send mail to user
-            # TODO: User katılacagini belirtince egitmene mail at
-            pass
+        if self.pk is not None:
+            user_training = UserTraining.objects.get(pk=self.pk)
+            if self.accepted_selection is None and \
+                    (user_training.first_selection != self.first_selection
+                     and user_training.second_selection != self.second_selection):
+
+                extra = "<br/>Seçilen eğitimler: <br/>"
+                extra += "Birinci seçim: {} <br/>".format(self.first_selection.title)
+                extra += "İkinci seçim: {} <br/>".format(self.second_selection.title)
+                send_email_for_information.delay(email_type=1, email_to=[self.user.email], extra=extra)
+
+            if self.accepted_selection is not None and (self.accepted_selection != user_training.accepted_selection):
+                extra = "<br/>Onaylanan eğitim: <br/>".format(self.accepted_selection.title)
+                send_email_for_information.delay(email_type=2, email_to=[self.user.email], extra=extra)
+
+            if self.user_status and self.user_status != user_training.user_status:
+                extra = "<br/>Katılımcı: {}<br/>".format(self.user.get_full_name())
+                send_email_for_information.delay(email_type=6, email_to=[self.user.email], extra=extra)
+
         super(UserTraining, self).save(*args, **kwargs)
 
     def clean(self, *args, **kwargs):
@@ -210,9 +244,12 @@ class Ticket(models.Model):
     )
 
     def save(self, *args, **kwargs):
-        if not self.pk:
-            # TODO: Send mail to admin
-            pass
+        if self.pk is None:
+            mail_list = list(Profile.objects.filter(user_type=1).values_list('email', flat=True))
+            print(mail_list)
+            extra = '<br/>Katılımcı: {}'.format(self.user.get_full_name())
+            extra += '<br/>Soru: {}'.format(self.title)
+            send_email_for_information.delay(email_type=7, email_to=mail_list, extra=extra)
         super(Ticket, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -241,9 +278,9 @@ class TicketComment(models.Model):
         return self.comment
 
     def save(self, *args, **kwargs):
-        if not self.pk:
-            # TODO: Send mail to user
-            pass
+        if self.pk is None:
+            extra = "<br/> Soru: {}".format(self.ticket.title)
+            send_email_for_information.delay(email_type=8, email_to=[self.ticket.user.email], extra=extra)
         super(TicketComment, self).save(*args, **kwargs)
 
 @python_2_unicode_compatible
@@ -277,3 +314,16 @@ class Setting(models.Model):
 
     def clean(self):
         self.validate_only_one_instance()
+
+
+class Mail(models.Model):
+    type = models.SmallIntegerField(
+        "Mail seçimi",
+        choices=MAIL_TYPES,
+        unique=True,
+        help_text="İçerik harici kullanıcıya extra bilgiler verilmektedir.")
+    title = models.CharField(max_length=300)
+    content = RichTextField("İçerik")
+
+    def __str__(self):
+        return self.get_type_display()
