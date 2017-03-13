@@ -4,7 +4,6 @@ from celery import shared_task
 from django.core.mail.message import EmailMultiAlternatives
 
 
-
 @shared_task(queue='default')
 def send_email_for_information(email_type, email_to, extra):
     try:

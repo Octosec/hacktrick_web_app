@@ -1,4 +1,4 @@
-from django.db.models.signals import pre_delete, m2m_changed, post_save, pre_save
+from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from hacktrick.models import Training
 from hacktrick.tasks import send_email_for_information

@@ -9,6 +9,6 @@ DATABASES = {
     }
 }
 
-DEBUG = True
+DEBUG = False
 
 BROKER_URL = "amqp://guest:guest@rabbitmq:5672//"
