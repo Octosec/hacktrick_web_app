@@ -19,9 +19,11 @@ class UserProfileForm(ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['institution', 'phone_number']
+        fields = ['first_name', 'last_name', 'institution', 'phone_number']
 
         widgets = {
+            'first_name': TextInput(attrs={'placeHolder': 'İsim'}),
+            'last_name': TextInput(attrs={'placeHolder': 'Soyisim'}),
             'institution': TextInput(attrs={'placeHolder': 'Kurum/Üniversite'}),
             'phone_number': TextInput(attrs={'placeHolder': 'Telefon numarası(+90 000 000 00 00)'}),
         }
@@ -32,6 +34,8 @@ class UserProfileForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
         self.fields['institution'].required = True
         self.fields['phone_number'].required = True
 

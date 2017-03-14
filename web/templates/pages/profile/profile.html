@@ -23,7 +23,7 @@
 <section class="national-conference">
     <div class="container">
         <div class="row">
-            {% if request.user.institution == "" or request.user.phone_number == "" %}
+            {% if request.user.institution == "" or request.user.phone_number == "" or request.user.first_name == "" or request.user.last_name == "" %}
                 <div class="alert alert-danger">
                     Sistem üzerinde işlemlere devam edebilmek için kullanıcı bilgilerini doldurmak zorundasınız. Lütfen aşağıdaki formu kullanarak güncelleyiniz.
                 </div>
@@ -61,6 +61,8 @@
                                 {% csrf_token %}
                                 <div class="input-area">
                                     <div class="input">
+                                        {{ form.first_name }}
+                                        {{ form.last_name }}
                                         {{ form.institution }}
                                         {{ form.phone_number }}
                                     </div>
