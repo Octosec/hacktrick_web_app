@@ -9,7 +9,6 @@
 		<div class="container">
 			<div class="row">
 				<div class="page-header-content-inner">
-	                <h3 class="page-title">SIKÇA SORULAN SORULAR</h3>
 	                <ul class="breadcrumb">
 	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
 	                    <li class="active">SSS</li>
@@ -51,7 +50,9 @@
 							</div>
 						</div>
                         {% else %}
-                            <div class="alert alert-danger">Soru bulunamadı. En kısa sürede ekleyeceğiz.</div>
+                        	<div class="col-md-6 col-md-offset-3">
+                            	<div class="alert alert-danger text-center">Soru bulunamadı. En kısa sürede ekleyeceğiz.</div>
+                            </div>
                         {% endif %}
 					</div><!-- /.testimonial-wrapper -->
 			</div><!-- /.row -->

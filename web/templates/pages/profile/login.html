@@ -8,7 +8,6 @@
 		<div class="container">
 			<div class="row">
 				<div class="page-header-content-inner">
-	                <h3 class="page-title">GİRİŞ</h3>
 	                <ul class="breadcrumb">
 	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
 	                    <li class="active">Giriş</li>
@@ -23,17 +22,21 @@
 <section class="national-conference">
     <div class="container">
         <div class="row">
+            <div class="col-md-12">
                 <div class="conference-main">
                     <div class="section-head">
                         <h2 class="header-title">GİRİŞ YAP</h2>
                     </div>
 
-                    <p>Giriş yapmak için Google veya Github'ı kullanın.</p>
-                    <div class="button-group">
-                        <a href="{% url "social:begin" "github" %}" class="custom-btn hvr-bounce-to-bottom"><i class="fa fa-github"></i> Github</a>
-                        <a href="{% url "social:begin" "google-oauth2" %}" class="custom-btn hvr-bounce-to-bottom"><i class="fa fa-google-plus"></i> Google</a>
-                    </div>
+                    <p>Giriş yapıp kaydınızı tamamlamak için Github veya Google hesabınızı kullanabilirsiniz</p>
+                    <p class="text-center">
+                        <div class="button-group">
+                            <a href="{% url "social:begin" "github" %}" class="custom-btn hvr-bounce-to-bottom"><i class="fa fa-github"></i> Github</a>
+                            <a href="{% url "social:begin" "google-oauth2" %}" class="custom-btn hvr-bounce-to-bottom"><i class="fa fa-google-plus"></i> Google</a>
+                        </div>
+                    </p>
                 </div>
+            </div>
         </div>
     </div>
 </section>

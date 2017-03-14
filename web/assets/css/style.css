@@ -1779,7 +1779,7 @@ a:active {
 
 .footer-top {
 	background-color: #303030;
-	padding: 75px 0;
+	padding: 20px 0;
 }
 
 .footer-top .footer-logo {
@@ -1876,7 +1876,7 @@ a:active {
 }
 .footer-bottom {
 	text-align: center;
-	padding: 37px 0;
+	padding: 10px 0;
 	background-color: #282828;
 }
 .footer-bottom p {
@@ -2910,7 +2910,7 @@ ul.widget-nav-tabs.widget-title {
 	left: -15px;
 	top:50%;
 	margin-top: -7px;
-	color: #ececec;
+	color: #606060;
 }
 .entry-footer {
 	background-color: #fafafa;
@@ -4252,8 +4252,8 @@ select.selection {
 	width: 100%;
 	display: block;
 	margin-bottom: 20px;
-	border: 1px solid #ebebeb;
-	color: #c2c2c2;
+	border: 1px solid #bfbfbf;
+	color: #7c7c7c;
 	padding: 11px 15px;
 	border-radius: 3px;
 }
@@ -4264,9 +4264,9 @@ select.selection {
 .massage-response-area form .input-area textarea {
 	width: 48%;
 	float: right;
-	border: 1px solid #ebebeb;
+	border: 1px solid #bfbfbf;
 	padding: 22px;
-	color: #c2c2c2;
+	color: #7c7c7c;
 	border-radius: 3px;
 }
 .massage-response-area form .form-submit input {

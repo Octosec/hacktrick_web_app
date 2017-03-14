@@ -24,7 +24,7 @@
     <div class="container">
         <div class="row">
             {% if request.user.institution == "" or request.user.phone_number == "" or request.user.first_name == "" or request.user.last_name == "" %}
-                <div class="alert alert-danger">
+                <div class="alert alert-danger text-center">
                     Sistem üzerinde işlemlere devam edebilmek için kullanıcı bilgilerini doldurmak zorundasınız. Lütfen aşağıdaki formu kullanarak güncelleyiniz.
                 </div>
             {% endif %}
@@ -53,10 +53,11 @@
                 </div>
 
                 <div class="massage-response-area">
-                    <h3>GÜNCELLE</h3>
-
-                    <div class="col-md-12">
-                        <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>KİŞİSEL BİLGİLER</h3>
+                        </div>
+                        <div class="col-md-8 col-md-offset-2">
                             <form method="POST"  action="#">
                                 {% csrf_token %}
                                 <div class="input-area">
@@ -71,9 +72,6 @@
                                     <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
                                 </p>
                             </form>
-                        </div>
-                        <div class="col-md-6">
-                            Sistem üzerinde işlemlere devam edebilmek için kurum ve telefon numrası alanlarını doldurmak zorundasınız.
                         </div>
                     </div>
                 </div>
