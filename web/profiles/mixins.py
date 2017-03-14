@@ -7,7 +7,7 @@ from hacktrick.models import Setting
 class InfoRequiredMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.institution or not request.user.phone_number \
-                or not request.user.first_name or request.user.last_name:
+                or not request.user.first_name or not request.user.last_name:
             return redirect(reverse_lazy('profiles:profile'))
         return super(InfoRequiredMixin, self).dispatch(request, *args, **kwargs)
 
