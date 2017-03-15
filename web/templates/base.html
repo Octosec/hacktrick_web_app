@@ -1,4 +1,5 @@
 {% load static %}
+{% load compress %}
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -12,22 +13,24 @@
     <link rel="shortcut icon" type="image/x-icon" href="{% static "images/favicon.ico" %}" />
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Framework Styles -->
-    <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}"/>
-    <!-- Fonts Styles -->
-    <link rel="stylesheet" type="text/css" href="{% static "css/font-awesome.min.css" %}"/>
-    <!-- Plugins Styles -->
-    <link rel="stylesheet" href="{% static "css/jquery.fs.boxer.min.css" %}" />
-    <link rel="stylesheet" href="{% static "css/flexslider.css" %}" />
-    <link rel="stylesheet" href="{% static "css/swiper.min.css" %}" />
-    <link rel="stylesheet" href="{% static "css/hover-min.css" %}" />
-    <link rel="stylesheet" href="{% static "css/animate.css" %}" />
+    {% compress css %}
+        <!-- Framework Styles -->
+        <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}"/>
+        <!-- Fonts Styles -->
+        <link rel="stylesheet" type="text/css" href="{% static "css/font-awesome.min.css" %}"/>
+        <!-- Plugins Styles -->
+        <link rel="stylesheet" href="{% static "css/jquery.fs.boxer.min.css" %}" />
+        <link rel="stylesheet" href="{% static "css/flexslider.css" %}" />
+        <link rel="stylesheet" href="{% static "css/swiper.min.css" %}" />
+        <link rel="stylesheet" href="{% static "css/hover-min.css" %}" />
+        <link rel="stylesheet" href="{% static "css/animate.css" %}" />
 
-    <!-- Project Styles -->
-    <link rel="stylesheet" href="{% static "css/custom.css" %}" />
-    <link rel="stylesheet" href="{% static "css/style.css" %}" />
-    <link rel="stylesheet" href="{% static "css/responsive.css" %}" />
-    {% block style %}{% endblock %}
+        <!-- Project Styles -->
+        <link rel="stylesheet" href="{% static "css/custom.css" %}" />
+        <link rel="stylesheet" href="{% static "css/style.css" %}" />
+        <link rel="stylesheet" href="{% static "css/responsive.css" %}" />
+        {% block style %}{% endblock %}
+    {% endcompress %}
 
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -63,12 +66,13 @@
     {% block page-header %}{% endblock %}
     {% block content %}<!-- Content goes here -->{% endblock %}
     {% include "includes/__footer.html" %}
-
-    <script type='text/javascript' src='{% static "js/plugins.js" %}'></script>
-	<script type='text/javascript' src='{% static "js/countdown.js" %}'></script>
-	<script type='text/javascript' src='{% static "js/modernizr.js" %}'></script>
-    <script type='text/javascript' src='{% static "js/functions.js" %}'></script>
-	<script type='text/javascript' src='{% static "js/custom.js" %}'></script>
-    {% block script %}{% endblock %}
+     {% compress js %}
+        <script type='text/javascript' src='{% static "js/plugins.js" %}'></script>
+        <script type='text/javascript' src='{% static "js/countdown.js" %}'></script>
+        <script type='text/javascript' src='{% static "js/modernizr.js" %}'></script>
+        <script type='text/javascript' src='{% static "js/functions.js" %}'></script>
+        <script type='text/javascript' src='{% static "js/custom.js" %}'></script>
+        {% block script %}{% endblock %}
+    {% endcompress %}
 </body>
 </html>

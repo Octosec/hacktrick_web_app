@@ -175,7 +175,8 @@ class TrainingSelectForm(forms.Form):
     )
     training_second = ModelChoiceField(
         queryset=None,
-        widget=Select(attrs={'id': 'country'})
+        widget=Select(attrs={'id': 'country'}),
+        required=False
     )
 
     def __init__(self, *args, **kwargs):

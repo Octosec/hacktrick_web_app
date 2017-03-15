@@ -67,6 +67,7 @@ class TrainingAdmin(admin.ModelAdmin):
     list_filter = ['instructor']
     search_fields = ['title', 'instructor__user__first_name']
     inlines = [TrainingInline]
+    filter_horizontal = ['instructor']
 
 
 @admin.register(TrainingDocument)

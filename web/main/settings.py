@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+
+from django.urls.base import reverse_lazy
 from kombu import Exchange, Queue
 import environ
 
@@ -56,7 +58,8 @@ INSTALLED_APPS = [
     'django_bleach',
     'hijack',
     'compat',
-    'hijack_admin'
+    'hijack_admin',
+    'compressor'
 ]
 
 SITE_ID = 1
@@ -71,6 +74,8 @@ MIDDLEWARE = [
     'main.middleware.logging.LogVariablesMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'htmlmin.middleware.HtmlMinifyMiddleware',
+    'htmlmin.middleware.MarkRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -145,6 +150,12 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'assets/'),
 )
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
 
 # Media
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
@@ -240,6 +251,19 @@ SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.mail.mail_validation',
+    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details'
+)
 
 # Celery
 CELERY_DEFAULT_QUEUE = 'default'
@@ -262,6 +286,8 @@ NORECAPTCHA_SECRET_KEY = env('NORECAPTCHA_SECRET_KEY')
 
 # ADMIN URL
 ADMIN_URL = env('ADMIN_PAGE_URL')
+LOGIN_ERROR_URL = reverse_lazy('profiles:login_error')
+
 
 # Ckeditor
 CKEDITOR_CONFIGS = {
@@ -298,6 +324,10 @@ HIJACK_LOGIN_REDIRECT_URL = '/accounts/profile/'
 HIJACK_LOGOUT_REDIRECT_URL = ADMIN_URL
 HIJACK_REGISTER_ADMIN = False
 HIJACK_ALLOW_GET_REQUESTS = True
+
+# Minify and compress
+HTML_MINIFY = not IS_DEV
+COMPRESS_ENABLED = not IS_DEV
 
 if IS_DEV:
     from .extra.dev_settings import *

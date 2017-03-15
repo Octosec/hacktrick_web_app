@@ -421,7 +421,7 @@ class ParticipantAcceptTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
         return self.request.user.user_training
 
 
-class ParticipantTrainingAcceptedList(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin,
+class ParticipantTrainingAcceptedListView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin,
                                PaginationMixin, ListView):
     model = UserTraining
     paginate_by = 1
@@ -450,6 +450,10 @@ class ParticipantTrainingAcceptedList(LoginRequiredMixin, InfoRequiredMixin, Ins
         if term:
             query = query.filter(Q(user__first_name__icontains=term) | Q(user__last_name__icontains=term))
         return query.order_by('accepted_selection')
+
+
+class LoginErrorView(TemplateView):
+    template_name = 'pages/profile/login_error.html'
 
 
 @login_required

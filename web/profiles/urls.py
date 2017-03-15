@@ -15,12 +15,14 @@ from .views import (
     InstructorAcceptFistParticipantView,
     InstructorAcceptSecondParticipantView,
     ParticipantAcceptTrainingView,
-    ParticipantTrainingAcceptedList,
+    ParticipantTrainingAcceptedListView,
+    LoginErrorView,
     user_logout
 )
 
 urlpatterns = [
     url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^login/error/$', LoginErrorView.as_view(), name='login_error'),
     url(r'^logout/$', user_logout, name='logout'),
     url(r'^profile/$', ProfileView.as_view(), name='profile'),
     url(r'^instructor/$', InstructorView.as_view(), name='instructor'),
@@ -47,6 +49,6 @@ urlpatterns = [
         InstructorAcceptSecondParticipantView.as_view(),
         name='participant_accept_second'),
     url(r'^instructor/trainings/(?P<pk>[0-9]+)/participants/accepted/$',
-        ParticipantTrainingAcceptedList.as_view(),
+        ParticipantTrainingAcceptedListView.as_view(),
         name='accepted_participants'),
 ]
