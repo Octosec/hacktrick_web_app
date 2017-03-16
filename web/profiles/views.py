@@ -431,10 +431,10 @@ class ParticipantTrainingAcceptedListView(LoginRequiredMixin, InfoRequiredMixin,
     def dispatch(self, request, *args, **kwargs):
         self.get_training_object()
         self.accepted_count = UserTraining.objects.filter(accepted_selection=self.training).count()
-        return super(ParticipantTrainingAcceptedList, self).dispatch(request, *args, **kwargs)
+        return super(ParticipantTrainingAcceptedListView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(ParticipantTrainingAcceptedList, self).get_context_data(**kwargs)
+        context = super(ParticipantTrainingAcceptedListView, self).get_context_data(**kwargs)
         context["training"] = self.training
         return context
 
