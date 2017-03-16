@@ -28,7 +28,7 @@ services:
   web:
     restart: always
     build: .
-    command: bash -c "python web/manage.py migrate && python web/manage.py runserver 0.0.0.0:8000 --insecure"
+    command: bash -c "python web/manage.py migrate && python web/manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
     ports:

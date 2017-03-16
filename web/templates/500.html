@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %} 500 Internal Error{% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <h3 class="page-title">500</h3>
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+	                    <li class="active">500 Internal Error</li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+<!--  start main content section  -->
+<section id="content" class="error-page">
+    <div class="container">
+        <div class="row">
+            <div class="error">
+                <div class="error-inner">
+                    <div class="error-sign">
+                        <span class="error-opps">
+                            <span class="error-number left">5</span>
+                            <span class="error-opps-inner">0pps!</span>
+                            <span class="error-number right">0</span>
+                        </span>
+                    </div><!-- /.error-sign-->
+                    <h3>Üzgünüz. Bir problem  oluştu.</h3>
+                    <p style="padding: 10px">
+                        Lütfen, bizden kaynaklı bu problemi çözebilmemiz için <a href="mailto:info@hacktrickconf.com">info@hacktrickconf.com</a> mail adresi aracılığı ile bize bildiriniz.
+                    </p>
+                </div><!-- /.error-inner -->
+            </div><!-- /.error -->
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+</section>
+<!--  end main content section  -->
+{% endblock %}
