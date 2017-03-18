@@ -27,14 +27,16 @@
                     <div class="section-head">
                         <h2 class="header-title">GİRİŞ YAP</h2>
                     </div>
-
-                    <p>Giriş yapıp kaydınızı tamamlamak için Github veya Google hesabınızı kullanabilirsiniz</p>
-                    <p class="text-center">
-                        <div class="button-group">
-                            <a href="{% url "social:begin" "github" %}" class="custom-btn hvr-bounce-to-bottom"><i class="fa fa-github"></i> Github</a>
-                            <a href="{% url "social:begin" "google-oauth2" %}" class="custom-btn hvr-bounce-to-bottom"><i class="fa fa-google-plus"></i> Google</a>
+                    <p>Giriş yapıp kaydınızı tamamlamak için Github veya Google hesabınızı kullanabilirsiniz.</p>
+                    <p>Google veya Github hesabınızla giriş yaptığınızda yalnızca konferans kaydınız tamamlanmış olacaktır. Eğitimlere katılmak için lütfen profil bilgilerinizi tamamladıktan sonra "Eğitim Seç" linki üzerinden eğitim seçiminizi yapınız.</p>
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <div class="button-group">
+                                <a href="{% url "social:begin" "github" %}" class="custom-btn hvr-bounce-to-bottom"><i class="fa fa-github"></i> Github</a>
+                                <a href="{% url "social:begin" "google-oauth2" %}" class="custom-btn hvr-bounce-to-bottom"><i class="fa fa-google-plus"></i> Google</a>
+                            </div>
                         </div>
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>

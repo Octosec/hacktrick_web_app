@@ -1,13 +1,21 @@
-.space-bottom{
+.space-bottom {
 	margin-bottom: 20px;
 }
 
-.alert-error{
+.alert-error {
 	color:#a94442;
 	background-color:#f2dede;
 	border-color:#ebccd1
 }
 
-.page-header-content{
+.page-header-content {
 	padding: 20px 0 !important;
+}
+
+.no-transform {
+	text-transform: none !important;
+}
+
+.national-conference {
+	padding: 50px 0 !important;
 }

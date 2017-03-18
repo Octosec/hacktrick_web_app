@@ -31,7 +31,7 @@
 						<div class="speaker-item-h2">
 							<div class="speaker-pic">
                                 {% if not request.user.instructor.image or form.image.errors %}
-								    <img src="{% static "images/default/user.jpg" %}" alt="speaker">
+								    <img src="{% static "images/default/user.png" %}" alt="speaker">
                                 {% else  %}
                                      <img src="{{ request.user.instructor.image.url }}" alt="{{ request.user.get_full_name }}">
                                 {% endif %}
