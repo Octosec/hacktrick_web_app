@@ -10,7 +10,7 @@
 				<div class="page-header-content-inner">
 	                <ul class="breadcrumb">
 	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
-	                    <li class="active">Sorular</li>
+	                    <li class="active">İletişim</li>
 	                </ul>
 	            </div>
 			</div>
@@ -22,28 +22,32 @@
 <section class="event-schedule" style="padding: 60px 0 60px 0">
     <div class="container">
         <div class="row">
+            <div class="col-md-12">
+                <p>
+                    Etkinlik hakkında tüm sorularınızı bu form aracılığıyla bize ulaştırabilirsiniz. Lütfen soru sormadan önce yanıtın <a href="{% url "hacktrick:faq" %}">Sık Sorulan Sorular</a>'da olmadığından emin olunuz.
+                </p>
+            </div>
+            <div class="col-md-12">
                 <div class="massage-response-area" style="margin-bottom: 0 !important;">
-                        <div class="col-m-12">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-6">
-                                {% include 'includes/__form_messages.html' %}
-                                <form method="POST"  action="">
-                                    {% csrf_token %}
-                                    <div class="input-area">
-                                        <div class="input">
-                                            {{ form.title }}
-                                            {{ form.content }}
-                                        </div>
-                                    </div>{{ form.captcha }}
-                                    <p class="form-submit text-center">
-                                        <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
-                                    </p>
-                                </form>
-                            </div>
-                            <div class="col-md-3"></div>
+                    <div class="col-m-12">
+                        <div class="col-md-6 col-md-offset-3">
+                            {% include 'includes/__form_messages.html' %}
+                            <form method="POST"  action="">
+                                {% csrf_token %}
+                                <div class="input-area">
+                                    <div class="input">
+                                        {{ form.title }}
+                                        {{ form.content }}
+                                    </div>
+                                </div>{{ form.captcha }}
+                                <p class="form-submit text-center">
+                                    <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
+                                </p>
+                            </form>
                         </div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </section>

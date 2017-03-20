@@ -28,26 +28,39 @@
 				</div>
 				<div class="speak-wrapper-h2">
                     <div class="col-sm-12 col-md-12">
-                        Form'u kullanarak eğitim seçimi yapabilirsiniz. Eğitmenler tarafından onaylandıktan sonra tarafınıza bildirim yapılacaktır.
+                    	<p>
+                    		Aşağıdaki formu kullanarak iki eğitim tercihi yapabilirsiniz. Eğitimler eş zamanlı yapılacağından tercihleriniz arasından eğitmenler tarafından yalnızca birine kabul edileceksiniz. Eğitimleriniz eğitmenler tarafından onaylandıktan sonra sizin son olarak profil sayfanız üzerinden geleceğinizi teyit etmeniz gerekiyor. Kayıt işlemini tamamlamayan katılımcılar eğitime alınmayacaktır. Ayrıca kaydını onaylayıp geçerli gerekçesi olmadan eğitimlere gelmeyen katılımcılar sonraki etkinliklerimize alınmayacaktır.
+                    	</p>
+                    	<p>
+                    		Eğitimler ücretsizdir. Tüm eğitimlerin kontenjanı sınıf/salon büyüklüğüne göre belirlenmiştir ve üzerinde kayıt alınmayacaktır.
+                    	</p>
+                    	<p>
+                    		Eğitim sonrası katılımcılara katılım sertifikası verilecektir.
+                    	</p>
+                    	<p>
+                    		Eğitimler hakkındaki sorularınızı <a href="{% url "profiles:tickets" %}">buradan bize sorabilirsiniz.</a>
+                    	</p>
                         <hr />
-                        <div class="massage-response-area">
-                            {% include 'includes/__form_messages.html' %}
-                            <form method="POST" action=""  enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="input-area">
-                                    <div class="form-group input calculate-shipping">
-                                        <label>Birinci seçim *</label>
-                                            {{ form.training_first }}
-                                    </div>
-                                    <div class="form-group input calculate-shipping">
-                                        <label>İkinci seçim *</label>
-                                            {{ form.training_second }}
-                                    </div>
-                                </div> {{ form.captcha }}
-                                <p class="form-submit centered-area">
-                                    <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
-                                </p>
-                            </form>
+                    	<div class="col-sm-4 col-sm-offset-4">
+                        	<div class="massage-response-area">
+	                            {% include 'includes/__form_messages.html' %}
+	                            <form method="POST" action=""  enctype="multipart/form-data">
+	                                {% csrf_token %}
+	                                <div class="input-area">
+	                                    <div class="form-group input calculate-shipping">
+	                                        <label>Birinci seçim *</label>
+	                                            {{ form.training_first }}
+	                                    </div>
+	                                    <div class="form-group input calculate-shipping">
+	                                        <label>İkinci seçim *</label>
+	                                            {{ form.training_second }}
+	                                    </div>
+	                                </div> {{ form.captcha }}
+	                                <p class="form-submit centered-area">
+	                                    <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
+	                                </p>
+	                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -56,5 +69,5 @@
 	</section>
 {% endblock %}
 {% block script %}
-<script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
+	<script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
 {% endblock %}

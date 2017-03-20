@@ -38,7 +38,6 @@
 							</div>
 							</div><!-- /.col-md-8 -->
 
-                            {% comment %}
                                 <div class="col-sm-6 col-md-4">
                                     <div class="row">
                                         <div class="bannar-btn">
@@ -48,7 +47,6 @@
                                         </div>
                                     </div><!-- /.row -->
                                 </div><!-- /.col-md-4 -->
-                            {% endcomment %}
 						</div><!-- /.row -->
 					</div><!-- /.container -->
 				</div><!-- /.bannar-content -->
@@ -69,13 +67,11 @@
 
                         {{ setting.about | safe }}
 
-                        {% comment %}
 						<div class="button-group">
 							{% if request.user.is_authenticated == False %}
-								<a href="/" class="custom-btn hvr-bounce-to-bottom">Kayıt Ol</a>
+								<a href="{% url "profiles:login" %}" class="custom-btn hvr-bounce-to-bottom">Kayıt Ol</a>
 							{% endif %}
 						</div>
-						{% endcomment %}
 						<div class="space-bottom"></div>
 					</div><!-- /.conference-main -->
 				</div><!-- /.col-md-8 -->
