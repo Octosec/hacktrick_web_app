@@ -1,6 +1,8 @@
+import codecs
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http.response import Http404
+from django.http.response import Http404, HttpResponse
 from django.views.generic.base import TemplateView
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse_lazy
@@ -39,6 +41,7 @@ from hacktrick.models import (
     UserTraining
 )
 
+import csv
 
 class LoginView(TemplateView):
     template_name = 'pages/profile/login.html'
@@ -301,6 +304,7 @@ class InstructorAcceptFistParticipantView(LoginRequiredMixin, InfoRequiredMixin,
     accepted_count = None
     paginate_by = 50
     accepted_count_error_message = 'Kabul ettiğiniz kullanıcı sayısı sınıf kontenjanını aştığı için kabul işlemi gerçekleşmemiştir.'
+    multi_submit_error = 'İki işlemi aynı anda yapamazsınız.'
 
     def dispatch(self, request, *args, **kwargs):
         self.get_training_object()
@@ -327,20 +331,37 @@ class InstructorAcceptFistParticipantView(LoginRequiredMixin, InfoRequiredMixin,
         return query.order_by('accepted_selection')
 
     def post(self, request, *args, **kwargs):
-        self.object_list = self.get_queryset()
-        selected_users = request.POST.getlist('first')
-        if self.accepted_count + len(selected_users) > self.training.capacity:
-            messages.add_message(self.request, messages.ERROR, self.accepted_count_error_message)
+        if 'accept' in request.POST and 'export' in request.POST:
+            messages.add_message(self.request, messages.ERROR, self.multi_submit_error)
         else:
-            for pk in selected_users:
-                try:
-                    user_training = UserTraining.objects.get(pk=pk)
-                    if user_training.first_selection == self.training:
-                        user_training.accepted_selection = self.training
-                        user_training.save()
-                        self.accepted_count += 1
-                except UserTraining.DoesNotExist:
-                    pass
+            if 'accept' in request.POST:
+                self.object_list = self.get_queryset()
+                selected_users = request.POST.getlist('first')
+                if self.accepted_count + len(selected_users) > self.training.capacity:
+                    messages.add_message(self.request, messages.ERROR, self.accepted_count_error_message)
+                else:
+                    for pk in selected_users:
+                        try:
+                            user_training = UserTraining.objects.get(pk=pk)
+                            if user_training.first_selection == self.training:
+                                user_training.accepted_selection = self.training
+                                user_training.save()
+                                self.accepted_count += 1
+                        except UserTraining.DoesNotExist:
+                            pass
+            if 'export' in request.POST:
+                response = HttpResponse(content_type='text/csv')
+                response['Content-Disposition'] = 'attachment; filename="instructor.csv"'
+                response.write(codecs.BOM_UTF8)
+                writer = csv.writer(response)
+
+                user_training_list = UserTraining.objects.filter(first_selection=self.training)
+                for user_training in user_training_list:
+                    writer.writerow([user_training.user.get_full_name(),
+                                     user_training.user.email,
+                                     user_training.user.institution,
+                                     user_training.user.phone_number])
+                return response
 
         context = self.get_context_data(object_list=self.object_list)
         return self.render_to_response(context)
@@ -354,6 +375,7 @@ class InstructorAcceptSecondParticipantView(LoginRequiredMixin, InfoRequiredMixi
     accepted_count = None
     paginate_by = 50
     accepted_count_error_message = 'Kabul ettiğiniz kullanıcı sayısı sınıf kontenjanını aştığı için kabul işlemi gerçekleşmemiştir.'
+    multi_submit_error = 'İki işlemi aynı anda yapamazsınız.'
 
     def dispatch(self, request, *args, **kwargs):
         self.get_training_object()
@@ -380,20 +402,37 @@ class InstructorAcceptSecondParticipantView(LoginRequiredMixin, InfoRequiredMixi
         return query.order_by('accepted_selection')
 
     def post(self, request, *args, **kwargs):
-        self.object_list = self.get_queryset()
-        selected_users = request.POST.getlist('first')
-        if self.accepted_count + len(selected_users) > self.training.capacity:
-            messages.add_message(self.request, messages.ERROR, self.accepted_count_error_message)
+        if 'accept' in request.POST and 'export' in request.POST:
+            messages.add_message(self.request, messages.ERROR, self.multi_submit_error)
         else:
-            for pk in selected_users:
-                try:
-                    user_training = UserTraining.objects.get(pk=pk)
-                    if user_training.second_selection == self.training and not user_training.accepted_selection:
-                        user_training.accepted_selection = self.training
-                        user_training.save()
-                        self.accepted_count += 1
-                except UserTraining.DoesNotExist:
-                    pass
+            if 'accept' in request.POST:
+                self.object_list = self.get_queryset()
+                selected_users = request.POST.getlist('first')
+                if self.accepted_count + len(selected_users) > self.training.capacity:
+                    messages.add_message(self.request, messages.ERROR, self.accepted_count_error_message)
+                else:
+                    for pk in selected_users:
+                        try:
+                            user_training = UserTraining.objects.get(pk=pk)
+                            if user_training.second_selection == self.training and not user_training.accepted_selection:
+                                user_training.accepted_selection = self.training
+                                user_training.save()
+                                self.accepted_count += 1
+                        except UserTraining.DoesNotExist:
+                            pass
+            if 'export' in request.POST:
+                response = HttpResponse(content_type='text/csv')
+                response['Content-Disposition'] = 'attachment; filename="instructor.csv"'
+                response.write(codecs.BOM_UTF8)
+                writer = csv.writer(response)
+
+                user_training_list = UserTraining.objects.filter(second_selection=self.training)
+                for user_training in user_training_list:
+                    writer.writerow([user_training.user.get_full_name(),
+                                     user_training.user.email,
+                                     user_training.user.institution,
+                                     user_training.user.phone_number])
+                return response
 
         context = self.get_context_data(object_list=self.object_list)
         return self.render_to_response(context)
@@ -424,7 +463,7 @@ class ParticipantAcceptTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
 class ParticipantTrainingAcceptedListView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin,
                                PaginationMixin, ListView):
     model = UserTraining
-    paginate_by = 1
+    paginate_by = 50
     template_name = 'pages/profile/instructor/training_accepted_participants.html'
     training = None
 
@@ -451,6 +490,19 @@ class ParticipantTrainingAcceptedListView(LoginRequiredMixin, InfoRequiredMixin,
             query = query.filter(Q(user__first_name__icontains=term) | Q(user__last_name__icontains=term))
         return query.order_by('accepted_selection')
 
+    def post(self, request, *args, **kwargs):
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="instructor.csv"'
+        response.write(codecs.BOM_UTF8)
+        writer = csv.writer(response)
+
+        user_training_list = UserTraining.objects.filter(accepted_selection=self.training, user_status=True)
+        for user_training in user_training_list:
+            writer.writerow([user_training.user.get_full_name(),
+                             user_training.user.email,
+                             user_training.user.institution,
+                             user_training.user.phone_number])
+        return response
 
 class LoginErrorView(TemplateView):
     template_name = 'pages/profile/login_error.html'

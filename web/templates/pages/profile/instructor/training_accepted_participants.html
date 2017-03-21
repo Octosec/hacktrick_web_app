@@ -84,6 +84,12 @@
                                             {% endfor %}
                                     </div>
                                     {% include "includes/__pagination.html" %}
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        <div class="checkout" style="float: none">
+                                            <button type="submit" class="custom-btn hvr-bounce-to-bottom">Dışa aktar</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
