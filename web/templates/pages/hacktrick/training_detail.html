@@ -57,10 +57,10 @@
 			                                <li class="comment">
 			                                    <article class="comment-item">
 			                                        <div class="profile-image">
-                                                        {% if not instructor.user.image %}
+                                                        {% if not instructor.image %}
                                                             <img src="{% static "images/default/user.png" %}" alt="Eğitmen">
                                                         {% else  %}
-                                                             <img src="{{ instructor.user.image.url }}" alt="Eğitmen">
+                                                             <img src="{{ instructor.image.url }}" alt="Eğitmen">
                                                         {% endif %}
 			                                        </div>
 			                                        <div class="contents border-none">
