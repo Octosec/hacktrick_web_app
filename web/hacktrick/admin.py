@@ -44,7 +44,7 @@ class ConferenceAdmin(admin.ModelAdmin):
 
 @admin.register(Speaker)
 class SpeakerAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'title', 'institution', 'facebook', 'twitter', 'linkedin']
+    list_display = ['full_name', 'title', 'institution', 'facebook', 'twitter', 'linkedin', 'is_visible']
     search_fields = ['full_name', 'title', 'institution']
 
 

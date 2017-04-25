@@ -13,7 +13,7 @@ def send_email_for_information(email_type, email_to, extra):
         content += "<br/><br/><a href='http://www.hacktrickconf.com'>http://www.hacktrickconf.com</a>"
         content += "<br/>Hacktrick Organizasyon Ekibi"
         subject, email_from = mail_object.title, "noreply@hacktrickconf.com"
-        mail_send = EmailMultiAlternatives(mail_object.title, content, email_from, email_to)
+        mail_send = EmailMultiAlternatives(mail_object.title, content, email_from, email_to[0], bcc=email_to[1:])
         mail_send.attach_alternative(content, "text/html")
         mail_send.send()
     except Exception as e:

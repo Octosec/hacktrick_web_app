@@ -84,6 +84,7 @@ class Speaker(models.Model):
     facebook = models.CharField(help_text='facebook kullanıcı adı', max_length=50, blank=True)
     twitter = models.CharField(help_text='twitter kullanıcı adı', max_length=50, blank=True)
     linkedin = models.CharField(help_text='linkedin kullanıcı adı', max_length=50, blank=True)
+    is_visible = models.BooleanField("Görülebilir", default=True)
 
     def __str__(self):
         return self.full_name
@@ -254,7 +255,7 @@ class UserTraining(models.Model):
                 send_email_for_information.delay(email_type=1, email_to=[self.user.email], extra=extra)
 
             if self.accepted_selection is not None and (self.accepted_selection != user_training.accepted_selection):
-                extra = "<br/>Onaylanan eğitim: <br/>".format(self.accepted_selection.title)
+                extra = "<br/>Onaylanan eğitim: {}<br/>".format(self.accepted_selection.title)
                 send_email_for_information.delay(email_type=2, email_to=[self.user.email], extra=extra)
 
             if self.user_status and self.user_status != user_training.user_status:
