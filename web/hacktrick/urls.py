@@ -1,6 +1,14 @@
 from django.conf.urls import url
 
-from .views import IndexView, FAQListView, TrainingListView, TrainingDetailView, CFPView, ContributorListView
+from .views import (
+    IndexView,
+    FAQListView,
+    TrainingListView,
+    TrainingDetailView,
+    CFPView,
+    ContributorListView,
+    LiveBroadCastView
+)
 
 urlpatterns = [
     url('^$', IndexView.as_view(), name='index'),
@@ -9,4 +17,5 @@ urlpatterns = [
     url('^trainings/$', TrainingListView.as_view(), name='trainings'),
     url(r'^trainings/(?P<pk>[0-9]{1,10})$', TrainingDetailView.as_view(), name='training_detail'),
     url(r'^contributors/$', ContributorListView.as_view(), name='contributors'),
+    url(r'^live/$', LiveBroadCastView.as_view(), name='broadcast'),
 ]

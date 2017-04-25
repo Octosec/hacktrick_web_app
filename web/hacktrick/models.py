@@ -351,6 +351,7 @@ class TicketComment(models.Model):
             send_email_for_information.delay(email_type=8, email_to=[self.ticket.user.email], extra=extra)
         super(TicketComment, self).save(*args, **kwargs)
 
+
 @python_2_unicode_compatible
 class Setting(models.Model):
     city = models.CharField('Şehir', max_length=100)
@@ -365,6 +366,7 @@ class Setting(models.Model):
                             help_text="Anasayfa'da görünmesini istediğiniz şekilde yazınız.")
     starting_date = models.DateTimeField('Başlangıç tarihi')
     address = models.TextField(help_text='Google code')
+    live_broadcast = models.TextField(help_text="Html embed code", blank=True)
     about = RichTextField('Hakkında')
     training_note = RichTextField('Eğitim notu')
     cfp = RichTextField("CFP")

@@ -44,6 +44,9 @@
                                             {% if request.user.is_authenticated == False %}
                                                 <a href="{% url "profiles:login" %}" class="register-now hvr-bounce-to-bottom">Kayıt Ol</a>
                                             {% endif %}
+                                            {% if setting.live_broadcast %}
+                                                <a href="{% url "hacktrick:broadcast" %}" class="register-now hvr-bounce-to-bottom">Canlı İzle</a>
+                                            {% endif %}
                                         </div>
                                     </div><!-- /.row -->
                                 </div><!-- /.col-md-4 -->

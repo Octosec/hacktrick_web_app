@@ -92,3 +92,17 @@ class ContributorListView(ListView):
 
     def get_queryset(self):
         return Contributor.objects.filter(status=True)
+
+
+class LiveBroadCastView(TemplateView):
+    template_name = 'pages/hacktrick/live_broadcast.html'
+    def get_context_data(self, **kwargs):
+        context = super(LiveBroadCastView, self).get_context_data(**kwargs)
+        try:
+            broadcast = Setting.objects.first().live_broadcast
+            if not broadcast:
+                raise Http404
+            context["broadcast"] = broadcast
+        except Exception as e:
+            raise Http404
+        return context
