@@ -24,5 +24,5 @@ docker-compose run [container_host_name] [command]
 
 For example;
 ```
-docker-compose run web python manage.py makemigrations
+docker-compose run web python web/manage.py makemigrations
 ```
