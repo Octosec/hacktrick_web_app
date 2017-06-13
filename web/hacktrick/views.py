@@ -33,7 +33,6 @@ class IndexView(TemplateView):
         context["silver_sponsors"] = Sponsor.objects.filter(category=2).order_by('order')
         context["supporter"] = Sponsor.objects.filter(category=3).order_by('order')
         context["media_sponsors"] = Sponsor.objects.filter(category=4).order_by('order')
-        context["media_sponsors"] = Sponsor.objects.filter(category=4).order_by('order')
         context["bronze_sponsors"] = Sponsor.objects.filter(category=5).order_by('order')
         context["stand_sponsors"] = Sponsor.objects.filter(category=6).order_by('order')
         context["speakers"] = Speaker.objects.filter(is_visible=True)
