@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 
 from .models import (
     Sponsor,
@@ -27,9 +28,11 @@ class SponsorAdmin(admin.ModelAdmin):
 
 @admin.register(Contributor)
 class ContributorAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'title', 'mission', 'status', 'twitter', 'linkedin']
+    list_display = ['full_name', 'title', 'mission', 'status', 'twitter',
+                    'linkedin']
     search_fields = ['full_name', 'title']
     list_filter = ['status']
+
 
 @admin.register(FAQ)
 class FAQAdmin(admin.ModelAdmin):
@@ -44,13 +47,15 @@ class ConferenceAdmin(admin.ModelAdmin):
 
 @admin.register(Speaker)
 class SpeakerAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'title', 'institution', 'facebook', 'twitter', 'linkedin', 'is_visible']
+    list_display = ['full_name', 'title', 'institution', 'facebook', 'twitter',
+                    'linkedin', 'is_visible']
     search_fields = ['full_name', 'title', 'institution']
 
 
 @admin.register(Speak)
 class SpeakAdmin(admin.ModelAdmin):
-    list_display = ['title', 'hall', 'starting_time', 'ending_time', 'slot', 'speaker']
+    list_display = ['title', 'hall', 'starting_time', 'ending_time', 'slot',
+                    'speaker']
     search_fields = ['title', 'hall', 'speaker__full_name']
     list_filter = ['speaker', 'slot']
 
@@ -95,7 +100,15 @@ class TicketAdmin(admin.ModelAdmin):
 class TicketCommentAdmin(admin.ModelAdmin):
     list_display = ['comment', 'ticket', 'date', 'user']
     list_filter = ['ticket', 'user']
-    search_fields = ['user__first_name', 'user__last_name', 'ticket__title', 'comment']
+    search_fields = ['user__first_name', 'user__last_name', 'ticket__title',
+                     'comment']
+    raw_id_fields = ['ticket']
+    readonly_fields = ['user']
+
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.user = request.user
+        obj.save()
 
 
 @admin.register(Setting)

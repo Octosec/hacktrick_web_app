@@ -16,6 +16,7 @@ from .utils import validate_contributor_image_dimensions
 
 from ckeditor.fields import RichTextField
 
+
 @python_2_unicode_compatible
 class Sponsor(models.Model):
     name = models.CharField("İsim", max_length=100)
@@ -33,7 +34,6 @@ class Sponsor(models.Model):
         verbose_name_plural = "Sponsorlar"
         verbose_name = "Sponsor"
 
-
     def __str__(self):
         return self.name
 
@@ -41,12 +41,26 @@ class Sponsor(models.Model):
 @python_2_unicode_compatible
 class Contributor(models.Model):
     full_name = models.CharField("Ad sayad", max_length=50)
-    image = models.ImageField('Resim', upload_to='contributor/', validators=[validate_contributor_image_dimensions])
+    image = models.ImageField(
+        'Resim',
+        upload_to='contributor/',
+        validators=[validate_contributor_image_dimensions]
+    )
     title = models.CharField('Başlık', max_length=100)
     mission = models.CharField('Görev', max_length=100)
     status = models.BooleanField('Durum')
-    twitter = models.CharField('Twitter', max_length=50, help_text='Kullanıcı adı', blank=True)
-    linkedin = models.CharField('Linkedin', blank=True, max_length=50, help_text='Kullanıcı adı')
+    twitter = models.CharField(
+        'Twitter',
+        max_length=50,
+        help_text='Kullanıcı adı',
+        blank=True
+    )
+    linkedin = models.CharField(
+        'Linkedin',
+        blank=True,
+        max_length=50,
+        help_text='Kullanıcı adı'
+    )
 
     def __str__(self):
         return self.full_name
@@ -81,9 +95,12 @@ class Speaker(models.Model):
     )
     title = models.CharField('Başlık', max_length=100)
     institution = models.CharField('Kurum', max_length=100)
-    facebook = models.CharField(help_text='facebook kullanıcı adı', max_length=50, blank=True)
-    twitter = models.CharField(help_text='twitter kullanıcı adı', max_length=50, blank=True)
-    linkedin = models.CharField(help_text='linkedin kullanıcı adı', max_length=50, blank=True)
+    facebook = models.CharField(help_text='facebook kullanıcı adı',
+                                max_length=50, blank=True)
+    twitter = models.CharField(help_text='twitter kullanıcı adı',
+                               max_length=50, blank=True)
+    linkedin = models.CharField(help_text='linkedin kullanıcı adı',
+                                max_length=50, blank=True)
     is_visible = models.BooleanField("Görülebilir", default=True)
 
     def __str__(self):
@@ -158,14 +175,15 @@ class Training(models.Model):
         verbose_name_plural = "Eğitimler"
         verbose_name = "Eğitim"
 
-
     def save(self, *args, **kwargs):
         if self.pk is not None:
             training = Training.objects.get(pk=self.pk)
             mail_list = list(Profile.objects.filter(
-                user_training__accepted_selection=training).values_list('email', flat=True))
+                user_training__accepted_selection=training).values_list(
+                'email', flat=True))
             extra = "<br/> Eğitim: {}<br/>".format(self.title)
-            send_email_for_information.delay(email_type=3, email_to=mail_list, extra=extra)
+            send_email_for_information.delay(email_type=3, email_to=mail_list,
+                                             extra=extra)
         super(Training, self).save(*args, **kwargs)
 
     def clean(self, *args, **kwargs):
@@ -195,11 +213,13 @@ class TrainingDocument(models.Model):
     def save(self, *args, **kwargs):
         if self.pk is None:
             mail_list = list(Profile.objects.filter(
-                user_training__accepted_selection=self.training).values_list('email', flat=True))
+                user_training__accepted_selection=self.training).values_list(
+                'email', flat=True))
             extra = "<br/> Eğitim: {}<br/>".format(self.training.title)
             extra += "Döküman başlığı: {}<br/>".format(self.name)
             extra += "Döküman linki: {}<br/>".format(self.document_url)
-            send_email_for_information.delay(email_type=4, email_to=mail_list, extra=extra)
+            send_email_for_information.delay(email_type=4, email_to=mail_list,
+                                             extra=extra)
         super(TrainingDocument, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -248,19 +268,29 @@ class UserTraining(models.Model):
             if self.accepted_selection is None and \
                     (user_training.first_selection != self.first_selection
                      and user_training.second_selection != self.second_selection):
-
                 extra = "<br/>Seçilen eğitimler: <br/>"
-                extra += "Birinci seçim: {} <br/>".format(self.first_selection.title)
-                extra += "İkinci seçim: {} <br/>".format(self.second_selection.title)
-                send_email_for_information.delay(email_type=1, email_to=[self.user.email], extra=extra)
+                extra += "Birinci seçim: {} <br/>".format(
+                    self.first_selection.title)
+                extra += "İkinci seçim: {} <br/>".format(
+                    self.second_selection.title)
+                send_email_for_information.delay(email_type=1,
+                                                 email_to=[self.user.email],
+                                                 extra=extra)
 
-            if self.accepted_selection is not None and (self.accepted_selection != user_training.accepted_selection):
-                extra = "<br/>Onaylanan eğitim: {}<br/>".format(self.accepted_selection.title)
-                send_email_for_information.delay(email_type=2, email_to=[self.user.email], extra=extra)
+            if self.accepted_selection is not None and (
+                self.accepted_selection != user_training.accepted_selection):
+                extra = "<br/>Onaylanan eğitim: {}<br/>".format(
+                    self.accepted_selection.title)
+                send_email_for_information.delay(email_type=2,
+                                                 email_to=[self.user.email],
+                                                 extra=extra)
 
             if self.user_status and self.user_status != user_training.user_status:
-                extra = "<br/>Katılımcı: {}<br/>".format(self.user.get_full_name())
-                send_email_for_information.delay(email_type=6, email_to=[self.user.email], extra=extra)
+                extra = "<br/>Katılımcı: {}<br/>".format(
+                    self.user.get_full_name())
+                send_email_for_information.delay(email_type=6,
+                                                 email_to=[self.user.email],
+                                                 extra=extra)
 
         super(UserTraining, self).save(*args, **kwargs)
 
@@ -271,8 +301,10 @@ class UserTraining(models.Model):
             raise ValidationError('Onaylanmamış eğitim seçemezsiniz.')
         if self.first_selection == self.second_selection:
             raise ValidationError('Birinci ve ikinci tercih aynı olamaz.')
-        if self.accepted_selection and not self.accepted_selection in [self.first_selection, self.second_selection]:
-            raise ValidationError('Kabul edilen eğitim kullanıcı tercihleri arasında olmalıdır.')
+        if self.accepted_selection and not self.accepted_selection in [
+            self.first_selection, self.second_selection]:
+            raise ValidationError(
+                'Kabul edilen eğitim kullanıcı tercihleri arasında olmalıdır.')
         super(UserTraining, self).clean(*args, **kwargs)
 
     def get_first_selection_title(self):
@@ -292,7 +324,7 @@ class UserTraining(models.Model):
 class Ticket(models.Model):
     title = models.CharField('Başlık', max_length=100)
     content = models.TextField('İçerik')
-    status = models.BooleanField('Durum', default=False)
+    status = models.BooleanField('Durum', default=True)
     ticket_status = models.BooleanField('Cevaplanabilirlik', default=True)
     date = models.DateTimeField('Tarih', auto_now_add=True)
     user = models.ForeignKey(
@@ -308,11 +340,14 @@ class Ticket(models.Model):
 
     def save(self, *args, **kwargs):
         if self.pk is None:
-            mail_list = list(Profile.objects.filter(user_type=1).values_list('email', flat=True))
+            mail_list = list(
+                Profile.objects.filter(user_type=1).values_list('email',
+                                                                flat=True))
             print(mail_list)
             extra = '<br/>Katılımcı: {}'.format(self.user.get_full_name())
             extra += '<br/>Soru: {}'.format(self.title)
-            send_email_for_information.delay(email_type=7, email_to=mail_list, extra=extra)
+            send_email_for_information.delay(email_type=7, email_to=mail_list,
+                                             extra=extra)
         super(Ticket, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -327,20 +362,20 @@ class TicketComment(models.Model):
         Profile,
         verbose_name='Katılımcı',
         related_name='ticket_comments',
-        related_query_name='ticket_comment'
+        related_query_name='ticket_comment',
+        help_text = 'Otomatik doldurulur'
     )
     ticket = models.ForeignKey(
         Ticket,
         verbose_name='Soru',
         related_name='ticket_comments',
-        related_query_name='ticket_comment'
+        related_query_name='ticket_comment',
     )
 
     class Meta:
-        ordering = ('date', )
+        ordering = ('date',)
         verbose_name_plural = "Soru yorumları"
         verbose_name = "Soru yorumu"
-
 
     def __str__(self):
         return self.comment
@@ -348,7 +383,9 @@ class TicketComment(models.Model):
     def save(self, *args, **kwargs):
         if self.pk is None:
             extra = "<br/> Soru: {}".format(self.ticket.title)
-            send_email_for_information.delay(email_type=8, email_to=[self.ticket.user.email], extra=extra)
+            send_email_for_information.delay(email_type=8,
+                                             email_to=[self.ticket.user.email],
+                                             extra=extra)
         super(TicketComment, self).save(*args, **kwargs)
 
 
@@ -356,7 +393,8 @@ class TicketComment(models.Model):
 class Setting(models.Model):
     city = models.CharField('Şehir', max_length=100)
     place_fullname = models.CharField('Konum tam', max_length=150)
-    expected_participant = models.PositiveIntegerField('Beklenen katılımcı sayısı')
+    expected_participant = models.PositiveIntegerField(
+        'Beklenen katılımcı sayısı')
     expected_speaker = models.PositiveIntegerField('Beklenen konuşmacı sayısı')
     place = models.CharField('Konum kısa',
                              max_length=100,
@@ -371,7 +409,8 @@ class Setting(models.Model):
     training_note = RichTextField('Eğitim notu')
     cfp = RichTextField("CFP")
     training_selection = models.BooleanField('Eğitim seçimi', default=False)
-    participant_selection = models.BooleanField('Katılımcı seçimi', default=False)
+    participant_selection = models.BooleanField('Katılımcı seçimi',
+                                                default=False)
     participant_accept = models.BooleanField('Katılımcı onay', default=False)
 
     class Meta:
