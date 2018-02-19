@@ -1,7 +1,4 @@
 {% if project_settings.training_selection %}
     <li><a href="{% url "profiles:training_select" %}">Eğitim Seç</a></li>
 {% endif %}
-{% if project_settings.participant_accept %}
-    <li><a href="{% url "profiles:training_accept" %}">Eğitim Onayla</a></li>
-{% endif %}
 <li><a href="{% url "profiles:tickets" %}">İletişim</a></li>

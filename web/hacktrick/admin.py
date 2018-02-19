@@ -127,10 +127,8 @@ class SettingAdmin(admin.ModelAdmin):
 class UserTrainingAdmin(admin.ModelAdmin):
     list_display = [
         'get_first_selection_title',
-        'get_second_selection_title',
-        'get_accepted_selection_title',
+        'accepted_training',
         'get_username',
-        'user_status'
     ]
     search_fields = ['user__first_name', 'user__last_name']
 

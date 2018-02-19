@@ -173,21 +173,9 @@ class TrainingSelectForm(forms.Form):
         queryset=None,
         widget=Select(attrs={'id': 'country'})
     )
-    training_second = ModelChoiceField(
-        queryset=None,
-        widget=Select(attrs={'id': 'country'}),
-        required=False
-    )
 
     def __init__(self, *args, **kwargs):
         super(TrainingSelectForm, self).__init__(*args, **kwargs)
-        self.fields['training_first'].queryset = Training.objects.filter(status=True)
-        self.fields['training_second'].queryset = Training.objects.filter(status=True)
-        self.fields['training_first'].empty_label = 'Birinci eğtimi seçiniz.'
-        self.fields['training_second'].empty_label = 'İkinci eğtimi seçiniz.'
-
-    def clean(self):
-        cleaned_data = super(TrainingSelectForm, self).clean()
-        if cleaned_data.get('training_first', None) == cleaned_data.get('training_second', None):
-            raise ValidationError('Seçilen iki eğitim aynı olamaz.')
-        return cleaned_data
+        training_list = [i.pk for i in Training.objects.filter(status=True) if UserTraining.objects.filter(first_selection=i).count() < i.capacity*2]
+        self.fields['training_first'].queryset = Training.objects.filter(pk__in=training_list)
+        self.fields['training_first'].empty_label = 'Almak istediğiniz eğitimi seçiniz.'

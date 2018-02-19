@@ -235,20 +235,9 @@ class UserTraining(models.Model):
         related_query_name='user_first_training',
         null=True
     )
-    second_selection = models.ForeignKey(
-        Training,
-        verbose_name='ikinci seçim',
-        related_name='user_second_trainings',
-        related_query_name='user_second_training',
-        null=True
-    )
-    accepted_selection = models.ForeignKey(
-        Training,
-        related_name='user_accepted_trainings',
-        related_query_name='user_accepted_training',
-        verbose_name='Kabul edilen seçim',
-        blank=True,
-        null=True
+    accepted_training = models.BooleanField(
+        verbose_name='Eğitim Onayı',
+        default=False,
     )
     user = models.OneToOneField(
         Profile,
@@ -256,7 +245,6 @@ class UserTraining(models.Model):
         related_query_name='user_training',
         verbose_name='Katılımcı',
     )
-    user_status = models.BooleanField("Katılımcı durumu", default=False)
 
     class Meta:
         verbose_name_plural = "Katılımcı eğitim"
@@ -265,22 +253,16 @@ class UserTraining(models.Model):
     def save(self, *args, **kwargs):
         if self.pk is not None:
             user_training = UserTraining.objects.get(pk=self.pk)
-            if self.accepted_selection is None and \
-                    (user_training.first_selection != self.first_selection
-                     and user_training.second_selection != self.second_selection):
-                extra = "<br/>Seçilen eğitimler: <br/>"
-                extra += "Birinci seçim: {} <br/>".format(
+            if not self.accepted_training and user_training.first_selection != self.first_selection:
+                extra = "<br/>Seçilen eğitim: {} <br/>".format(
                     self.first_selection.title)
-                extra += "İkinci seçim: {} <br/>".format(
-                    self.second_selection.title)
                 send_email_for_information.delay(email_type=1,
                                                  email_to=[self.user.email],
                                                  extra=extra)
-
-            if self.accepted_selection is not None and (
-                self.accepted_selection != user_training.accepted_selection):
-                extra = "<br/>Onaylanan eğitim: {}<br/>".format(
-                    self.accepted_selection.title)
+            if self.accepted_training:
+                extra = "<br/>Eğitiminiz onaylanmıştır. <br/>"
+                extra += "<br/>Onaylanan eğitim: {}<br/>".format(
+                    self.first_selection.title)
                 send_email_for_information.delay(email_type=2,
                                                  email_to=[self.user.email],
                                                  extra=extra)
@@ -295,26 +277,12 @@ class UserTraining(models.Model):
         super(UserTraining, self).save(*args, **kwargs)
 
     def clean(self, *args, **kwargs):
-        if not self.first_selection.status or not self.second_selection.status:
+        if not self.first_selection.status:
             raise ValidationError('Onaylanmamış eğitim seçemezsiniz.')
-        if self.accepted_selection and not self.accepted_selection.status:
-            raise ValidationError('Onaylanmamış eğitim seçemezsiniz.')
-        if self.first_selection == self.second_selection:
-            raise ValidationError('Birinci ve ikinci tercih aynı olamaz.')
-        if self.accepted_selection and not self.accepted_selection in [
-            self.first_selection, self.second_selection]:
-            raise ValidationError(
-                'Kabul edilen eğitim kullanıcı tercihleri arasında olmalıdır.')
         super(UserTraining, self).clean(*args, **kwargs)
 
     def get_first_selection_title(self):
         return self.first_selection.title if self.first_selection else ''
-
-    def get_second_selection_title(self):
-        return self.second_selection.title if self.second_selection else ''
-
-    def get_accepted_selection_title(self):
-        return self.accepted_selection.title if self.accepted_selection else ''
 
     def get_username(self):
         return self.user.username

@@ -28,7 +28,7 @@
 				</div>
 				<div class="speak-wrapper-h2">
                     <div class="col-sm-12 col-md-12">
-                    	<p>
+                    	<p> #TODO Düzenlenecek <br>
                     		Aşağıdaki formu kullanarak iki eğitim tercihi yapabilirsiniz. Eğitimler eş zamanlı yapılacağından tercihleriniz arasından eğitmenler tarafından yalnızca birine kabul edileceksiniz. Eğitimleriniz eğitmenler tarafından onaylandıktan sonra sizin son olarak profil sayfanız üzerinden geleceğinizi teyit etmeniz gerekiyor. Kayıt işlemini tamamlamayan katılımcılar eğitime alınmayacaktır. Ayrıca kaydını onaylayıp geçerli gerekçesi olmadan eğitimlere gelmeyen katılımcılar sonraki etkinliklerimize alınmayacaktır.
                     	</p>
                     	<p>
@@ -48,12 +48,8 @@
 	                                {% csrf_token %}
 	                                <div class="input-area">
 	                                    <div class="form-group input calculate-shipping">
-	                                        <label>Birinci seçim *</label>
+	                                        <label>Eğitim seçimi *</label>
 	                                            {{ form.training_first }}
-	                                    </div>
-	                                    <div class="form-group input calculate-shipping">
-	                                        <label>İkinci seçim *</label>
-	                                            {{ form.training_second }}
 	                                    </div>
 	                                </div> {{ form.captcha }}
 	                                <p class="form-submit centered-area">
