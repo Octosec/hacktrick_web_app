@@ -68,7 +68,7 @@ class TrainingInline(admin.StackedInline):
 
 @admin.register(Training)
 class TrainingAdmin(admin.ModelAdmin):
-    list_display = ['title', 'capacity', 'reserve_quota', 'date', 'status']
+    list_display = ['title', 'capacity', 'date']
     list_filter = ['instructor']
     search_fields = ['title', 'instructor__user__first_name']
     inlines = [TrainingInline]

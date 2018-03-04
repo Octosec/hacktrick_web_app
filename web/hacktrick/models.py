@@ -153,17 +153,17 @@ class Speak(models.Model):
 @python_2_unicode_compatible
 class Training(models.Model):
     title = models.CharField('Başlık', max_length=200)
-    cover_image = models.ImageField(
-        'Resim',
-        upload_to='training/',
-        help_text='770×420',
-        validators=[validate_training_image_dimensions]
-    )
+#    cover_image = models.ImageField(
+#        'Resim',
+#        upload_to='training/',
+#        help_text='770×420',
+#        validators=[validate_training_image_dimensions]
+#    )
     content = RichTextField('İçerik', config_name='filtered')
     capacity = models.PositiveIntegerField('Kontenjan')
-    reserve_quota = models.PositiveIntegerField('Ek kontenjan')
+#    reserve_quota = models.PositiveIntegerField('Ek kontenjan')
     date = models.CharField('Tarih', max_length=20)
-    status = models.BooleanField('Durum', default=False)
+#    status = models.BooleanField('Durum', default=False)
     instructor = models.ManyToManyField(
         Instructor,
         verbose_name='Eğitmen',

@@ -128,7 +128,7 @@ class TrainingUpdateForm(ModelForm):
 
     class Meta:
         model = Training
-        fields = ['title', 'cover_image', 'content', 'capacity', 'date']
+        fields = ['title', 'content', 'capacity', 'date']
 
         widgets = {
             'title': TextInput(),

@@ -53,7 +53,7 @@ class TrainingListView(ListView):
     model = Training
 
     def get_queryset(self):
-        return Training.objects.filter(status=True)
+        return Training.objects.all()
 
 
 class TrainingDetailView(DetailView):
@@ -71,7 +71,7 @@ class TrainingDetailView(DetailView):
 
     def get_object(self, queryset=None):
         try:
-            return Training.objects.get(status=True, pk=self.kwargs['pk'])
+            return Training.objects.get(pk=self.kwargs['pk'])
         except:
             raise Http404
 
