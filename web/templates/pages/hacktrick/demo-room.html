@@ -22,18 +22,24 @@
 		<div class="container">
 			<div class="row">
 				<div class="section-head">
-					<h2 class="header-title">HACKTRİCK | AKTİF KATILIM ÇAĞRISI</h2>
+					<h2 class="header-title">HACKTRİCK | DEMO ROOM</h2>
 				</div>
 				<main id="main-content" class="col-md-12">
 					<div class="theiaStickySidebar">
 						<article class="entry-single">
 							<div class="entry-content-outer">
 								<div class="entry-content">
-                                    {% if setting %}
-                                        {{ setting.cfp | safe }}
-                                    {% else %}
-                                        <div class="alert alert-danger">En kısa sürede ekleyeceğiz.</div>
-                                    {% endif %}
+										<div class="speak-wrapper-h2">
+												{% for data in demoroom %}
+													{{data.image}}
+													{{data.header}}
+													{{data.text_area|safe}}
+													{% empty %}
+													<div class="col-md-6 col-md-offset-3">
+															<div class="alert alert-danger text-center">En kısa sürede ekleyeceğiz.</div>
+														</div>
+												{% endfor%}
+											</div>
 								</div>
 							</div>
 						</article>

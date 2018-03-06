@@ -57,14 +57,11 @@ class BugMinerView(TemplateView):
 
 
     def get_context_data(self, **kwargs):
-        context = super(LiveBroadCastView, self).get_context_data(**kwargs)
+        context = super(BugMinerView, self).get_context_data(**kwargs)
         try:
-            broadcast = BugMiner.objects.first().live_broadcast
-            if not broadcast:
-                raise Http404
-            context["broadcast"] = broadcast
+            context["bugminer"] = BugMiner.objects.all()
         except Exception as e:
-            raise Http404
+            context['bugminer'] = e
         return context
 
 class GameOfPwnersView(TemplateView):
@@ -72,14 +69,11 @@ class GameOfPwnersView(TemplateView):
     model = GameOfPwners
 
     def get_context_data(self, **kwargs):
-        context = super(LiveBroadCastView, self).get_context_data(**kwargs)
+        context = super(GameOfPwnersView, self).get_context_data(**kwargs)
         try:
-            broadcast = GameOfPwners.objects.first().live_broadcast
-            if not broadcast:
-                raise Http404
-            context["broadcast"] = broadcast
+            context["gameofpwner"] = GameOfPwners.objects.all()
         except Exception as e:
-            raise Http404
+            context['gameofpwner'] = e
         return context
 
 class DemoRoomView(TemplateView):
@@ -87,14 +81,11 @@ class DemoRoomView(TemplateView):
     model = DemoRoom
 
     def get_context_data(self, **kwargs):
-        context = super(LiveBroadCastView, self).get_context_data(**kwargs)
+        context = super(DemoRoomView, self).get_context_data(**kwargs)
         try:
-            broadcast = DemoRoom.objects.first().live_broadcast
-            if not broadcast:
-                raise Http404
-            context["broadcast"] = broadcast
+            context["demoroom"] = DemoRoom.objects.all()
         except Exception as e:
-            raise Http404
+            context['demoroom'] = e
         return context
 
 class CsAwardView(TemplateView):
@@ -102,14 +93,11 @@ class CsAwardView(TemplateView):
     model = CsAward
 
     def get_context_data(self, **kwargs):
-        context = super(LiveBroadCastView, self).get_context_data(**kwargs)
+        context = super(CsAwardView, self).get_context_data(**kwargs)
         try:
-            broadcast = CsAward.objects.first().live_broadcast
-            if not broadcast:
-                raise Http404
-            context["broadcast"] = broadcast
+            context["csaward"] = CsAward.objects.all()
         except Exception as e:
-            raise Http404
+            context['csaward'] = e
         return context
 
 class TrainingListView(ListView):
