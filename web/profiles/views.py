@@ -85,7 +85,7 @@ class TicketListView(LoginRequiredMixin, InfoRequiredMixin, FormMixin, ListView)
     success_message = 'Soru başarı ile gönderildi. İnceledikten sonra yanıt vereceğiz.'
 
     def get_queryset(self):
-        return Ticket.objects.filter(status=True, user=self.request.user)
+        return Ticket.objects.filter(user=self.request.user)
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
@@ -143,7 +143,7 @@ class TicketDetailView(LoginRequiredMixin, InfoRequiredMixin, FormMixin, DetailV
 
     def get_object(self, queryset=None):
         try:
-            return Ticket.objects.get(user=self.request.user, status=True, pk=self.kwargs['pk'])
+            return Ticket.objects.get(user=self.request.user, pk=self.kwargs['pk'])
         except:
             raise Http404
 
@@ -160,7 +160,7 @@ class TrainingListView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequired
     model = Training
 
     def get_queryset(self):
-        return Training.objects.filter(status=True, instructor=self.request.user.instructor)
+        return Training.objects.filter( instructor=self.request.user.instructor)
 
 
 class TrainingUpdateView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin, UpdateView):
@@ -180,7 +180,6 @@ class TrainingUpdateView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequir
         try:
             return Training.objects.get(
                 instructor=self.request.user.instructor,
-                status=True,
                 pk=self.kwargs['pk']
             )
         except:
@@ -201,7 +200,6 @@ class TrainingDocumentListView(LoginRequiredMixin, InfoRequiredMixin, Instructor
         try:
             return Training.objects.get(
                 instructor=self.request.user.instructor,
-                status=True,
                 pk=self.kwargs['pk']
             )
         except:

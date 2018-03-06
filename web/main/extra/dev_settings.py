@@ -1,14 +1,14 @@
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'hack',
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',
+        'PASSWORD': '2855',
+        'HOST': 'localhost',
         'PORT': '5432'
     }
 }
 
 DEBUG = True
 
-BROKER_URL = "amqp://guest:guest@rabbitmq:5672//"
+BROKER_URL = "amqp://guest:guest@localhost:5672//"

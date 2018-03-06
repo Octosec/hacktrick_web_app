@@ -310,6 +310,7 @@ class UserTraining(models.Model):
         related_query_name='user_training',
         verbose_name='Katılımcı',
     )
+    user_status= models.BooleanField("Katılımcı durumu", default=False)
 
     class Meta:
         verbose_name_plural = "Katılımcı eğitim"
@@ -332,7 +333,7 @@ class UserTraining(models.Model):
                                                  email_to=[self.user.email],
                                                  extra=extra)
 
-            if self.user_status and self.user_status != user_training.user_status:
+            if self.user_status != user_training.user_status:
                 extra = "<br/>Katılımcı: {}<br/>".format(
                     self.user.get_full_name())
                 send_email_for_information.delay(email_type=6,

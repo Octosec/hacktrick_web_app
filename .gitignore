@@ -94,6 +94,7 @@ logs
 .idea/
 web/db.sqlite3
 web/main/extra/.env
+web/main/extra/dev_settings.py
 web/media/*
 web/static
 web/media/

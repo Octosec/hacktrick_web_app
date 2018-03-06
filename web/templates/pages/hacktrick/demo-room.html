@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %} Demo Room {% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+	                    <li><a href="{% url "profiles:tickets" %}">CFP</a></li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+	<section id="content">
+		<div class="container">
+			<div class="row">
+				<div class="section-head">
+					<h2 class="header-title">HACKTRİCK | AKTİF KATILIM ÇAĞRISI</h2>
+				</div>
+				<main id="main-content" class="col-md-12">
+					<div class="theiaStickySidebar">
+						<article class="entry-single">
+							<div class="entry-content-outer">
+								<div class="entry-content">
+                                    {% if setting %}
+                                        {{ setting.cfp | safe }}
+                                    {% else %}
+                                        <div class="alert alert-danger">En kısa sürede ekleyeceğiz.</div>
+                                    {% endif %}
+								</div>
+							</div>
+						</article>
+					</div>
+				</main>
+			</div>
+		</div>
+	</section>
+{% endblock %}

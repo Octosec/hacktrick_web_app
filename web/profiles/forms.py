@@ -176,6 +176,11 @@ class TrainingSelectForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(TrainingSelectForm, self).__init__(*args, **kwargs)
-        training_list = [i.pk for i in Training.objects.filter(status=True) if UserTraining.objects.filter(first_selection=i).count() < i.capacity*2]
+        training_list =  []
+        for i in Training.objects.all():
+            if i.limitless == True:
+                training_list.append(i.id)
+            elif UserTraining.objects.filter(first_selection=i).count() <= i.capacity*2:
+                training_list.append(i.id)
         self.fields['training_first'].queryset = Training.objects.filter(pk__in=training_list)
         self.fields['training_first'].empty_label = 'Almak istediğiniz eğitimi seçiniz.'
