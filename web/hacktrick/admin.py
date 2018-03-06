@@ -132,7 +132,6 @@ class UserTrainingAdmin(admin.ModelAdmin):
     ]
     search_fields = ['user__first_name', 'user__last_name']
 
-
 @admin.register(Mail)
 class MailAdmin(admin.ModelAdmin):
     list_display = ['type', 'title']

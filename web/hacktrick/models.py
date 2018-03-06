@@ -153,17 +153,10 @@ class Speak(models.Model):
 @python_2_unicode_compatible
 class Training(models.Model):
     title = models.CharField('Başlık', max_length=200)
-#    cover_image = models.ImageField(
-#        'Resim',
-#        upload_to='training/',
-#        help_text='770×420',
-#        validators=[validate_training_image_dimensions]
-#    )
     content = RichTextField('İçerik', config_name='filtered')
-    capacity = models.PositiveIntegerField('Kontenjan')
-#    reserve_quota = models.PositiveIntegerField('Ek kontenjan')
+    capacity = models.PositiveIntegerField('Kontenjan',blank=True, null=True)
+    limitless = models.BooleanField('Sınırsız Kontenjan')
     date = models.CharField('Tarih', max_length=20)
-#    status = models.BooleanField('Durum', default=False)
     instructor = models.ManyToManyField(
         Instructor,
         verbose_name='Eğitmen',
@@ -176,19 +169,20 @@ class Training(models.Model):
         verbose_name = "Eğitim"
 
     def save(self, *args, **kwargs):
-        if self.pk is not None:
-            training = Training.objects.get(pk=self.pk)
-            mail_list = list(Profile.objects.filter(
-                user_training__accepted_selection=training).values_list(
-                'email', flat=True))
-            extra = "<br/> Eğitim: {}<br/>".format(self.title)
-            send_email_for_information.delay(email_type=3, email_to=mail_list,
+        mail_list = list(Profile.objects.filter(
+            user_training__accepted_training=True).values_list(
+            'email', flat=True))
+        extra = "<br/> Eğitim: {}<br/>".format(self.title)
+        send_email_for_information.delay(email_type=3, email_to=mail_list,
                                              extra=extra)
         super(Training, self).save(*args, **kwargs)
 
     def clean(self, *args, **kwargs):
-        if self.capacity < 10:
-            raise ValidationError("Bir eğitimin kapasitesi 10'dan az olamaz.")
+        if self.limitless:
+            pass
+        else:
+            if self.capacity < 10:
+                raise ValidationError("Bir eğitimin kapasitesi 10'dan az olamaz.")
         super(Training, self).clean(*args, **kwargs)
 
     def __str__(self):
@@ -276,10 +270,10 @@ class UserTraining(models.Model):
 
         super(UserTraining, self).save(*args, **kwargs)
 
-    def clean(self, *args, **kwargs):
-        if not self.first_selection.status:
-            raise ValidationError('Onaylanmamış eğitim seçemezsiniz.')
-        super(UserTraining, self).clean(*args, **kwargs)
+    #def clean(self, *args, **kwargs):
+    #    if not self.first_selection.status:
+   #         raise ValidationError('Onaylanmamış eğitim seçemezsiniz.')
+   #     super(UserTraining, self).clean(*args, **kwargs)
 
     def get_first_selection_title(self):
         return self.first_selection.title if self.first_selection else ''
