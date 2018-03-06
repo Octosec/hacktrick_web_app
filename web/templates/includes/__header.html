@@ -24,7 +24,26 @@
                                 <li><a href="{% url "hacktrick:index" %}#sponsors">Sponsorlar</a></li>
                                 <li><a href="{% url "hacktrick:trainings" %}">Eğitimler</a> </li>
                                 <li><a href="{% url "hacktrick:faq" %}">SSS</a> </li>
-                                <li><a href="{% url "hacktrick:cfp" %}">CFP</a> </li>
+                                <li class="dropdown menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-chidren">
+                                    <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Etkinlikler</a> 
+                                    <ul class="dropdown-menu sub-menu">
+                                        <li class="">
+                                                <a href="{% url "hacktrick:cfp" %}">CFP</a>
+                                        </li>
+                                        <li class="">
+                                                <a href="{% url "hacktrick:game-of-pwners" %}">Game Of Pwners</a>
+                                        </li>
+                                        <li class="">
+                                                <a href="{% url "hacktrick:bug-miner" %}">Bug Miner</a>
+                                            </li>
+                                        <li class="">
+                                                <a href="{% url "hacktrick:demo-room" %}">Demo Room</a>
+                                        </li>
+                                        <li class="">
+                                                <a href="{% url "hacktrick:cs-award" %}">CS Award</a>
+                                        </li>
+                                    </ul>
+                                </li>
                                 <li><a href="{% url "hacktrick:contributors" %}">Katkıda Bulunanlar</a> </li>
                                 {% include "includes/__header_extra.html" %}
                             </ul>

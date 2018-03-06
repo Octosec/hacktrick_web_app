@@ -13,6 +13,10 @@ from .models import (
     ConferenceSlot,
     Speak,
     FAQ,
+    BugMiner,
+    GameOfPwners,
+    DemoRoom,
+    CsAward,
     Training,
     Contributor
 )
@@ -47,6 +51,25 @@ class FAQListView(ListView):
     model = FAQ
     ordering = 'order'
 
+class BugMinerView(TemplateView):
+    template_name = 'pages/hacktrick/faq.html'
+    model = BugMiner
+    ordering = 'order'
+
+class GameOfPwnersView(TemplateView):
+    template_name = 'pages/hacktrick/faq.html'
+    model = GameOfPwners
+    ordering = 'order'
+
+class DemoRoomView(TemplateView):
+    template_name = 'pages/hacktrick/faq.html'
+    model = DemoRoom
+    ordering = 'order'
+
+class CsAwardView(TemplateView):
+    template_name = 'pages/hacktrick/faq.html'
+    model = CsAward
+    ordering = 'order'
 
 class TrainingListView(ListView):
     template_name = 'pages/hacktrick/trainings.html'
