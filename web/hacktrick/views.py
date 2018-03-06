@@ -18,6 +18,7 @@ from .models import (
     DemoRoom,
     CsAward,
     Training,
+    UserTraining,
     Contributor
 )
 from profiles.models import Instructor
@@ -104,8 +105,25 @@ class TrainingListView(ListView):
     template_name = 'pages/hacktrick/trainings.html'
     model = Training
 
-    def get_queryset(self):
-        return Training.objects.all()
+    def get_context_data(self, **kwargs):
+        context = super(TrainingListView, self).get_context_data(**kwargs)
+        data = Training.objects.all().values()
+        cdata = []
+        for i in data:
+            i["record_traning"] = UserTraining.objects.filter(first_selection=i["id"]).count()
+            if i["limitless"]:
+                cdata.append( i ) 
+            else:
+                i["capacity"] = i["capacity"] * 2
+                cdata.append(i)
+        context['data']= cdata
+        return context
+    
+    #def get_queryset(self,**kwargs):
+    #    return Training.objects.all()
+
+
+
 
 
 class TrainingDetailView(DetailView):
@@ -114,11 +132,17 @@ class TrainingDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(TrainingDetailView, self).get_context_data(**kwargs)
-        try:
-            context["training_note"] = Setting.objects.get().training_note
-        except Setting.DoesNotExist:
-            context["training_note"] = ""
-        context['trainings'] = Training.objects.all()
+        context["training_note"] = Setting.objects.get().training_note
+        data = Training.objects.all().values()
+        cdata = []
+        for i in data:
+            i["record_traning"] = UserTraining.objects.filter(first_selection=i["id"]).count()
+            if i["limitless"]:
+                cdata.append( i ) 
+            else:
+                i["capacity"] = i["capacity"] * 2
+                cdata.append(i)
+        context['trainings']= cdata
         return context
 
     def get_object(self, queryset=None):
