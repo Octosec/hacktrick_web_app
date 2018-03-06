@@ -30,9 +30,9 @@ environ.Env.read_env(os.path.join(BASE_DIR, 'main', 'extra', '.env'))
 SECRET_KEY = 'this data will be changed'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-IS_DEV = False
+IS_DEV = True
 
-ALLOWED_HOSTS = ['localhost', 'www.hacktrickconf.com', 'dev0001.hacktrickconf.com']
+ALLOWED_HOSTS = ['localhost', 'www.hacktrickconf.com', 'dev0001.hacktrickconf.com','127.0.0.1']
 
 
 # Application definition
