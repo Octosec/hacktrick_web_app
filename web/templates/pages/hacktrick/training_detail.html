@@ -130,9 +130,13 @@
                                 {% for training in trainings %}
                                     {% if not training == object %}
                                         <li>
-                                            <a href="{% url "hacktrick:training_detail" training.pk %}">
+                                            <a href="{% url "hacktrick:training_detail" training.id %}">
                                                 {{ training.title }}
-                                            </a><span>{% if training.capacity %} {{ training.capacity }} {% else %} Sınırsız {% endif %}</span>
+                                            </a><span>{% if training.capacity %} 
+													{{ training.record_traning}} - {{ training.capacity }}
+													{% else %} 
+														Sınırsız 
+													{% endif %}</span>
                                         </li>
                                     {% endif %}
                                 {% endfor %}
