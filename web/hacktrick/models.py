@@ -83,6 +83,77 @@ class FAQ(models.Model):
         verbose_name_plural = "Sıkça Sorulan Sorular"
         verbose_name = "Soru"
 
+@python_2_unicode_compatible
+class BugMiner(models.Model):
+    header = models.CharField('Baslik', max_length=300)
+    text_area = RichTextField('Metin')
+    image = models.ImageField(
+        'Resim',
+        upload_to='events/',
+        help_text="160x160",
+        validators=[validate_speaker_image_dimensions]
+    )
+
+    def __str__(self):
+        return self.header
+
+    class Meta:
+        verbose_name_plural = "Bug Miners"
+        verbose_name = "Bug Miner"
+
+@python_2_unicode_compatible
+class GameOfPwners(models.Model):
+    header = models.CharField('Baslik',max_length=300)
+    text_area = RichTextField('Metin')
+    image = models.ImageField(
+        'Resim',
+        upload_to='events/',
+        help_text="160x160",
+        validators=[validate_speaker_image_dimensions]
+    )
+
+    def __str__(self):
+        return self.header
+
+    class Meta:
+        verbose_name_plural = "Game Of Pwners"
+        verbose_name = "Game Of Pwner"
+
+@python_2_unicode_compatible
+class DemoRoom(models.Model):
+    header = models.CharField('Baslik',max_length=300)
+    text_area = RichTextField('Metin')
+    image = models.ImageField(
+        'Resim',
+        upload_to='events/',
+        help_text="160x160",
+        validators=[validate_speaker_image_dimensions]
+    )
+
+    def __str__(self):
+        return self.header
+
+    class Meta:
+        verbose_name_plural = "Demo Rooms"
+        verbose_name = "Demo Room"
+
+@python_2_unicode_compatible
+class CsAward(models.Model):
+    header = models.CharField('Baslik',max_length=300)
+    text_area = RichTextField('Metin')
+    image = models.ImageField(
+        'Resim',
+        upload_to='events/',
+        help_text="160x160",
+        validators=[validate_speaker_image_dimensions]
+    )
+
+    def __str__(self):
+        return self.header
+
+    class Meta:
+        verbose_name_plural = "Cs Awards"
+        verbose_name = "Cs Award"
 
 @python_2_unicode_compatible
 class Speaker(models.Model):
