@@ -40,8 +40,10 @@
                     	<p>
                     		Eğitimler hakkındaki sorularınızı <a href="{% url "profiles:tickets" %}">buradan bize sorabilirsiniz.</a>
                     	</p>
-                        <hr />
-                    	<div class="col-sm-4 col-sm-offset-4">
+						<hr />
+						
+						{% if status %}
+						<div class="col-sm-4 col-sm-offset-4">
                         	<div class="massage-response-area">
 	                            {% include 'includes/__form_messages.html' %}
 	                            <form method="POST" action=""  enctype="multipart/form-data">
@@ -58,6 +60,15 @@
 	                            </form>
                             </div>
                         </div>
+						{% else %}
+						<div class="col-sm-4 col-sm-offset-4">
+								<div class="massage-response-area">
+							<div class="alert alert-error fade in">
+								<p>Eğitim Kayıtları Sona Ermiştir.</p>
+							</div>
+						</div>
+					</div>
+						{% endif %}
                     </div>
                 </div>
 			</div>

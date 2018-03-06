@@ -143,6 +143,7 @@ class SettingAdmin(admin.ModelAdmin):
                     'place',
                     'date',
                     'starting_date',
+                    'training_finish_date',
                     'address']
 
 

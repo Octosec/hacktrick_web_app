@@ -227,7 +227,7 @@ class Training(models.Model):
     content = RichTextField('İçerik', config_name='filtered')
     capacity = models.PositiveIntegerField('Kontenjan',blank=True, null=True)
     limitless = models.BooleanField('Sınırsız Kontenjan')
-    date = models.CharField('Tarih', max_length=20)
+    date = models.DateField('Tarih', max_length=20)
     instructor = models.ManyToManyField(
         Instructor,
         verbose_name='Eğitmen',
@@ -310,6 +310,7 @@ class UserTraining(models.Model):
         related_query_name='user_training',
         verbose_name='Katılımcı',
     )
+    user_status= models.BooleanField("Katılımcı durumu", default=True)
 
     class Meta:
         verbose_name_plural = "Katılımcı eğitim"
@@ -332,12 +333,12 @@ class UserTraining(models.Model):
                                                  email_to=[self.user.email],
                                                  extra=extra)
 
-            if self.user_status and self.user_status != user_training.user_status:
-                extra = "<br/>Katılımcı: {}<br/>".format(
-                    self.user.get_full_name())
-                send_email_for_information.delay(email_type=6,
-                                                 email_to=[self.user.email],
-                                                 extra=extra)
+            #if self.user_status != user_training.user_status:
+            #    extra = "<br/>Katılımcı: {}<br/>".format(
+            #        self.user.get_full_name())
+            #    send_email_for_information.delay(email_type=6,
+            #                                     email_to=[self.user.email],
+            #                                     extra=extra)
 
         super(UserTraining, self).save(*args, **kwargs)
 
@@ -436,6 +437,7 @@ class Setting(models.Model):
                             max_length=100,
                             help_text="Anasayfa'da görünmesini istediğiniz şekilde yazınız.")
     starting_date = models.DateTimeField('Başlangıç tarihi')
+    training_finish_date = models.DateField('Eğitim kayıt bitiş tarihi')
     address = models.TextField(help_text='Google code')
     live_broadcast = models.TextField(help_text="Html embed code", blank=True)
     about = RichTextField('Hakkında')
@@ -444,7 +446,7 @@ class Setting(models.Model):
     training_selection = models.BooleanField('Eğitim seçimi', default=False)
     participant_selection = models.BooleanField('Katılımcı seçimi',
                                                 default=False)
-    participant_accept = models.BooleanField('Katılımcı onay', default=False)
+    #participant_accept = models.BooleanField('Katılımcı onay', default=False)
 
     class Meta:
         verbose_name_plural = "Ayarlar"

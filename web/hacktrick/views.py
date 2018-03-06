@@ -52,24 +52,53 @@ class FAQListView(ListView):
     ordering = 'order'
 
 class BugMinerView(TemplateView):
-    template_name = 'pages/hacktrick/faq.html'
+    template_name = 'pages/hacktrick/bug-miner.html'
     model = BugMiner
-    ordering = 'order'
+
+
+    def get_context_data(self, **kwargs):
+        context = super(BugMinerView, self).get_context_data(**kwargs)
+        try:
+            context["bugminer"] = BugMiner.objects.all()
+        except Exception as e:
+            context['bugminer'] = e
+        return context
 
 class GameOfPwnersView(TemplateView):
-    template_name = 'pages/hacktrick/faq.html'
+    template_name = 'pages/hacktrick/game-of-pwners.html'
     model = GameOfPwners
-    ordering = 'order'
+
+    def get_context_data(self, **kwargs):
+        context = super(GameOfPwnersView, self).get_context_data(**kwargs)
+        try:
+            context["gameofpwner"] = GameOfPwners.objects.all()
+        except Exception as e:
+            context['gameofpwner'] = e
+        return context
 
 class DemoRoomView(TemplateView):
-    template_name = 'pages/hacktrick/faq.html'
+    template_name = 'pages/hacktrick/demo-room.html'
     model = DemoRoom
-    ordering = 'order'
+
+    def get_context_data(self, **kwargs):
+        context = super(DemoRoomView, self).get_context_data(**kwargs)
+        try:
+            context["demoroom"] = DemoRoom.objects.all()
+        except Exception as e:
+            context['demoroom'] = e
+        return context
 
 class CsAwardView(TemplateView):
-    template_name = 'pages/hacktrick/faq.html'
+    template_name = 'pages/hacktrick/cs-awards.html'
     model = CsAward
-    ordering = 'order'
+
+    def get_context_data(self, **kwargs):
+        context = super(CsAwardView, self).get_context_data(**kwargs)
+        try:
+            context["csaward"] = CsAward.objects.all()
+        except Exception as e:
+            context['csaward'] = e
+        return context
 
 class TrainingListView(ListView):
     template_name = 'pages/hacktrick/trainings.html'
