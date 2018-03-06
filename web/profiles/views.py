@@ -7,6 +7,7 @@ from django.views.generic.base import TemplateView
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import redirect
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView, FormMixin, DeleteView, FormView
@@ -253,6 +254,11 @@ class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
     template_name = 'pages/profile/participant/select_training.html'
     form_class = TrainingSelectForm
     success_message = "Seçim işleminizi başarı ile gerçekleştirdiniz."
+
+    def get_context_data(self, **kwargs):
+        context = super(ParticipantSelectTrainingView, self).get_context_data(**kwargs)
+        context['status'] = Setting.objects.only('training_finish_date').get().training_finish_date >= timezone.localtime(timezone.now()).date()
+        return context
 
     def form_valid(self, form):
         cleaned_data = form.cleaned_data

@@ -52,24 +52,65 @@ class FAQListView(ListView):
     ordering = 'order'
 
 class BugMinerView(TemplateView):
-    template_name = 'pages/hacktrick/faq.html'
+    template_name = 'pages/hacktrick/bug-miner.html'
     model = BugMiner
-    ordering = 'order'
+
+
+    def get_context_data(self, **kwargs):
+        context = super(LiveBroadCastView, self).get_context_data(**kwargs)
+        try:
+            broadcast = BugMiner.objects.first().live_broadcast
+            if not broadcast:
+                raise Http404
+            context["broadcast"] = broadcast
+        except Exception as e:
+            raise Http404
+        return context
 
 class GameOfPwnersView(TemplateView):
-    template_name = 'pages/hacktrick/faq.html'
+    template_name = 'pages/hacktrick/game-of-pwners.html'
     model = GameOfPwners
-    ordering = 'order'
+
+    def get_context_data(self, **kwargs):
+        context = super(LiveBroadCastView, self).get_context_data(**kwargs)
+        try:
+            broadcast = GameOfPwners.objects.first().live_broadcast
+            if not broadcast:
+                raise Http404
+            context["broadcast"] = broadcast
+        except Exception as e:
+            raise Http404
+        return context
 
 class DemoRoomView(TemplateView):
-    template_name = 'pages/hacktrick/faq.html'
+    template_name = 'pages/hacktrick/demo-room.html'
     model = DemoRoom
-    ordering = 'order'
+
+    def get_context_data(self, **kwargs):
+        context = super(LiveBroadCastView, self).get_context_data(**kwargs)
+        try:
+            broadcast = DemoRoom.objects.first().live_broadcast
+            if not broadcast:
+                raise Http404
+            context["broadcast"] = broadcast
+        except Exception as e:
+            raise Http404
+        return context
 
 class CsAwardView(TemplateView):
-    template_name = 'pages/hacktrick/faq.html'
+    template_name = 'pages/hacktrick/cs-awards.html'
     model = CsAward
-    ordering = 'order'
+
+    def get_context_data(self, **kwargs):
+        context = super(LiveBroadCastView, self).get_context_data(**kwargs)
+        try:
+            broadcast = CsAward.objects.first().live_broadcast
+            if not broadcast:
+                raise Http404
+            context["broadcast"] = broadcast
+        except Exception as e:
+            raise Http404
+        return context
 
 class TrainingListView(ListView):
     template_name = 'pages/hacktrick/trainings.html'

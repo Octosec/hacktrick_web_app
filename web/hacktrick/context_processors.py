@@ -8,7 +8,7 @@ def get_settings(request):
         project_settings = {
             "training_selection": settings.training_selection,
             "participant_selection": settings.participant_selection,
-            "participant_accept": settings.participant_accept
+            #"participant_accept": settings.participant_accept
         }
 
     return {

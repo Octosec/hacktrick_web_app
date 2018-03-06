@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.core.exceptions import ValidationError
 from django.forms.fields import CharField
+from django.utils import timezone
 from django.forms.models import ModelForm, ModelChoiceField
 from django.forms.widgets import TextInput, Textarea, NumberInput, URLInput, Select
 from django import forms
@@ -11,7 +12,7 @@ from nocaptcha_recaptcha.fields import NoReCaptchaField
 from ckeditor.widgets import CKEditorWidget
 
 from .models import Profile, Instructor
-from hacktrick.models import Ticket, TicketComment, Training, TrainingDocument, UserTraining
+from hacktrick.models import Ticket, TicketComment, Training, TrainingDocument, UserTraining, Setting
 
 
 class UserProfileForm(ModelForm):
@@ -176,11 +177,12 @@ class TrainingSelectForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(TrainingSelectForm, self).__init__(*args, **kwargs)
-        training_list =  []
+        date_setting = Setting.objects.only('training_finish_date').get()
+        training_list = []
         for i in Training.objects.all():
-            if i.limitless == True:
+            if i.limitless == True and date_setting.training_finish_date >= timezone.localtime(timezone.now()).date():
                 training_list.append(i.id)
-            elif UserTraining.objects.filter(first_selection=i).count() <= i.capacity*2:
+            elif UserTraining.objects.filter(first_selection=i).count() <= i.capacity*2 and date_setting.training_finish_date >= timezone.localtime(timezone.now()).date():
                 training_list.append(i.id)
         self.fields['training_first'].queryset = Training.objects.filter(pk__in=training_list)
         self.fields['training_first'].empty_label = 'Almak istediğiniz eğitimi seçiniz.'
