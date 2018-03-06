@@ -42,7 +42,7 @@
 					<div class="theiaStickySidebar">
 						<article class="entry-single">
 							<div class="entry-header">
-								<img src="{{ object.cover_image.url }}" alt="cover">
+								<img src="/assets/images/training-octo.png" alt="cover">
 							</div>
 							<div class="entry-content-outer">
 								<div class="entry-content">
@@ -132,7 +132,7 @@
                                         <li>
                                             <a href="{% url "hacktrick:training_detail" training.pk %}">
                                                 {{ training.title }}
-                                            </a><span>% {{ training|calculate_percent }}</span>
+                                            </a><span>{% if training.capacity %} {{ training.capacity }} {% else %} Sınırsız {% endif %}</span>
                                         </li>
                                     {% endif %}
                                 {% endfor %}

@@ -43,11 +43,7 @@
 					<div class="theiaStickySidebar">
 						<article class="entry-single">
 							<div class="entry-header">
-                                {% if not object.cover_image or form.cover_image.errors %}
-								    <img src="{% static "images/default/cover_image.jpg" %}" alt="cover">
-                                {% else  %}
-                                     <img src="{{ object.cover_image.url }}" alt="cover">
-                                {% endif %}
+								<img src="{% static "images/default/cover_image.jpg" %}" alt="cover">
 							</div>
 							<div class="entry-content-outer">
 								<div class="entry-content">

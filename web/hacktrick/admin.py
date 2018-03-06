@@ -5,6 +5,10 @@ from .models import (
     Sponsor,
     Contributor,
     FAQ,
+    BugMiner,
+    GameOfPwners,
+    DemoRoom,
+    CsAward,
     ConferenceSlot,
     Speaker,
     Training,
@@ -39,6 +43,25 @@ class FAQAdmin(admin.ModelAdmin):
     list_display = ['question', 'answer', 'order']
     search_fields = ['question']
 
+@admin.register(BugMiner)
+class BugMinerAdmin(admin.ModelAdmin):
+    list_display = ['header', 'text_area']
+    search_fields = ['header']
+
+@admin.register(GameOfPwners)
+class GameOfPwnersAdmin(admin.ModelAdmin):
+    list_display = ['header', 'text_area']
+    search_fields = ['header']
+
+@admin.register(DemoRoom)
+class DemoRoomAdmin(admin.ModelAdmin):
+    list_display = ['header', 'text_area']
+    search_fields = ['header']
+
+@admin.register(CsAward)
+class CsAwardAdmin(admin.ModelAdmin):
+    list_display = ['header', 'text_area']
+    search_fields = ['header']
 
 @admin.register(ConferenceSlot)
 class ConferenceAdmin(admin.ModelAdmin):
@@ -68,7 +91,7 @@ class TrainingInline(admin.StackedInline):
 
 @admin.register(Training)
 class TrainingAdmin(admin.ModelAdmin):
-    list_display = ['title', 'capacity', 'reserve_quota', 'date', 'status']
+    list_display = ['title', 'capacity', 'date']
     list_filter = ['instructor']
     search_fields = ['title', 'instructor__user__first_name']
     inlines = [TrainingInline]
@@ -120,6 +143,7 @@ class SettingAdmin(admin.ModelAdmin):
                     'place',
                     'date',
                     'starting_date',
+                    'training_finish_date',
                     'address']
 
 
@@ -131,7 +155,6 @@ class UserTrainingAdmin(admin.ModelAdmin):
         'get_username',
     ]
     search_fields = ['user__first_name', 'user__last_name']
-
 
 @admin.register(Mail)
 class MailAdmin(admin.ModelAdmin):

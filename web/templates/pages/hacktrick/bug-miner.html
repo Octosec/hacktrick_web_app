@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Bug Miner {% endblock %}
+
+{% block page-header %}
+	<section class="page-header-content">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row">
+				<div class="page-header-content-inner">
+	                <ul class="breadcrumb">
+	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+	                    <li><a href="{% url "profiles:tickets" %}">Bug Miner</a></li>
+	                </ul>
+	            </div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block content %}
+	<section id="content">
+		<div class="container">
+			<div class="row">
+				<div class="section-head">
+					<h2 class="header-title">HACKTRİCK | BUG MINER</h2>
+				</div>
+				<main id="main-content" class="col-md-12">
+					<div class="theiaStickySidebar">
+						<article class="entry-single">
+							<div class="entry-content-outer">
+								<div class="entry-content">
+										<div class="speak-wrapper-h2">
+											{% for data in bugminer %}
+												{{data.image}}
+												{{data.header}}
+												{{data.text_area|safe}}
+												{% empty %}
+												<div class="col-md-6 col-md-offset-3">
+														<div class="alert alert-danger text-center">En kısa sürede ekleyeceğiz.</div>
+													</div>
+											{% endfor%}
+										</div>
+									</div>
+								</div>
+							</div>
+						</article>
+					</div>
+				</main>
+			</div>
+		</div>
+	</section>
+{% endblock %}

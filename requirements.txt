@@ -29,7 +29,6 @@ olefile==0.44
 packaging==16.8
 phonenumberslite==8.3.1
 Pillow==4.0.0
-psycopg2==2.6.2
 PyJWT==1.4.2
 pyparsing==2.1.10
 python3-openid==3.1.0

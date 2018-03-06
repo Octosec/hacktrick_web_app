@@ -13,6 +13,10 @@ from .models import (
     ConferenceSlot,
     Speak,
     FAQ,
+    BugMiner,
+    GameOfPwners,
+    DemoRoom,
+    CsAward,
     Training,
     Contributor
 )
@@ -47,13 +51,61 @@ class FAQListView(ListView):
     model = FAQ
     ordering = 'order'
 
+class BugMinerView(TemplateView):
+    template_name = 'pages/hacktrick/bug-miner.html'
+    model = BugMiner
+
+
+    def get_context_data(self, **kwargs):
+        context = super(BugMinerView, self).get_context_data(**kwargs)
+        try:
+            context["bugminer"] = BugMiner.objects.all()
+        except Exception as e:
+            context['bugminer'] = e
+        return context
+
+class GameOfPwnersView(TemplateView):
+    template_name = 'pages/hacktrick/game-of-pwners.html'
+    model = GameOfPwners
+
+    def get_context_data(self, **kwargs):
+        context = super(GameOfPwnersView, self).get_context_data(**kwargs)
+        try:
+            context["gameofpwner"] = GameOfPwners.objects.all()
+        except Exception as e:
+            context['gameofpwner'] = e
+        return context
+
+class DemoRoomView(TemplateView):
+    template_name = 'pages/hacktrick/demo-room.html'
+    model = DemoRoom
+
+    def get_context_data(self, **kwargs):
+        context = super(DemoRoomView, self).get_context_data(**kwargs)
+        try:
+            context["demoroom"] = DemoRoom.objects.all()
+        except Exception as e:
+            context['demoroom'] = e
+        return context
+
+class CsAwardView(TemplateView):
+    template_name = 'pages/hacktrick/cs-awards.html'
+    model = CsAward
+
+    def get_context_data(self, **kwargs):
+        context = super(CsAwardView, self).get_context_data(**kwargs)
+        try:
+            context["csaward"] = CsAward.objects.all()
+        except Exception as e:
+            context['csaward'] = e
+        return context
 
 class TrainingListView(ListView):
     template_name = 'pages/hacktrick/trainings.html'
     model = Training
 
     def get_queryset(self):
-        return Training.objects.filter(status=True)
+        return Training.objects.all()
 
 
 class TrainingDetailView(DetailView):
@@ -71,7 +123,7 @@ class TrainingDetailView(DetailView):
 
     def get_object(self, queryset=None):
         try:
-            return Training.objects.get(status=True, pk=self.kwargs['pk'])
+            return Training.objects.get(pk=self.kwargs['pk'])
         except:
             raise Http404
 
