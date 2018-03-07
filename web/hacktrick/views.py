@@ -123,9 +123,6 @@ class TrainingListView(ListView):
     #    return Training.objects.all()
 
 
-
-
-
 class TrainingDetailView(DetailView):
     template_name = 'pages/hacktrick/training_detail.html'
     model = Training

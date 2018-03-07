@@ -74,7 +74,11 @@
                                                 </div>
                                                 <div class="col-xs-3 col-sm-3 col-md-3">
                                                     <div class="item-inner event-session">
-                                                        <span>% {{ training|calculate_percent }}</span>
+                                                        <span> {% if training.capacity %} 
+                                                            {{ training.capacity }}
+                                                            {% else %} 
+                                                                Sınırsız 
+                                                            {% endif %}</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-3 col-sm-3 col-md-3">

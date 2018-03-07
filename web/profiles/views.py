@@ -254,6 +254,7 @@ class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
     template_name = 'pages/profile/participant/select_training.html'
     form_class = TrainingSelectForm
     success_message = "Seçim işleminizi başarı ile gerçekleştirdiniz."
+    error_message = "Onaylanan eğitimi değiştiremezsiniz."
 
     def get_context_data(self, **kwargs):
         context = super(ParticipantSelectTrainingView, self).get_context_data(**kwargs)
@@ -265,8 +266,11 @@ class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
         first_selection = cleaned_data.get('training_first', None)
         user_training, _ = UserTraining.objects.get_or_create(user=self.request.user)
         user_training.first_selection = first_selection
-        user_training.save()
-        messages.add_message(self.request, messages.SUCCESS, self.success_message)
+        if user_training.accepted_training:
+            messages.add_message(self.request, messages.ERROR, self.error_message)
+        else:
+            user_training.save()
+            messages.add_message(self.request, messages.SUCCESS, self.success_message)
         return super(ParticipantSelectTrainingView, self).form_valid(form)
 
     def get_success_url(self):
@@ -293,8 +297,7 @@ class InstructorAcceptParticipantView(LoginRequiredMixin, InfoRequiredMixin, Ins
 
     def dispatch(self, request, *args, **kwargs):
         self.get_training_object()
-        self.accepted_count = UserTraining.objects.filter(first_selection=self.training,
-                                                          accepted_training=True).count()
+        self.accepted_count = UserTraining.objects.filter(first_selection=self.training).count()
         return super(InstructorAcceptParticipantView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -362,8 +365,7 @@ class ParticipantTrainingAcceptedListView(LoginRequiredMixin, InfoRequiredMixin,
 
     def dispatch(self, request, *args, **kwargs):
         self.get_training_object()
-        self.accepted_count = UserTraining.objects.filter(accepted_training=True,
-                                                          first_selection=self.training).count()
+        self.accepted_count = UserTraining.objects.filter(first_selection=self.training).count()
         return super(ParticipantTrainingAcceptedListView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -390,7 +392,7 @@ class ParticipantTrainingAcceptedListView(LoginRequiredMixin, InfoRequiredMixin,
         response.write(codecs.BOM_UTF8)
         writer = csv.writer(response)
 
-        user_training_list = UserTraining.objects.filter(accepted_selection=self.training)
+        user_training_list = UserTraining.objects.filter(first_selection=self.training)
         for user_training in user_training_list:
             writer.writerow([user_training.user.get_full_name(),
                              user_training.user.email,

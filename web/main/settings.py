@@ -34,7 +34,6 @@ IS_DEV = True
 
 ALLOWED_HOSTS = ['localhost', 'www.hacktrickconf.com', 'dev0001.hacktrickconf.com', '185.44.192.125', '127.0.0.1']
 
-
 # Application definition
 INSTALLED_APPS = [
     'grappelli',

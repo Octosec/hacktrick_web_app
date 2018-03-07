@@ -225,9 +225,10 @@ class Speak(models.Model):
 class Training(models.Model):
     title = models.CharField('Başlık', max_length=200)
     content = RichTextField('İçerik', config_name='filtered')
-    capacity = models.PositiveIntegerField('Kontenjan',blank=True, null=True)
+    capacity = models.PositiveIntegerField('Kontenjan', blank=True, null=True)
     limitless = models.BooleanField('Sınırsız Kontenjan')
-    date = models.DateField('Tarih', max_length=20)
+    date = models.DateField('Başlangıç Tarihi')
+    finish_date = models.DateField('Eğitim Bitiş Tarihi')
     instructor = models.ManyToManyField(
         Instructor,
         verbose_name='Eğitmen',
