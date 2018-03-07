@@ -1,57 +1,55 @@
 {% load static %}
-<!-- start header  -->
-<header id="header">
-    <nav id="primary-menu" class="primary-menu">
-        <div class="primary-menu-inner">
-            <div class="container">
-                <div class="row">
-                    <div class="menu-area">
-                        <!-- Brand and toggle get grouped for better mobile display -->
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand logo" href="{% url "hacktrick:index" %}"><img src="{% static "images/logo.png" %}" alt="Logo"></a>
-                            <a class="navbar-brand scroll-logo" href="{% url "hacktrick:index" %}"><img src="{% static "images/main-logo.png" %}" alt="Logo"></a>
-                        </div>
 
-                        <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <ul class="nav navbar-nav">
-                                <li><a href="{% url "hacktrick:index" %}#sponsors">Sponsorlar</a></li>
-                                <li><a href="{% url "hacktrick:trainings" %}">Eğitimler</a> </li>
-                                <li><a href="{% url "hacktrick:faq" %}">SSS</a> </li>
-                                <li class="dropdown menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-chidren">
-                                    <a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Etkinlikler</a> 
-                                    <ul class="dropdown-menu sub-menu">
-                                        <li class="">
-                                                <a href="{% url "hacktrick:cfp" %}">CFP</a>
-                                        </li>
-                                        <li class="">
-                                                <a href="{% url "hacktrick:game-of-pwners" %}">Game Of Pwners</a>
-                                        </li>
-                                        <li class="">
-                                                <a href="{% url "hacktrick:bug-miner" %}">Bug Miner</a>
-                                            </li>
-                                        <li class="">
-                                                <a href="{% url "hacktrick:demo-room" %}">Demo Room</a>
-                                        </li>
-                                        <li class="">
-                                                <a href="{% url "hacktrick:cs-award" %}">CS Award</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li><a href="{% url "hacktrick:contributors" %}">Katkıda Bulunanlar</a> </li>
-                                {% include "includes/__header_extra.html" %}
-                            </ul>
-                        </div><!-- /.navbar-collapse -->
-                    </div><!-- /.menu-area -->
-                </div><!-- /.row -->
-            </div><!-- /.container -->
+<nav class="navbar navbar-default fullwidth dark-menu">
+    <div class="container">
+        
+        <div class="navbar-header">
+            <div class="container">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar top-bar"></span>
+                    <span class="icon-bar middle-bar"></span>
+                    <span class="icon-bar bottom-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url "hacktrick:index" %}"><img src="{% static "img/assets/hacktrick.png" %}" class="logo-light" alt="#"><img src="{% static "img/assets/hacktrick.png" %}" class="logo-dark" alt="#"></a> 
+            </div>
         </div>
-    </nav>
-</header>
-<!-- end header  -->
+
+        <div id="navbar" class="navbar-collapse collapse">
+            <div class="container">
+                <ul class="nav navbar-nav menu-right">
+
+                    <li><a href="{% url "hacktrick:index" %}#sponsors" class="btn-scroll">Sponsorlar</a></li>
+                    <li><a href="{% url "hacktrick:trainings" %}">EGITIMLER</a> </li>
+                    <li><a href="{% url "hacktrick:faq" %}">SSS</a> </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle">ETKINLIKLER<i class="ti-angle-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li class="">
+                                    <a href="{% url "hacktrick:cfp" %}">CFP</a>
+                            </li>
+                            <li class="">
+                                    <a href="{% url "hacktrick:game-of-pwners" %}">Game Of Pwners</a>
+                            </li>
+                            <li class="">
+                                    <a href="{% url "hacktrick:bug-miner" %}">Bug Miner</a>
+                                </li>
+                            <li class="">
+                                    <a href="{% url "hacktrick:demo-room" %}">Demo Room</a>
+                            </li>
+                            <li class="">
+                                    <a href="{% url "hacktrick:cs-award" %}">CS Award</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a href="{% url "hacktrick:contributors" %}">Katkıda Bulunanlar</a> </li>
+                    <li class="nav-separator"></li>
+                    {% include "includes/__header_extra.html" %}
+                    <li class="nav-separator"></li>
+                    <li><a class="octosec" href="https://octosec.net" target="_blank">octosec</a></li>
+                </ul>
+                
+            </div>
+        </div> 
+    </div>
+</nav>

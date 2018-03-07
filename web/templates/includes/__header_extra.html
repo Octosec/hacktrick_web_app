@@ -1,7 +1,7 @@
 {% if request.user.is_authenticated %}
-    <li class="dropdown menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-376 active">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kullanıcı</a>
-        <ul class="dropdown-menu sub-menu menu-sub-content">
+        <li class="dropdown">
+            <a class="dropdown-toggle">Kullanıcı<i class="ti-angle-down"></i></a>
+            <ul class="dropdown-menu">
             {% if request.user.user_type == 2 %}
                 {% include 'includes/__header_instructor.html' %}
             {% endif %}
@@ -13,5 +13,5 @@
         </ul>
     </li>
 {% else %}
-    <li><a href="{% url "profiles:login" %}">Kayıt/Giriş</a></li>
+    <li><a href="{% url "profiles:login" %}">GIRIS</a></li>
 {% endif %}

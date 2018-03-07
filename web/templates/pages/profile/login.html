@@ -3,40 +3,32 @@
 {% block title %} Giriş {% endblock %}
 
 {% block page-header %}
-	<section class="page-header-content">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="page-header-content-inner">
-	                <ul class="breadcrumb">
-	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
-	                    <li class="active">Giriş</li>
-	                </ul>
-	            </div>
-			</div>
-		</div>
-	</section>
+
+<section class="page-title parallax overlay bg-img-h">  
+    <div class="page-title-content"> 
+        <div class="container">   
+            <div class="col-sm-12 text-center white">
+                <h1>Giriş Yap</h1>
+                <hr class="separator">
+            </div> 
+        </div>
+    </div>    
+</section>
 {% endblock %}
 
 {% block content %}
-<section class="national-conference">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="conference-main">
-                    <div class="section-head">
-                        <h2 class="header-title">GİRİŞ YAP</h2>
-                    </div>
-                    <p>Giriş yapıp kaydınızı tamamlamak için Github veya Google hesabınızı kullanabilirsiniz.</p>
-                    <p>Google veya Github hesabınızla giriş yaptığınızda yalnızca konferans kaydınız tamamlanmış olacaktır. Eğitimlere katılmak için lütfen profil bilgilerinizi tamamladıktan sonra "Eğitim Seç" linki üzerinden eğitim seçiminizi yapınız.</p>
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <div class="button-group">
-                                <a href="{% url "social:begin" "github" %}" class="custom-btn hvr-bounce-to-bottom"><i class="fa fa-github"></i> Github</a>
-                                <a href="{% url "social:begin" "google-oauth2" %}" class="custom-btn hvr-bounce-to-bottom"><i class="fa fa-google-plus"></i> Google</a>
-                            </div>
-                        </div>
-                    </div>
+
+<section class="pt70 pb50 bg-grey"> 
+    <div class="container">   
+        <div class="row"> 
+            <div class="col-md-12 section-heading">
+                <p>Giriş yapıp kaydınızı tamamlamak için Github veya Google hesabınızı kullanabilirsiniz.</p>
+                <p>Google veya Github hesabınızla giriş yaptığınızda yalnızca konferans kaydınız tamamlanmış olacaktır. Eğitimlere katılmak için lütfen profil bilgilerinizi tamamladıktan sonra "Eğitim Seç" linki üzerinden eğitim seçiminizi yapınız.</p>
+            </div>
+            <div class="col-md-12 text-center">
+                <div class="button-group">
+                    <a href="{% url "social:begin" "google-oauth2" %}" class="btn btn-primary btn-lg btn-appear mt40 mb40 "><span><i class="ion-social-google"></i> Google</span></a>
+                    <a href="{% url "social:begin" "github" %}" class="btn btn-primary btn-lg btn-appear mt40 mb40 "><span><i class="ion-social-github"></i> Github</span></a>
                 </div>
             </div>
         </div>

@@ -1,21 +1,128 @@
-.space-bottom {
-	margin-bottom: 20px;
+/*--- PLACE YOUR CUSTOM STYLES HERE ---*/
+
+/*--- Background Images ---*/
+.bg-shortcodes {
+    background-image: url(../img/backgrounds/bg-shortcodes.jpg);  
+}
+.bg-light {
+    background-image: url(../img/backgrounds/bg-light.jpg);  
 }
 
-.alert-error {
-	color:#a94442;
-	background-color:#f2dede;
-	border-color:#ebccd1
+.bg-shop-1 {
+    background-image: url(../img/backgrounds/bg-shop-1.jpg);  
+}
+.bg-shop-2 {
+    background-image: url(../img/backgrounds/bg-shop-2.jpg);  
 }
 
-.page-header-content {
-	padding: 20px 0 !important;
+.bg-app-1 {
+    background-image: url(../img/backgrounds/bg-app-1.jpg);  
+}
+.bg-app-2 {
+    background-image: url(../img/backgrounds/bg-app-2.jpg);  
+}
+.bg-app-3 {
+    background-image: url(../img/backgrounds/bg-app-3.jpg);  
+}
+.bg-app-4 {
+    background-image: url(../img/backgrounds/bg-app-4.jpg);
+}
+.bg-app-5 {
+    background-image: url(../img/backgrounds/bg-app-5.jpg);
+}
+.bg-app-6 {
+    background-image: url(../img/backgrounds/bg-app-6.jpg);
 }
 
-.no-transform {
-	text-transform: none !important;
+.bg-event-1 {
+    background-image: url(../img/backgrounds/bg-event-1.jpg);  
+}
+.bg-event-2 {
+    background-image: url(../img/backgrounds/bg-event-2.jpg);  
+}
+.bg-event-3 {
+    background-image: url(../img/backgrounds/bg-event-3.jpg);  
 }
 
-.national-conference {
-	padding: 50px 0 !important;
+.bg-img-1 {
+    background-image: url(../img/backgrounds/bg-1.jpg); 
+}
+.bg-img-2 {
+    background-image: url(../img/backgrounds/bg-2.jpg); 
+}
+.bg-img-3 {
+    background-image: url(../img/backgrounds/bg-3.jpg); 
+}
+.bg-img-4 {
+    background-image: url(../img/backgrounds/bg-4.jpg);  
+}
+.bg-img-5 {
+    background-image: url(../img/backgrounds/bg-5.jpg); 
+} 
+.bg-img-6 {
+    background-image: url(../img/backgrounds/bg-6.jpg);  
+}
+.bg-img-7 {
+    background-image: url(../img/backgrounds/bg-7.jpg); 
+} 
+.bg-img-8 {
+    background-image: url(../img/backgrounds/bg-8.jpg);  
+}    
+.bg-img-9 {
+    background-image: url(../img/backgrounds/bg-9.jpg);  
+} 
+.bg-img-10 {
+    background-image: url(../img/backgrounds/bg-10.jpg);  
+} 
+.bg-img-11 {
+    background-image: url(../img/backgrounds/bg-11.jpg);  
+} 
+.bg-img-12 {
+    background-image: url(../img/backgrounds/bg-12.jpg);  
+} 
+.bg-img-13 {
+    background-image: url(../img/backgrounds/bg-13.jpg);  
+} 
+.bg-img-14 {
+    background-image: url(../img/backgrounds/bg-14.jpg);  
+} 
+.bg-img-15 {
+    background-image: url(../img/backgrounds/bg-15.jpg);  
+} 
+.bg-blue {
+    background-image: url(../img/backgrounds/bg-blue.jpg);  
+}
+
+.bg-img-h {
+    background-image: url(../img/backgrounds/bg.jpg); 
+} 
+
+@font-face{font-family:'dirtyflamingo';src:url('http://octosec.net/styles/fonts/dirtyflamingo-webfont.woff2') format('woff2'),url('http://octosec.net/styles/fonts/dirtyflamingo-webfont.woff') format('woff');font-weight:normal;font-style:normal;font-size:40px;}
+
+.octosec {
+    color: #2575ba !important;
+    font-family: 'dirtyflamingo' !important;
+    text-transform: lowercase !important;
+    font-size: 15px !important;
+}
+
+.btn-transparent{
+    border-color: #0cb4ce;
+    color: #0cb4ce;
+}
+
+.btn-transparent:hover,
+.btn-transparent.focus, .btn-transparent:focus,
+fieldset[disabled] .btn-transparent:focus,
+fieldset[disabled] .btn-transparent.active, fieldset[disabled] .btn-transparent.focus, fieldset[disabled] .btn-transparent:active,
+.btn-transparent:active:focus
+ {
+    background-color: #0cb4ce;
+    border-color: #0cb4ce;
+}
+.btn-transparent.btn-appear:hover {
+    color: #fff;
+}
+.btn-transparent.btn-appear:active {
+    color: #fff;
 }

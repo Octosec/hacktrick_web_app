@@ -2,519 +2,694 @@
 {% load static %}
 
 {% block content %}
-	<!--  bannar section start  -->
-	<section class="bannar">
-		<div class="bannar-img">
-			<img src="{% static "images/homepage1/bannar-bg.jpg" %}" alt="Banner">
-			<div class="overlay"></div>
-			<div class="bannar-conent-area">
-				<div class="bannar-header">
-					<div class="container">
-						<div class="row">
-							<h1 class="no-transform">HACKTRICK Siber Güvenlik Konferansı</h1>
-							<ul class="meta-post">
-								<li>
-									<i class="fa fa-calendar"></i>
-									{{ setting.date }}
-								</li>
-								<li>
-									<i class="fa fa-map-marker"></i>
-									{{ setting.place }}
-								</li>
-							</ul>
-						</div><!-- /.row -->
-					</div><!-- /.container -->
-				</div><!-- end bannar header  -->
 
-				<div class="bannar-content">
-					<div class="container">
-						<div class="row">
-							<div class="col-sm-6 col-md-8">
 
-							<div class="header-countdown-wrapper">
-								<div class="header-countdown">
-									<div id="header-countdown" data-days="days" data-hrs="hrs" data-min="min" data-sec="sec" data-label="time left" data-gmt="0">{{ setting.starting_date|date:"Y-m-d h:i:s" }}</div>
+<section class="hero-fullscreen parallax overlay bg-img-h">   
+    <div class="hero-container container">  
+        <div class="hero-content text-center">   
+            <div class="col-sm-12 mr-auto white text-center pt20">   
+                <p class="lead-3 hidden-xs">Sıradışı bir güvenlik konferansına hazır mısın?</p> 
+                <h1 class="large"><span class="bold">HACKTRICK'18</span> <br class="visible-xs"> <span class="hidden-xs">|</span> Case Study Summit</h1>     
+                <p class="mt20 hidden-xs">Türkiye'nin En Kapsamlı Siber Güvenlik Konferansı İçin Geri Sayım Başladı!</p>
+                <div data-date="May 4, 2018 09:00:00" id="countdown-timer" class="hidden-xs">
+                    <div><h2 id="months"></h2><h6>AY</h6></div> 
+                    <div><h2 id="days"></h2><h6>GÜN</h6></div> 
+                    <div><h2 id="hours"></h2><h6>SAAT</h6></div> 
+                    <div><h2 id="minutes"></h2><h6>DAKİKA</h6></div> 
+                    <div><h2 id="seconds"></h2><h6>SANİYE</h6></div>
+                </div>
+                <div class="col-sm-6"><p class="mt20 lead-3"><i class="icon-map"></i> {{ setting.place }}</p></div>
+                <div class="col-sm-6"><p class="mt20 lead-3"><i class="icon-calendar"></i> {{ setting.date }}</p></div>
+            </div>
+
+            {% if setting.live_broadcast %}
+                <a href="{% url "hacktrick:broadcast" %}" class="register-now hvr-bounce-to-bottom">Canlı İzle</a>
+            {% endif %}
+            
+        </div>
+    </div>
+    <a href="#about" class="scroll-btn btn-scroll"><i class="ion-chevron-down"></i></a>
+</section>
+
+<section class="bg-grey" id="about"> 
+    <div class="container">   
+        <div class="vertical-align">
+            <div class="col-md-6 text-left pr30">
+                <h2>Hacktrick Hakkında</h2>
+                <p>{{ setting.about | safe }}</p>
+                <p>
+					{% if request.user.is_authenticated == False %}
+						<a href="{% url "profiles:login" %}" class="btn btn-primary btn-lg btn-appear mt40"><span>Giriş Yap <i class="ion-key"></i></span></a>
+						<br>
+					{% endif %}
+                    <a class="btn btn-primary btn-lg btn-appear mt40 mb40 hidden-xs" href="img/hacktrick18-brosur.pdf" download>
+                        <span>BROŞÜRÜ İNDİR <i class="ion-ios-cloud-download-outline"></i></span>
+                    </a>
+                    <a class="btn btn-primary btn-lg btn-appear mt40 mb40 hidden-xs" href="mailto:sponsorship@hacktrickconf.com">
+                        <span>SPONSOR OL <i class="ion-checkmark"></i></span>
+                    </a>
+                </p>
+            </div>
+            <div class="col-md-6  mt10 mb10">  
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/XGQg276FF08" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pt30 pb30">
+    <div class="container"> 
+        <div class="row">    
+
+            <div id="clients-slider-2" class="owl-carousel">
+                <div><img src="{% static "img/clients/btk.png" %}" class="img-responsive" alt="#"></div>
+                <div><img src="{% static "img/clients/octo.png" %}" class="img-responsive" alt="#"></div>
+                <div><img src="{% static "img/clients/usom.png" %}" class="img-responsive" alt="#"></div>
+                <div><img src="{% static "img/clients/cypm.png" %}" class="img-responsive" alt="#"></div>
+                <div><img src="{% static "img/clients/gop.png" %}" class="img-responsive" alt="#"></div>
+                <div><img src="{% static "img/clients/bugminer3.png" %}" class="img-responsive" alt="#"></div>
+                <div><img src="{% static "img/clients/csawards1.png" %}" class="img-responsive" alt="#"></div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="pt50 pb30 bg-grey" id="sponsors">
+	<div class="container">
+        <div class="row">
+
+	        <div class="col-md-12 section-heading pb0">   
+	            <h2>Sponsorlar</h2>
+	            <hr class="separator"> 
+	        </div>
+            <div class="col-md-12 mr-auto text-center">  
+				<div class="ccr-sponsor">
+					<h3 class="sponsor-title">PLATİN SPONSOR</h3>
+	                {% if platinum_sponsors.count > 0 %}
+					<div class="">
+						<div class="row">
+	                        {% for sponsor in platinum_sponsors %}
+							<div class="col-sm-4 col-md-4 col-sm-offset-4 col-md-offset-4 space-bottom">
+								<div class="sponsor-item">
+									<a href="{{ sponsor.website }}" target="_blank"> <img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
 								</div>
 							</div>
-							</div><!-- /.col-md-8 -->
-
-                                <div class="col-sm-6 col-md-4">
-                                    <div class="row">
-                                        <div class="bannar-btn">
-                                            {% if request.user.is_authenticated == False %}
-                                                <a href="{% url "profiles:login" %}" class="register-now hvr-bounce-to-bottom">Kayıt Ol</a>
-                                            {% endif %}
-                                            {% if setting.live_broadcast %}
-                                                <a href="{% url "hacktrick:broadcast" %}" class="register-now hvr-bounce-to-bottom">Canlı İzle</a>
-                                            {% endif %}
-                                        </div>
-                                    </div><!-- /.row -->
-                                </div><!-- /.col-md-4 -->
-						</div><!-- /.row -->
-					</div><!-- /.container -->
-				</div><!-- /.bannar-content -->
-			</div><!-- /.banner conent area -->
-		</div><!-- /.banner img -->
-	</section>
-	<!--  bannar section End  -->
-
-	<section id="content">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-8">
-					<div class="conference-main">
-						<div class="section-head">
-							<h2 class="header-title">HACKTRICK HAKKINDA</h2>
-							<p class="header-desc">Türkiye'nin en kapsamlı siber güvenlik etkinliği</p>
-						</div>
-
-                        {{ setting.about | safe }}
-
-						<div class="button-group">
-							{% if request.user.is_authenticated == False %}
-								<a href="{% url "profiles:login" %}" class="custom-btn hvr-bounce-to-bottom">Kayıt Ol</a>
-							{% endif %}
-						</div>
-						<div class="space-bottom"></div>
-					</div><!-- /.conference-main -->
-				</div><!-- /.col-md-8 -->
-				<div class="col-md-4">
-					<div class="conference-info-outer">
-						<div class="conference-info">
-							<ul>
-								<li>
-									<span class="c-info-icon"><i class="fa fa-map-marker"></i></span>
-									<span class="c-info-content">
-										<strong>{{ setting.city }}</strong>
-										<span class="i-text">{{ setting.place_fullname }}</span>
-									</span>
-								</li>
-								<li>
-									<span class="c-info-icon"><i class="fa fa-calendar"></i></span>
-									<span class="c-info-content">
-										<strong>{{ setting.date }}</strong>
-										<span class="i-text">{{ setting.starting_date|date:"Y" }}</span>
-									</span>
-								</li>
-								<li>
-									<span class="c-info-icon"><i class="fa fa-sitemap"></i></span>
-									<span class="c-info-content">
-										<strong>{{ setting.expected_participant }}+ Katılımcı</strong>
-										<span class="i-text">Geniş katılımcı kitlesi</span>
-									</span>
-								</li>
-								<li>
-									<span class="c-info-icon"><i class="fa fa-microphone"></i></span>
-									<span class="c-info-content">
-										<strong>{{ setting.expected_speaker }}+ Konuşmacı</strong>
-										<span class="i-text">Sektörün önde gelen isimleri</span>
-									</span>
-								</li>
-							</ul>
-						</div><!-- /.conference-info -->
-					</div><!-- /.conference-info-outer -->
-				</div><!-- /.col-md-4 -->
-			</div><!-- /.row -->
-		</div><!-- /.container -->
-	</section>
-
-		<!--  start become-sponsor  -->
-	<section class="become-sponsor" id="sponsors">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="col-md-9">
-					<div class="row">
-						<div class="become-sponsor-item">
-							<h2>Sponsor Olun</h2>
-							<p>Türkiye'nin en kapsamlı siber güvenlik konferansına sponsor olun</p>
-						</div>
-					</div><!-- /.row -->
-				</div><!-- /.col-md-10 -->
-				<div class="col-md-3">
-					<a href="mailto:sponsorship@hacktrickconf.com" class="custom-btn hvr-bounce-to-bottom">Sponsor Ol</a>
-				</div><!-- /.col-md-2 -->
-			</div><!-- /.row -->
-		</div><!-- /.container -->
-	</section>
-	<!--  end become-sponsor  -->
-
-	<section>
-		<div class="container">
-			<div class="row">
-				<section class="sponsor">
-					<div class="container">
-						<div class="row">
-							<div class="section-head">
-								<h2 class="header-title">SPONSORLAR</h2>
-								<p class="header-desc">HACKTRICK'e sponsor olarak bize destek olanlar.</p>
-							</div>
-
-							<div class="sponsor-wrapper">
-								<div class="ccr-sponsor">
-									<h3 class="sponsor-title">PLATİN SPONSOR</h3>
-                                    {% if platinum_sponsors.count > 0 %}
-									<div class="">
-										<div class="row">
-                                            {% for sponsor in platinum_sponsors %}
-											<div class="col-sm-4 col-md-4 col-sm-offset-4 col-md-offset-4 space-bottom">
-												<div class="sponsor-item">
-													<a href="{{ sponsor.website }}" target="_blank"> <img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
-												</div>
-											</div>
-                                            {% endfor %}
-										</div>
-									</div>
-                                    {% else %}
-                                        Sponsor olmak için <a href="mailto:sponsorship@hacktrickconf.com">sponsorship@hacktrickconf.com</a> üzerinden bize ulaşabilirsiniz.
-                                    {% endif %}
-								</div>
-
-								<div class="ccr-sponsor">
-									<h3 class="sponsor-title">ALTIN SPONSORLAR</h3>
-                                    {% if gold_sponsors.count > 0 %}
-									<div class="">
-										<div class="row">
-                                            {% for sponsor in gold_sponsors %}
-											<div class="col-sm-4 col-md-4 space-bottom">
-												<div class="sponsor-item">
-                                                    <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
-												</div>
-											</div>
-                                            {% endfor %}
-										</div>
-									</div>
-                                    {% else %}
-                                        Sponsor olmak için <a href="mailto:sponsorship@hacktrickconf.com">sponsorship@hacktrickconf.com</a> üzerinden bize ulaşabilirsiniz.
-                                    {% endif %}
-								</div>
-
-								<div class="ccr-sponsor">
-									<h3 class="sponsor-title">GÜMÜŞ SPONSORLAR</h3>
-                                    {% if silver_sponsors.count > 0 %}
-									<div class="">
-										<div class="row">
-                                            {% for sponsor in silver_sponsors %}
-											<div class="col-sm-3 col-md-3 space-bottom">
-												<div class="sponsor-item">
-                                                    <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
-												</div>
-											</div>
-                                            {% endfor %}
-										</div>
-									</div>
-                                    {% else %}
-                                        Sponsor olmak için <a href="mailto:sponsorship@hacktrickconf.com">sponsorship@hacktrickconf.com</a> üzerinden bize ulaşabilirsiniz.
-                                    {% endif %}
-								</div>
-
-								<div class="ccr-sponsor">
-									<h3 class="sponsor-title">BRONZ SPONSORLAR</h3>
-                                    {% if bronze_sponsors.count > 0 %}
-									<div class="">
-										<div class="row">
-                                            {% for sponsor in bronze_sponsors %}
-											<div class="silver-item space-bottom">
-												<div class="silver-item-inner">
-                                                    <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
-												</div>
-											</div>
-                                            {% endfor %}
-										</div>
-									</div>
-                                    {% else %}
-                                        Sponsor olmak için <a href="mailto:sponsorship@hacktrickconf.com">sponsorship@hacktrickconf.com</a> üzerinden bize ulaşabilirsiniz.
-                                    {% endif %}
-                                </div>
-
-								<div class="ccr-sponsor">
-									<h3 class="sponsor-title">STAND SPONSORLARI</h3>
-                                    {% if stand_sponsors.count > 0 %}
-									<div class="">
-										<div class="row">
-                                            {% for sponsor in stand_sponsors %}
-											<div class="silver-item space-bottom">
-												<div class="silver-item-inner">
-                                                    <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
-												</div>
-											</div>
-                                            {% endfor %}
-										</div>
-									</div>
-                                    {% else %}
-                                        Sponsor olmak için <a href="mailto:sponsorship@hacktrickconf.com">sponsorship@hacktrickconf.com</a> üzerinden bize ulaşabilirsiniz.
-                                    {% endif %}
-                                </div>
-
-								<div class="ccr-sponsor">
-									<h3 class="sponsor-title">DESTEKLEYENLER</h3>
-                                    {% if supporter.count > 0 %}
-									<div class="">
-										<div class="row">
-                                            {% for sponsor in supporter %}
-											<div class="silver-item space-bottom">
-												<div class="silver-item-inner">
-                                                    <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
-												</div>
-											</div>
-                                            {% endfor %}
-										</div>
-									</div>
-                                    {% else %}
-                                        Yakında açıklancaktır.
-                                    {% endif %}
-								</div>
-
-
-								<div class="ccr-sponsor">
-									<h3 class="sponsor-title">MEDYA SPONSORLARI</h3>
-                                    {% if media_sponsors.count > 0 %}
-									<div class="">
-										<div class="row">
-                                            {% for sponsor in media_sponsors %}
-											<div class="silver-item space-bottom">
-												<div class="silver-item-inner">
-                                                    <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
-												</div>
-											</div>
-                                            {% endfor %}
-										</div>
-									</div>
-                                    {% else %}
-                                        Yakında açıklancaktır.
-                                    {% endif %}
-								</div>
-
-							</div>
+	                        {% endfor %}
 						</div>
 					</div>
-				</section>
+	                {% else %}
+	                    Sponsor olmak için <a href="mailto:sponsorship@hacktrickconf.com">sponsorship@hacktrickconf.com</a> üzerinden bize ulaşabilirsiniz.
+	                {% endif %}
+				</div>
+
+				<div class="ccr-sponsor">
+					<h3 class="sponsor-title">ALTIN SPONSORLAR</h3>
+	                {% if gold_sponsors.count > 0 %}
+					<div class="">
+						<div class="row">
+	                        {% for sponsor in gold_sponsors %}
+							<div class="col-sm-4 col-md-4 space-bottom">
+								<div class="sponsor-item">
+	                                <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
+								</div>
+							</div>
+	                        {% endfor %}
+						</div>
+					</div>
+	                {% else %}
+	                    Sponsor olmak için <a href="mailto:sponsorship@hacktrickconf.com">sponsorship@hacktrickconf.com</a> üzerinden bize ulaşabilirsiniz.
+	                {% endif %}
+				</div>
+
+				<div class="ccr-sponsor">
+					<h3 class="sponsor-title">GÜMÜŞ SPONSORLAR</h3>
+	                {% if silver_sponsors.count > 0 %}
+					<div class="">
+						<div class="row">
+	                        {% for sponsor in silver_sponsors %}
+							<div class="col-sm-3 col-md-3 space-bottom">
+								<div class="sponsor-item">
+	                                <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
+								</div>
+							</div>
+	                        {% endfor %}
+						</div>
+					</div>
+	                {% else %}
+	                    Sponsor olmak için <a href="mailto:sponsorship@hacktrickconf.com">sponsorship@hacktrickconf.com</a> üzerinden bize ulaşabilirsiniz.
+	                {% endif %}
+				</div>
+
+				<div class="ccr-sponsor">
+					<h3 class="sponsor-title">BRONZ SPONSORLAR</h3>
+	                {% if bronze_sponsors.count > 0 %}
+					<div class="">
+						<div class="row">
+	                        {% for sponsor in bronze_sponsors %}
+							<div class="silver-item space-bottom">
+								<div class="silver-item-inner">
+	                                <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
+								</div>
+							</div>
+	                        {% endfor %}
+						</div>
+					</div>
+	                {% else %}
+	                    Sponsor olmak için <a href="mailto:sponsorship@hacktrickconf.com">sponsorship@hacktrickconf.com</a> üzerinden bize ulaşabilirsiniz.
+	                {% endif %}
+	            </div>
+
+				<div class="ccr-sponsor">
+					<h3 class="sponsor-title">STAND SPONSORLARI</h3>
+	                {% if stand_sponsors.count > 0 %}
+					<div class="">
+						<div class="row">
+	                        {% for sponsor in stand_sponsors %}
+							<div class="silver-item space-bottom">
+								<div class="silver-item-inner">
+	                                <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
+								</div>
+							</div>
+	                        {% endfor %}
+						</div>
+					</div>
+	                {% else %}
+	                    Sponsor olmak için <a href="mailto:sponsorship@hacktrickconf.com">sponsorship@hacktrickconf.com</a> üzerinden bize ulaşabilirsiniz.
+	                {% endif %}
+	            </div>
+
+				<div class="ccr-sponsor">
+					<h3 class="sponsor-title">DESTEKLEYENLER</h3>
+	                {% if supporter.count > 0 %}
+					<div class="">
+						<div class="row">
+	                        {% for sponsor in supporter %}
+							<div class="silver-item space-bottom">
+								<div class="silver-item-inner">
+	                                <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
+								</div>
+							</div>
+	                        {% endfor %}
+						</div>
+					</div>
+	                {% else %}
+	                    Yakında açıklancaktır.
+	                {% endif %}
+				</div>
+
+
+				<div class="ccr-sponsor">
+					<h3 class="sponsor-title">MEDYA SPONSORLARI</h3>
+	                {% if media_sponsors.count > 0 %}
+					<div class="">
+						<div class="row">
+	                        {% for sponsor in media_sponsors %}
+							<div class="silver-item space-bottom">
+								<div class="silver-item-inner">
+	                                <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}"></a>
+								</div>
+							</div>
+	                        {% endfor %}
+						</div>
+					</div>
+	                {% else %}
+	                    Yakında açıklancaktır.
+	                {% endif %}
+				</div>
+
 			</div>
 		</div>
-	</section>
+	</div>
+</section>
 
 
 
-	<!-- start event speaker  -->
-	<section class="event-speaker" id="speakers">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="section-head">
-					<h2 class="header-title">KONUŞMACILAR ve EĞİTMENLER</h2>
-					<p class="header-desc">Birbirinden değerli konuşmacılar ve alanında uzman eğitmenler ile tanışın!</p>
-				</div>
+<section id="features" class="pt70 pb50">
+    <div class="container">
+        <div class="row">
 
-                {% if speakers.count > 0 or instructors.count > 0 %}
-                    <div class="speak-wrapper">
-                        {% for speaker in speakers %}
-                            <div class="col-sm-6 col-md-3">
-                                <div class="row">
-                                    <div class="speaker-item">
-                                        <div class="speaker-thumb">
-                                            <a href="#">
-                                                {% if not speaker.image %}
-                                                    <img src="{% static "images/default/user.png" %}" alt="Konuşmacı">
-                                                {% else  %}
-                                                     <img src="{{ speaker.image.url }}" alt="Konuşmacı">
-                                                {% endif %}
-                                            </a>
-                                        </div><!-- /.speaker-thumb -->
-                                        <div class="speaker-content">
-                                            <div class="speaker-content-inner">
-                                                <a href="#" class="speaker-name">{{ speaker.full_name }}</a>
-                                                <p class="designation">{{ speaker.institution }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="speaker-social">
-                                            <ul class="social-media">
-                                                {% if speaker.facebook %}
-                                                    <li>
-                                                        <a href="https://www.facebook.com/{{ speaker.facebook }}" target="_blank">
-                                                        <i class="fa fa-facebook"></i>
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                                {% if speaker.twitter %}
-                                                    <li>
-                                                        <a href="https://twitter.com/{{ speaker.twitter }}" target="_blank">
-                                                            <i class="fa fa-twitter"></i>
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                                {% if speaker.linkedin %}
-                                                    <li>
-                                                        <a href="https://www.linkedin.com/in/{{ speaker.linkedin }}" target="_blank">
-                                                            <i class="fa fa-linkedin"></i>
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                            </ul>
+            <div class="col-md-12 section-heading pb0">   
+                <h2>Neler var?</h2>
+                <hr class="separator"> 
+            </div>
+
+            <div class="col-md-12 mr-auto text-center">   
+                <div class="icon-tabs-centered">
+
+                    <ul id="iconTabs" class="nav nav-tabs nav-tabs-center">
+                        <li class="active"><a href="#tab-i1" data-toggle="tab"><span class="icon-tab ion-ios-mic-outline"></span><span>KONFERANS</span></a></li>
+                        <li class=""><a href="#tab-i2" data-toggle="tab"><span class="icon-tab ion-ios-book-outline"></span><span>EĞİTİMLER</span></a></li>
+                        <li class=""><a href="#tab-i3" data-toggle="tab"><span class="icon-tab ion-ios-game-controller-b-outline"></span><span>YARIŞMALAR</span></a></li>
+                    </ul>
+
+                    <div id="myTabContent" class="tab-content">
+
+                        <div class="tab-pane fade active in" id="tab-i1">   
+                            <p>Bilgi dolu konuşmaların bulunduğu dolu dolu geçecek bir konferans!</p>
+                        </div> 
+                        <div class="tab-pane fade" id="tab-i2"> 
+                            <p>Ondan fazla eğitim sınıfıyla alanında uzman kişiler tarafından verilecek ücretsiz eğitimler!</p> 
+                        </div> 
+                        <div class="tab-pane fade" id="tab-i3"> 
+                            <p>Yarışmaktan keyif alanlar için özel olarak hazırlanan ödüllü siber güvenlik yarışmaları!</p>
+                        </div>
+
+                    </div>
+
+                </div> 
+            </div>
+        </div>
+    </div>
+</section>
+        
+<section id="program" class="pt20">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 section-heading pb0">   
+                <h2>Program</h2>
+                <hr class="separator"> 
+            </div>
+            <div class="col-md-12">   
+                <div class="col-sm-4 feature-left">
+                    <div class="feature-left-content">
+                        <h5>4 Mayıs 2018</h5>
+                        <ul class="list-icons">
+                            <li><i class="ion-android-done-all"></i> Konferanslar/Sunumlar</li>
+                            <li><i class="ion-android-done-all"></i> Demo Odası Sunumları</li>
+                        </ul>
+                    </div>
+                </div>   
+                <div class="col-sm-4 feature-left">
+                    <div class="feature-left-content">
+                        <h5>5 Mayıs 2018</h5>
+                        <ul class="list-icons">
+                            <li><i class="ion-android-done-all"></i> Eğitimler - 1. gün</li>
+                            <li><i class="ion-android-done-all"></i> Game of Pwners Offline CTF</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-4 feature-left">
+                    <div class="feature-left-content">
+                        <h5>6 Mayıs 2018</h5>
+                        <ul class="list-icons">
+                            <li><i class="ion-android-done-all"></i> Eğitimler - 2. gün</li>
+                            <li><i class="ion-android-done-all"></i> BugMiner Ödül Avcılığı Programı</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="calendar" class="pt20">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 section-heading pb0">   
+                <h2>Takvim</h2>
+                <hr class="separator"> 
+            </div>
+            <div class="col-md-11 col-md-offset-1">   
+                <div class="col-sm-6 feature-left">
+                    <div class="feature-left-content">
+                        <h5>Başvuru Tarihleri:</h5>
+                        <p><strong>Eğitmen Başvuruları: </strong>1 Ocak - 21 Şubat 2018 | <a href="#trainer" class="btn-scroll">Detaylar</a></p>
+                        <p><strong>Sponsorluk Talepleri: </strong>1 Ocak - 23 Nisan 2018 | <a href="mailto:sponsorship@hacktrickconf.com">İletişim</a></p>
+                        <p><strong>CFP Başvuruları: </strong>1 Ocak - 31 Mart 2018 | <a href="cfp.html">Detaylar</a> </p>
+                        <p><strong>Demo Odaları Proje Başvuruları: </strong>1 Ocak - 31 Mart 2018 | <a href="#feature-details" class="btn-scroll">Detaylar</a></p>
+                    </div>
+                </div>   
+                <div class="col-sm-6 feature-left">
+                    <div class="feature-left-content">
+                        <h5>Kayıt Tarihleri:</h5>
+                        <p><strong>Konferans Kayıtları: </strong>10 Mart - 23 Nisan 2018</p>
+                        <p><strong>Eğitim Kayıtları: </strong>10 Mart - 31 Mart 2018</p>
+                        <p><strong>Game of Pwners Kayıtları: </strong>10 Mart - 31 Mart 2018</p>
+                        <p><strong>Bugminer Araştırmacı Kayıtları: </strong>10 Mart - 31 Mart 2018</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="fun-facts" class="bg-dark">
+    <div class="container-fluid"> 
+        <div class="row">
+
+            <div class="col-sm-3 counter"> 
+                <h1>{{ setting.expected_participant }}</h1>
+                <h5>Katılımcı</h5> 
+            </div>
+            <div class="col-sm-3 counter"> 
+                <h1>{{ setting.expected_speaker }}</h1> 
+                <h5>Konuşmacı</h5> 
+            </div>
+            <div class="col-sm-3 counter"> 
+                <h1>15</h1> 
+                <h5>Eğitim</h5> 
+            </div>
+            <div class="col-sm-3 counter"> 
+                <h1>100</h1> 
+                <h5>Yarışmacı</h5> 
+            </div>
+
+        </div> 
+    </div>
+</section>
+
+<section class="pt130 pb120" id="feature-details">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 feature-left">
+                <i class="icon-circle-compass size-3x color"></i>
+                <i class="icon-circle-compass back-icon"></i>
+                <div class="feature-left-content">
+                    <h5>BugMiner</h5>
+                    <p>Bugminer, Octosec ekibinin uzun süredir altyapısını hazırladığı bir ödül avcılığı platformudur. Bugminer aracılığı ile şirketler ve kurumlar, hali hazırda var olan veya yeni yayına alacakları uygulamalarını birçok siber güvenlik uzmanının testine sunar.</p>
+                </div> 
+            </div>
+            <div class="col-sm-6 feature-left">
+                <i class="icon-genius size-3x color"></i>
+                <i class="icon-genius back-icon"></i> 
+                <div class="feature-left-content">
+                    <h5>Siber Güvenlik Ödülleri</h5>
+                    <p>Hacktrick Siber Güvenlik Konferansı 2018 yılı itibariyle Siber Güvenlik Ödülleri’ni organize ediyor. Belirlenen 10 farklı kategoride, sektörün önde gelen isimlerinin yer aldığı 32 kişilik jürinin adayları oylaması sonucu ödüller sahibini bulacak.</p>
+                </div> 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 feature-left">
+                <i class="ion-speedometer size-3x color"></i>
+                <i class="ion-speedometer back-icon"></i> 
+                <div class="feature-left-content">
+                    <h5>Game of Pwners</h5>
+                    <p>Game of Pwners projesi siber güvenlik farkındalığını artırmak, bu alanda çalışmak isteyen kişileri eğlenceli bir ortamda yarıştırarak siber güvenlik alanına yönelik duyduğu ilgiyi yukarı çekmek ve siber güvenlik uzmanı eksikliğinin giderilmesine katkı sağlamak amacıyla, Octosec ve Canyoupwnme ekipleri tarafından düzenlenir.</p>
+                </div> 
+            </div>
+            <div class="col-sm-6 feature-left">
+                <i class="icon-telescope size-3x color"></i>
+                <i class="icon-telescope back-icon"></i> 
+                <div class="feature-left-content">
+                    <h5>Demo Odaları</h5>
+                    <p>Demo Odalarıyla siber güvenlik alanına yönelik geliştirilen proje veya ürünler binlerce katılımcıya sunulma imkanına sahip olacaklardır. Demo Odalarında kendinize yer ayırarak geliştirdiğiniz ürün veya projenizi yakından tanıtmak isterseniz <strong><a href="mailto:demoroom@hacktrickconf.com">demoroom@hacktrickconf.com</a></strong> adresine e-posta gönderebilirsiniz.</p> 
+                </div> 
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pt130 pb120" id="speakers">
+	<div class="container">
+		<div class="row">
+            <div class="col-md-12 section-heading pb0">   
+                <h2>Konuşmacı ve Eğitmenler</h2>
+                <hr class="separator"> 
+            </div>
+
+            {% if speakers.count > 0 or instructors.count > 0 %}
+                <div class="team-slider owl-carousel dark-pagination"> 
+                    {% for speaker in speakers %}
+                        <div class="team"> 
+                            <div class="team-container">
+                                <div class="team-image">
+                                    {% if not speaker.image %}
+                                        <img src="{% static "images/default/user.png" %}" alt="Konuşmacı">
+                                    {% else  %}
+                                         <img src="{{ speaker.image.url }}" alt="Konuşmacı">
+                                    {% endif %}
+                                </div> 
+                                <div class="team-caption">
+                                    <div>
+                                        <div>
+                                            <h4>{{ speaker.full_name }}</h4>
+                                            <p>{{ speaker.institution }}</p>
+                                            <ul> 
+                                            	{% if speaker.facebook %}
+                                                	<li class="social-icon"><a href="https://www.facebook.com/{{ speaker.facebook }}"><i class="ion-social-facebook"></i></a></li>
+	                                            {% endif %}
+	                                            {% if speaker.twitter %}
+                                                	<li class="social-icon"><a href="https://twitter.com/{{ speaker.twitter }}"><i class="ion-social-twitter"></i></a></li>
+	                                            {% endif %}
+	                                            {% if speaker.linkedin %}
+                                                	<li class="social-icon"><a href="https://www.linkedin.com/in/{{ speaker.linkedin }}"><i class="ion-social-linkedin"></i></a></li> 
+                                            	{% endif %}
+                                            </ul> 
                                         </div>
                                     </div>
-                                </div><!-- /.row -->
-                            </div><!-- /.col-sm-6 col-md-3 -->
-                            {% endfor %}
+                                </div>  
+                            </div> 
+                        </div>  
+                        {% endfor %}
 
-                            {% for speaker in instructors %}
-                            <div class="col-sm-6 col-md-3">
-                                <div class="row">
-                                    <div class="speaker-item">
-                                        <div class="speaker-thumb">
-                                            <a href="#">
-                                                {% if not speaker.image %}
-                                                    <img src="{% static "images/default/user.png" %}" alt="Eğitmen">
-                                                {% else  %}
-                                                     <img src="{{ speaker.image.url }}" alt="Eğitmen">
-                                                {% endif %}
-                                            </a>
-                                        </div><!-- /.speaker-thumb -->
-                                        <div class="speaker-content">
-                                            <div class="speaker-content-inner">
-                                                <a href="#" class="speaker-name">{{ speaker.user.get_full_name }}</a>
-                                                <p class="designation">{{ speaker.institution }}</p>
-                                            </div>
+                        {% for speaker in instructors %}
+                        <div class="team"> 
+                            <div class="team-container">
+                                <div class="team-image">
+                                    {% if not speaker.image %}
+                                        <img src="{% static "images/default/user.png" %}" alt="Konuşmacı">
+                                    {% else  %}
+                                         <img src="{{ speaker.image.url }}" alt="Konuşmacı">
+                                    {% endif %}
+                                </div> 
+                                <div class="team-caption">
+                                    <div>
+                                        <div>
+                                            <h4>{{ speaker.full_name }}</h4>
+                                            <p>{{ speaker.institution }}</p>
+                                            <ul> 
+                                            	{% if speaker.facebook %}
+                                                	<li class="social-icon"><a href="https://www.facebook.com/{{ speaker.facebook }}"><i class="ion-social-facebook"></i></a></li>
+	                                            {% endif %}
+	                                            {% if speaker.twitter %}
+                                                	<li class="social-icon"><a href="https://twitter.com/{{ speaker.twitter }}"><i class="ion-social-twitter"></i></a></li>
+	                                            {% endif %}
+	                                            {% if speaker.linkedin %}
+                                                	<li class="social-icon"><a href="https://www.linkedin.com/in/{{ speaker.linkedin }}"><i class="ion-social-linkedin"></i></a></li> 
+                                            	{% endif %}
+                                            </ul> 
                                         </div>
-                                        <div class="speaker-social">
-                                            <ul class="social-media">
-                                                {% if speaker.facebook %}
-                                                    <li>
-                                                        <a href="https://www.facebook.com/{{ speaker.facebook }}" target="_blank">
-                                                        <i class="fa fa-facebook"></i>
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                                {% if speaker.twitter %}
-                                                    <li>
-                                                        <a href="https://twitter.com/{{ speaker.twitter }}" target="_blank">
-                                                            <i class="fa fa-twitter"></i>
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                                {% if speaker.linkedin %}
-                                                    <li>
-                                                        <a href="https://www.linkedin.com/in/{{ speaker.linkedin }}" target="_blank">
-                                                            <i class="fa fa-linkedin"></i>
-                                                        </a>
-                                                    </li>
-                                                {% endif %}
-                                            </ul>
-                                        </div>
+                                    </div>
+                                </div>  
+                            </div> 
+                        </div>
+                        {% endfor %}
+                </div>
+            {% else %}
+                <div class="section-head text-center">
+                    <p class="header-desc">Yakında açıklanacaktır.</p>
+                </div>
+            {% endif %}
+		</div><!-- /.row -->
+	</div><!-- /.container -->
+</section>
+
+<section class="bg-grey pt40" id="last-year">
+    <div class="container">
+        <div class="row">     
+            <div class="col-md-8 section-heading pb0">
+                <h2>Hacktrick'17</h2>
+                <hr class="separator">
+                <p>Hacktrick'17, önceki yıllarda olduğu gibi binlerce siber güvenlik meraklısını ağırlamıştı. İşte o günden kalan güzel anlar...</p>
+            </div>
+            <div class="col-md-12 mb30 mt30">
+                <div class="cbp" id="js-masonry-boxed">
+
+                    <div class="cbp-item print branding">
+                        <a href="img/portfolio/masonry/1.jpg" class="cbp-caption cbp-lightbox">
+                            <div class="cbp-caption-defaultWrap">
+                                <img src="{% static "img/portfolio/masonry/1.jpg" %}">
+                            </div>
+                            <div class="cbp-caption-activeWrap">
+                                <div class="cbp-l-caption-alignCenter">
+                                    <div class="cbp-l-caption-body">
+                                        <div class="cbp-l-caption-title"><i class="icon-magnifying-glass size-1x"></i></div> 
                                     </div>
                                 </div>
-                             </div>
-                            {% endfor %}
-                    </div><!-- /.speak-wrapper -->
-                {% else %}
-                    <div class="section-head">
-                        <p class="header-desc">Yakında açıklanacaktır.</p>
-                    </div>
-                {% endif %}
-			</div><!-- /.row -->
-		</div><!-- /.container -->
-	</section>
-	<!-- end event speaker  -->
-
-
-	<section class="event-schedule" id="calendar">
-		<div class="container">
-			<div class="row">
-				<div class="section-head">
-					<h2 class="header-title">Takvim</h2>
-					<p class="header-desc">Konferans ve eğitim takvimini inceleyin!</p>
-				</div>
-
-                {% if speaking_count > 0 %}
-				<div class="event-schedule-inner">
-					<div class="event-schedule-inner-fixed">
-
-						<!-- Nav tabs -->
-
-						<ul id="myTab" class="nav-tab" role="tablist">
-                             {% for slot in conference_slots %}
-							<li role="presentation" {% if forloop.counter0 == 0 %}class="active"{% endif %}>
-                                <a href="#{{ slot.date|date:"d-M" }}" aria-controls="first-date" role="tab" data-toggle="tab">
-								    <strong>{{ slot.date|date:"d" }}</strong>
-								    <span class="date">{{ slot.date|date:"M" }}<br>{{ slot.date|date:"Y" }}, {{ slot.date|date:"D" }}</span>
-							    </a>
-                            </li>
-                            {% endfor %}
-						</ul>
-                        <div class="tab-content">
-                            {% for slot in conference_slots %}
-                                <div role="tabpanel" class="tab-pane fade {% if forloop.counter0 == 0 %}in active{% endif %}" id="{{ slot.date|date:"d-M" }}">
-                                    <div class="schedule-wrapper">
-                                        <div class="schedule-item header">
-                                            <div class="col-xs-2 col-sm-2 col-md-2">
-                                                <div class="item-inner">
-                                                    <span><i class="fa fa-calendar"></i></span>
-                                                    <span>Saat</span>
-                                                </div>
-                                            </div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
-                                            <div class="col-xs-4 col-sm-4 col-md-4">
-                                                <div class="item-inner">
-                                                    <span><i class="fa fa-list-alt"></i></span>
-                                                    <span>Başlık</span>
-                                                </div>
-                                            </div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
-                                            <div class="col-xs-4 col-sm-4 col-md-4">
-                                                <div class="item-inner">
-                                                    <span><i class="fa fa-microphone"></i></span>
-                                                    <span>Konuşmacı</span>
-                                                </div>
-                                            </div><!-- /.col-md-3 -->
-                                            <div class="col-xs-2 col-sm-2 col-md-2">
-                                                <div class="item-inner">
-                                                    <span><i class="fa fa-map-marker"></i></span>
-                                                    <span>Salon</span>
-                                                </div>
-                                            </div><!-- /.col-md-3 -->
-                                        </div><!-- /.schedule-item -->
-                                {% for training in slot.speaks.all %}
-                                    <div class="schedule-item">
-                                        <div class="col-xs-2 col-sm-2 col-md-2">
-                                            <div class="item-inner event-time">
-                                                <span>{{ training.starting_time }}</span>
-                                            </div>
-                                        </div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
-                                        <div class="col-xs-4 col-sm-4 col-md-4">
-                                            <div class="item-inner event-session">
-                                                <span>{{ training.title }}</span>
-                                            </div>
-                                        </div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
-                                        <div class="col-xs-4 col-sm-4 col-md-4">
-                                            <div class="item-inner event-schedule-speaker">
-                                                <img width="60"
-                                                     style="border-radius: 40px"
-                                                     src="{{ training.speaker.image.url }}"
-                                                     alt="{{ training.speaker.full_name }}">
-                                                {{ training.speaker.full_name }}
-                                            </div>
-                                        </div><!-- /.col-md-3 -->
-                                        <div class="col-xs-2 col-sm-2 col-md-2">
-                                            <div class="item-inner vanue">
-                                                <span>{{ training.hall }}</span>
-                                            </div>
-                                        </div><!-- /.col-md-3 -->
-                                    </div><!-- /.schedule-item -->
-                                {% endfor %}
-                                </div><!-- /.schedule-wrapper -->
                             </div>
-                        {% endfor %}
-                        </div>
-					</div><!-- /.event-schedule-inner-fixed -->
-				</div><!-- /.event-schedule-inner -->
-                {% else %}
-                    Yakında açıklanacaktır.
-                {% endif %}
-			</div><!-- /.row -->
-		</div><!-- /.container -->
-	</section>
+                        </a>
+                    </div>
+                    <div class="cbp-item web-design graphic">
+                        <a href="img/portfolio/masonry/2.jpg" class="cbp-caption cbp-lightbox">
+                            <div class="cbp-caption-defaultWrap">
+                                <img src="{% static "img/portfolio/masonry/2.jpg" %}">
+                            </div>
+                            <div class="cbp-caption-activeWrap">
+                                <div class="cbp-l-caption-alignCenter">
+                                    <div class="cbp-l-caption-body">
+                                        <div class="cbp-l-caption-title"><i class="icon-magnifying-glass size-1x"></i></div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="cbp-item print branding">
+                        <a href="img/portfolio/masonry/3.jpg" class="cbp-caption cbp-lightbox">
+                            <div class="cbp-caption-defaultWrap">
+                                <img src="{% static "img/portfolio/masonry/3.jpg" %}">
+                            </div>
+                            <div class="cbp-caption-activeWrap">
+                                <div class="cbp-l-caption-alignCenter">
+                                    <div class="cbp-l-caption-body">
+                                        <div class="cbp-l-caption-title"><i class="icon-magnifying-glass size-1x"></i></div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="cbp-item print branding">
+                        <a href="img/portfolio/masonry/4.jpg" class="cbp-caption cbp-lightbox">
+                            <div class="cbp-caption-defaultWrap">
+                                <img src="{% static "img/portfolio/masonry/4.jpg" %}">
+                            </div>
+                            <div class="cbp-caption-activeWrap">
+                                <div class="cbp-l-caption-alignCenter">
+                                    <div class="cbp-l-caption-body">
+                                        <div class="cbp-l-caption-title"><i class="icon-magnifying-glass size-1x"></i></div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div> 
+                    <div class="cbp-item print graphic">
+                        <a href="img/portfolio/masonry/5.jpg" class="cbp-caption cbp-lightbox">
+                            <div class="cbp-caption-defaultWrap">
+                                <img src="{% static "img/portfolio/masonry/5.jpg" %}">
+                            </div>
+                            <div class="cbp-caption-activeWrap">
+                                <div class="cbp-l-caption-alignCenter">
+                                    <div class="cbp-l-caption-body">
+                                        <div class="cbp-l-caption-title"><i class="icon-magnifying-glass size-1x"></i></div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="cbp-item web-design branding">
+                        <a href="img/portfolio/masonry/6.jpg" class="cbp-caption cbp-lightbox">
+                            <div class="cbp-caption-defaultWrap">
+                                <img src="{% static "img/portfolio/masonry/10.jpg" %}">
+                            </div>
+                            <div class="cbp-caption-activeWrap">
+                                <div class="cbp-l-caption-alignCenter">
+                                    <div class="cbp-l-caption-body">
+                                        <div class="cbp-l-caption-title"><i class="icon-magnifying-glass size-1x"></i></div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
 
+                    <div class="cbp-item web-design graphic">
+                        <a href="img/portfolio/masonry/7.jpg" class="cbp-caption cbp-lightbox">
+                            <div class="cbp-caption-defaultWrap">
+                                <img src="{% static "img/portfolio/masonry/7.jpg" %}">
+                            </div>
+                            <div class="cbp-caption-activeWrap">
+                                <div class="cbp-l-caption-alignCenter">
+                                    <div class="cbp-l-caption-body">
+                                        <div class="cbp-l-caption-title"><i class="icon-magnifying-glass size-1x"></i></div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="cbp-item web-design">
+                        <a href="img/portfolio/masonry/8.jpg" class="cbp-caption cbp-lightbox">
+                            <div class="cbp-caption-defaultWrap">
+                                <img src="{% static "img/portfolio/masonry/8.jpg" %}">
+                            </div>
+                            <div class="cbp-caption-activeWrap">
+                                <div class="cbp-l-caption-alignCenter">
+                                    <div class="cbp-l-caption-body">
+                                        <div class="cbp-l-caption-title"><i class="icon-magnifying-glass size-1x"></i></div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>  
+                    <div class="cbp-item web-design branding">
+                        <a href="img/portfolio/masonry/9.jpg" class="cbp-caption cbp-lightbox">
+                            <div class="cbp-caption-defaultWrap">
+                                <img src="{% static "img/portfolio/masonry/9.jpg" %}">
+                            </div>
+                            <div class="cbp-caption-activeWrap">
+                                <div class="cbp-l-caption-alignCenter">
+                                    <div class="cbp-l-caption-body">
+                                        <div class="cbp-l-caption-title"><i class="icon-magnifying-glass size-1x"></i></div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
 
-{% endblock %}
-{% block script %}
-    <script>
-        countdown_init();
-    </script>
+                </div> 
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="parallax overlay bg-img-h"> 
+    <div class="container">
+        <div class="row"> 
+
+            <div class="col-md-10 mr-auto">
+                <div class="testimonials white owl-carousel"> 
+
+                    <div>
+                        <i class="vossen-quote color"></i>
+                        <h4>Octosec'in tamamen iyi niyetli ve bilgi odaklı oluşum olduğunu biliyorum ve temasta olduğum kişilerden biliyorum ki işlerini iyi yapıyorlar. Yani bir kişinin Octosec içinde bulunması orada çalışması sınavlarına girmesi başarı kazanması benim için o alanda herhangi bir aday seçimi yaparken göze batan bir kriter haline geliyor. Bu sadece benim şahsi görüşümde değil. Bu gönüllü hareketin bahsettiğimiz bu stratijelerin gelişimi için kaynak sağlama anlamında çok değerli katkısı bulunduğu ve bu konuda da bilinirliğin artması anlamında çok önemli işler yaptığını biliyorum.</h4>  
+                        <h5 class="subheading">Feridun Aktaş</h5>
+                        <p>Turkcell</p>
+                    </div> 
+
+                    <div>
+                        <i class="vossen-quote color"></i>
+                        <h4>Eğitim alanında çok büyük bir açık var. Bugün pek çok üniversiteye gidiyorsunuz bilgisayar mühendisliklerinde ne yazık ki bu tarzda güvenlikle ilgili eğitimleri göremiyorsunuz. O yüzden de siz bu farkındalı yapmaya, önderliği yapmaya, düşünce liderliğini yapmaya devam edin. Bu etkinlik gerçektende çok önemli bir etkinlik bence. Çünkü bizim en büyük problemlerimizden bir tanesi yetişmiş uzman. Tüm dünyanın problemi. Bu konuya yaptığınız katkılar bizi gerçekten de çok heyecanlandırıyor. O yüzden de desteklemeyi çok seviyoruz.</h4>  
+                        <h5 class="subheading">Gökhan Say</h5>
+                        <p>Innovera</p>
+                    </div> 
+
+                    <div> 
+                        <i class="vossen-quote color"></i>
+                        <h4>Etkinliği geçen yıllara nazaran daha kalabalık buldum. Kapının önünde metrelerce kuyruk vardı sabah saatlerinde ve çok erken saatlerde bu yoğunluk başladı. Sanırım geçen yıllara nazaran sadece öğrenciler değil sektör çalışanlarının da katılımını yoğun olarak gözlemledim. Her şey çok güzel gözüküyor.</h4>  
+                        <h5 class="subheading">Ziyahan Albeniz</h5>
+                        <p>Netsparker</p>
+                    </div> 
+
+                    <div>
+                        <i class="vossen-quote color"></i>
+                        <h4>İnanılmaz, beklediğimden çok fazla. Bugüne kadar türkiyede düzenlemiş siber güvenlik konferanslarında gördüğümün üzerinde bir katılımcı var. Bu yüzden Octosec ekibine özellikle çok teşekkür ederim. Canla başla çalıştılar bu iş için.</h4>  
+                        <h5 class="subheading">Mehmet Ince</h5>
+                        <p>Invictus Europe</p>
+                    </div> 
+
+                    <div>
+                        <i class="vossen-quote color"></i>
+                        <h4>Güzeldi, zorluydu, stresliydi. Bunu yenilgi olarak görmek ayrı bişey tabi çok güzel bir tecrübe edindiğimizi düşünüyoruz.</h4>  
+                        <h5 class="subheading">Game of Pwners katılımcısı</h5>
+                    </div> 
+
+                    <div>
+                        <i class="vossen-quote color"></i>
+                        <h4>Bu kadar güzel işleri yapan ve kar amacı gütmeyen bir kuruluş olması çok güzel. Normalde böyle etkinlikler kar amacı güden kuruluşlar tarafından yapılıyor ve çok eğlenceli olmuyor. Tamamiyle gönüllülük esasına dayalı olunca çok güzel oldu.</h4>  
+                        <h5 class="subheading">Katılımcı</h5>
+                    </div> 
+
+                </div>
+            </div> 
+
+        </div>
+    </div>
+</section>
+
 {% endblock %}
