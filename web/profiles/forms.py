@@ -179,11 +179,10 @@ class TrainingSelectForm(forms.Form):
         super(TrainingSelectForm, self).__init__(*args, **kwargs)
         date_setting = Setting.objects.only('training_finish_date').get()
         training_list = []
-        exclude_list = []
         for i in Training.objects.all():
             if i.limitless is True and date_setting.training_finish_date >= timezone.localtime(timezone.now()).date():
                 training_list.append(i.id)
             elif i.limitless is False and UserTraining.objects.filter(first_selection=i).count() < (i.capacity*2) and date_setting.training_finish_date >= timezone.localtime(timezone.now()).date():
                 training_list.append(i.id)
-        self.fields['training_first'].queryset = Training.objects.filter(pk__in=training_list).exclude(pk__in=exclude_list)
+        self.fields['training_first'].queryset = Training.objects.filter(pk__in=training_list)
         self.fields['training_first'].empty_label = 'Almak istediğiniz eğitimi seçiniz.'

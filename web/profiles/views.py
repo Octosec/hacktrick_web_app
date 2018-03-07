@@ -258,6 +258,7 @@ class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
 
     def get_context_data(self, **kwargs):
         context = super(ParticipantSelectTrainingView, self).get_context_data(**kwargs)
+        context['section_training'] =  UserTraining.objects.filter(user_id=self.request.user.id).get().first_selection
         context['status'] = Setting.objects.only('training_finish_date').get().training_finish_date >= timezone.localtime(timezone.now()).date()
         return context
 

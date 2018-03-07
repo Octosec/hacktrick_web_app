@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load hacktrick_extras %}
 {% block title %} Eğitim Seç {% endblock %}
 
 {% block page-header %}
@@ -39,9 +39,15 @@
                     	</p>
                     	<p>
                     		Eğitimler hakkındaki sorularınızı <a href="{% url "profiles:tickets" %}">buradan bize sorabilirsiniz.</a>
-                    	</p>
+						</p>
+						<br>
+
+						{% if section_training %}
+						<p>Seçtiğiniz Eğitim: <b> {% if section_training is not None %} {{ section_training }} {% else %} Eğitim Seçiniz {% endif %} </b> eğitim onayınız verilinceye kadar seçtiğiniz eğitimde değişiklikler yapabilirsiniz.</p>
+						{% else %}
+						<h1>Lütfen katılmak istediğiniz eğitimi seçiniz.</h1>
+						{% endif%}
 						<hr />
-						
 						{% if status %}
 						<div class="col-sm-4 col-sm-offset-4">
                         	<div class="massage-response-area">
