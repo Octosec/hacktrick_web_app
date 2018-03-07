@@ -90,8 +90,8 @@ class BugMiner(models.Model):
     image = models.ImageField(
         'Resim',
         upload_to='events/',
-        help_text="160x160",
-        validators=[validate_speaker_image_dimensions]
+        help_text="770x420",
+        validators=[validate_training_image_dimensions]
     )
 
     def __str__(self):
@@ -108,8 +108,8 @@ class GameOfPwners(models.Model):
     image = models.ImageField(
         'Resim',
         upload_to='events/',
-        help_text="160x160",
-        validators=[validate_speaker_image_dimensions]
+        help_text="770x420",
+        validators=[validate_training_image_dimensions]
     )
 
     def __str__(self):
@@ -126,8 +126,8 @@ class DemoRoom(models.Model):
     image = models.ImageField(
         'Resim',
         upload_to='events/',
-        help_text="160x160",
-        validators=[validate_speaker_image_dimensions]
+        help_text="770x420",
+        validators=[validate_training_image_dimensions]
     )
 
     def __str__(self):
@@ -144,8 +144,8 @@ class CsAward(models.Model):
     image = models.ImageField(
         'Resim',
         upload_to='events/',
-        help_text="160x160",
-        validators=[validate_speaker_image_dimensions]
+        help_text="770x420",
+        validators=[validate_training_image_dimensions]
     )
 
     def __str__(self):
