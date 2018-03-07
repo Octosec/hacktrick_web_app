@@ -112,7 +112,7 @@ class TicketCommentForm(ModelForm):
 
     def clean(self):
         cleaned_data = super(TicketCommentForm, self).clean()
-        comment_count =  TicketComment.objects.filter(ticket=self.ticket).count()
+        comment_count = TicketComment.objects.filter(ticket=self.ticket).count()
         if not self.ticket.ticket_status:
             raise ValidationError("Bu soru moderatör tarafından kapatıldığı için yorum yapamazsınız.")
         elif comment_count == 0:
@@ -159,7 +159,7 @@ class DocumentForm(ModelForm):
 
     def clean(self):
         cleaned_data = super(DocumentForm, self).clean()
-        training_count =  TrainingDocument.objects.filter(training=self.training).count()
+        training_count = TrainingDocument.objects.filter(training=self.training).count()
         if training_count >= 10:
             raise ValidationError('Bir eğitime en fazla 10 döküman eklenebilir.')
         return cleaned_data
@@ -182,7 +182,8 @@ class TrainingSelectForm(forms.Form):
         for i in Training.objects.all():
             if i.limitless is True and date_setting.training_finish_date >= timezone.localtime(timezone.now()).date():
                 training_list.append(i.id)
-            elif i.limitless is False and UserTraining.objects.filter(first_selection=i).count() < (i.capacity*2) and date_setting.training_finish_date >= timezone.localtime(timezone.now()).date():
+            elif i.limitless is False and UserTraining.objects.filter(first_selection=i).count() < (
+                    i.capacity * 2) and date_setting.training_finish_date >= timezone.localtime(timezone.now()).date():
                 training_list.append(i.id)
         self.fields['training_first'].queryset = Training.objects.filter(pk__in=training_list)
         self.fields['training_first'].empty_label = 'Almak istediğiniz eğitimi seçiniz.'

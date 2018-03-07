@@ -44,6 +44,7 @@ from hacktrick.models import (
 
 import csv
 
+
 class LoginView(TemplateView):
     template_name = 'pages/profile/login.html'
 
@@ -161,7 +162,7 @@ class TrainingListView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequired
     model = Training
 
     def get_queryset(self):
-        return Training.objects.filter( instructor=self.request.user.instructor)
+        return Training.objects.filter(instructor=self.request.user.instructor)
 
 
 class TrainingUpdateView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin, UpdateView):
@@ -226,7 +227,6 @@ class TrainingDocumentListView(LoginRequiredMixin, InfoRequiredMixin, Instructor
     def get_success_url(self):
         return reverse_lazy('profiles:training_documents', kwargs={'pk': self.kwargs['pk']})
 
-
     def get_form_kwargs(self):
         kwargs = super(TrainingDocumentListView, self).get_form_kwargs()
         kwargs.update({
@@ -249,6 +249,7 @@ class TrainingDocumentDeleteView(LoginRequiredMixin, InfoRequiredMixin, Instruct
         training_pk = self.get_object().training.pk
         return reverse_lazy('profiles:training_documents', kwargs={'pk': training_pk})
 
+
 class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, ParticipantRequiredMixin,
                                     TrainingSelectionRequiredMixin, FormView):
     template_name = 'pages/profile/participant/select_training.html'
@@ -258,8 +259,19 @@ class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
 
     def get_context_data(self, **kwargs):
         context = super(ParticipantSelectTrainingView, self).get_context_data(**kwargs)
-        context['section_training'] =  UserTraining.objects.filter(user_id=self.request.user.id).get().first_selection
-        context['status'] = Setting.objects.only('training_finish_date').get().training_finish_date >= timezone.localtime(timezone.now()).date()
+        try:
+            section_training = UserTraining.objects.filter(user_id=self.request.user.id).get()
+            context['section_training'] = section_training.first_selection
+        except UserTraining.DoesNotExist:
+            context['section_training'] = False
+
+        try:
+            verify_selection = UserTraining.objects.filter(user_id=self.request.user.id, accepted_training=True).get()
+            context['verify_selection'] = verify_selection.first_selection
+        except UserTraining.DoesNotExist:
+            context['verify_selection'] = False
+        context['status'] = Setting.objects.only(
+            'training_finish_date').get().training_finish_date >= timezone.localtime(timezone.now()).date()
         return context
 
     def form_valid(self, form):
@@ -298,7 +310,7 @@ class InstructorAcceptParticipantView(LoginRequiredMixin, InfoRequiredMixin, Ins
 
     def dispatch(self, request, *args, **kwargs):
         self.get_training_object()
-        self.accepted_count = UserTraining.objects.filter(first_selection=self.training).count()
+        self.accepted_count = UserTraining.objects.filter(first_selection=self.training, accepted_training=True).count()
         return super(InstructorAcceptParticipantView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -317,7 +329,7 @@ class InstructorAcceptParticipantView(LoginRequiredMixin, InfoRequiredMixin, Ins
         term = self.request.GET.get('search', None)
         query = UserTraining.objects.filter(first_selection=self.training)
         if term:
-            query = query.filter(Q(user__first_name__icontains = term) | Q(user__last_name__icontains = term))
+            query = query.filter(Q(user__first_name__icontains=term) | Q(user__last_name__icontains=term))
         return query.order_by('accepted_training')
 
     def post(self, request, *args, **kwargs):
@@ -327,7 +339,17 @@ class InstructorAcceptParticipantView(LoginRequiredMixin, InfoRequiredMixin, Ins
             if 'accept' in request.POST:
                 self.object_list = self.get_queryset()
                 selected_users = request.POST.getlist('first')
-                if self.accepted_count + len(selected_users) > self.training.capacity:
+                if self.training.limitless:
+                    for pk in selected_users:
+                        try:
+                            user_training = UserTraining.objects.get(pk=pk)
+                            if user_training.first_selection == self.training:
+                                user_training.accepted_training = True
+                                user_training.save()
+                                self.accepted_count += 1
+                        except UserTraining.DoesNotExist:
+                            pass
+                elif self.accepted_count + len(selected_users) > self.training.capacity:
                     messages.add_message(self.request, messages.ERROR, self.accepted_count_error_message)
                 else:
                     for pk in selected_users:
@@ -345,7 +367,7 @@ class InstructorAcceptParticipantView(LoginRequiredMixin, InfoRequiredMixin, Ins
                 response.write(codecs.BOM_UTF8)
                 writer = csv.writer(response)
 
-                user_training_list = UserTraining.objects.filter(first_selection=self.training)
+                user_training_list = UserTraining.objects.filter(first_selection=self.training, accepted_training=True)
                 for user_training in user_training_list:
                     writer.writerow([user_training.user.get_full_name(),
                                      user_training.user.email,
@@ -358,7 +380,7 @@ class InstructorAcceptParticipantView(LoginRequiredMixin, InfoRequiredMixin, Ins
 
 
 class ParticipantTrainingAcceptedListView(LoginRequiredMixin, InfoRequiredMixin, InstructorRequiredMixin,
-                               PaginationMixin, ListView):
+                                          PaginationMixin, ListView):
     model = UserTraining
     paginate_by = 50
     template_name = 'pages/profile/instructor/training_accepted_participants.html'
@@ -400,6 +422,7 @@ class ParticipantTrainingAcceptedListView(LoginRequiredMixin, InfoRequiredMixin,
                              user_training.user.institution,
                              user_training.user.phone_number])
         return response
+
 
 class LoginErrorView(TemplateView):
     template_name = 'pages/profile/login_error.html'

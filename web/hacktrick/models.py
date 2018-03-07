@@ -83,6 +83,7 @@ class FAQ(models.Model):
         verbose_name_plural = "Sıkça Sorulan Sorular"
         verbose_name = "Soru"
 
+
 @python_2_unicode_compatible
 class BugMiner(models.Model):
     header = models.CharField('Baslik', max_length=300)
@@ -101,9 +102,10 @@ class BugMiner(models.Model):
         verbose_name_plural = "Bug Miners"
         verbose_name = "Bug Miner"
 
+
 @python_2_unicode_compatible
 class GameOfPwners(models.Model):
-    header = models.CharField('Baslik',max_length=300)
+    header = models.CharField('Baslik', max_length=300)
     text_area = RichTextField('Metin')
     image = models.ImageField(
         'Resim',
@@ -119,9 +121,10 @@ class GameOfPwners(models.Model):
         verbose_name_plural = "Game Of Pwners"
         verbose_name = "Game Of Pwner"
 
+
 @python_2_unicode_compatible
 class DemoRoom(models.Model):
-    header = models.CharField('Baslik',max_length=300)
+    header = models.CharField('Baslik', max_length=300)
     text_area = RichTextField('Metin')
     image = models.ImageField(
         'Resim',
@@ -137,9 +140,10 @@ class DemoRoom(models.Model):
         verbose_name_plural = "Demo Rooms"
         verbose_name = "Demo Room"
 
+
 @python_2_unicode_compatible
 class CsAward(models.Model):
-    header = models.CharField('Baslik',max_length=300)
+    header = models.CharField('Baslik', max_length=300)
     text_area = RichTextField('Metin')
     image = models.ImageField(
         'Resim',
@@ -154,6 +158,7 @@ class CsAward(models.Model):
     class Meta:
         verbose_name_plural = "Cs Awards"
         verbose_name = "Cs Award"
+
 
 @python_2_unicode_compatible
 class Speaker(models.Model):
@@ -227,7 +232,7 @@ class Training(models.Model):
     content = RichTextField('İçerik', config_name='filtered')
     capacity = models.PositiveIntegerField('Kontenjan', blank=True, null=True)
     limitless = models.BooleanField('Sınırsız Kontenjan')
-    date = models.DateField('Başlangıç Tarihi')
+    date = models.DateField('Eğitim Başlangıç Tarihi')
     finish_date = models.DateField('Eğitim Bitiş Tarihi')
     instructor = models.ManyToManyField(
         Instructor,
@@ -246,7 +251,7 @@ class Training(models.Model):
             'email', flat=True))
         extra = "<br/> Eğitim: {}<br/>".format(self.title)
         send_email_for_information.delay(email_type=3, email_to=mail_list,
-                                             extra=extra)
+                                         extra=extra)
         super(Training, self).save(*args, **kwargs)
 
     def clean(self, *args, **kwargs):
@@ -311,7 +316,7 @@ class UserTraining(models.Model):
         related_query_name='user_training',
         verbose_name='Katılımcı',
     )
-    user_status= models.BooleanField("Katılımcı durumu", default=True)
+    user_status = models.BooleanField("Katılımcı durumu", default=True)
 
     class Meta:
         verbose_name_plural = "Katılımcı eğitim"
@@ -334,7 +339,7 @@ class UserTraining(models.Model):
                                                  email_to=[self.user.email],
                                                  extra=extra)
 
-            #if self.user_status != user_training.user_status:
+            # if self.user_status != user_training.user_status:
             #    extra = "<br/>Katılımcı: {}<br/>".format(
             #        self.user.get_full_name())
             #    send_email_for_information.delay(email_type=6,
@@ -343,10 +348,10 @@ class UserTraining(models.Model):
 
         super(UserTraining, self).save(*args, **kwargs)
 
-    #def clean(self, *args, **kwargs):
+    # def clean(self, *args, **kwargs):
     #    if not self.first_selection.status:
-   #         raise ValidationError('Onaylanmamış eğitim seçemezsiniz.')
-   #     super(UserTraining, self).clean(*args, **kwargs)
+    #         raise ValidationError('Onaylanmamış eğitim seçemezsiniz.')
+    #     super(UserTraining, self).clean(*args, **kwargs)
 
     def get_first_selection_title(self):
         return self.first_selection.title if self.first_selection else ''
@@ -398,7 +403,7 @@ class TicketComment(models.Model):
         verbose_name='Katılımcı',
         related_name='ticket_comments',
         related_query_name='ticket_comment',
-        help_text = 'Otomatik doldurulur'
+        help_text='Otomatik doldurulur'
     )
     ticket = models.ForeignKey(
         Ticket,
@@ -447,7 +452,8 @@ class Setting(models.Model):
     training_selection = models.BooleanField('Eğitim seçimi', default=False)
     participant_selection = models.BooleanField('Katılımcı seçimi',
                                                 default=False)
-    #participant_accept = models.BooleanField('Katılımcı onay', default=False)
+
+    # participant_accept = models.BooleanField('Katılımcı onay', default=False)
 
     class Meta:
         verbose_name_plural = "Ayarlar"
