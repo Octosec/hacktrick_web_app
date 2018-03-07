@@ -24,6 +24,8 @@ from .models import (
 from profiles.models import Instructor
 
 log = logging.getLogger(__name__)
+
+
 # log.error("log example", extra=self.request.log_extra)
 
 
@@ -52,10 +54,10 @@ class FAQListView(ListView):
     model = FAQ
     ordering = 'order'
 
+
 class BugMinerView(TemplateView):
     template_name = 'pages/hacktrick/bug-miner.html'
     model = BugMiner
-
 
     def get_context_data(self, **kwargs):
         context = super(BugMinerView, self).get_context_data(**kwargs)
@@ -64,6 +66,7 @@ class BugMinerView(TemplateView):
         except Exception as e:
             context['bugminer'] = e
         return context
+
 
 class GameOfPwnersView(TemplateView):
     template_name = 'pages/hacktrick/game-of-pwners.html'
@@ -77,6 +80,7 @@ class GameOfPwnersView(TemplateView):
             context['gameofpwner'] = e
         return context
 
+
 class DemoRoomView(TemplateView):
     template_name = 'pages/hacktrick/demo-room.html'
     model = DemoRoom
@@ -88,6 +92,7 @@ class DemoRoomView(TemplateView):
         except Exception as e:
             context['demoroom'] = e
         return context
+
 
 class CsAwardView(TemplateView):
     template_name = 'pages/hacktrick/cs-awards.html'
@@ -101,6 +106,7 @@ class CsAwardView(TemplateView):
             context['csaward'] = e
         return context
 
+
 class TrainingListView(ListView):
     template_name = 'pages/hacktrick/trainings.html'
     model = Training
@@ -112,14 +118,14 @@ class TrainingListView(ListView):
         for i in data:
             i["record_traning"] = UserTraining.objects.filter(first_selection=i["id"]).count()
             if i["limitless"]:
-                cdata.append( i ) 
+                cdata.append(i)
             else:
                 i["capacity"] = i["capacity"] * 2
                 cdata.append(i)
-        context['data']= cdata
+        context['data'] = cdata
         return context
-    
-    #def get_queryset(self,**kwargs):
+
+    # def get_queryset(self,**kwargs):
     #    return Training.objects.all()
 
 
@@ -135,11 +141,11 @@ class TrainingDetailView(DetailView):
         for i in data:
             i["record_traning"] = UserTraining.objects.filter(first_selection=i["id"]).count()
             if i["limitless"]:
-                cdata.append( i ) 
+                cdata.append(i)
             else:
                 i["capacity"] = i["capacity"] * 2
                 cdata.append(i)
-        context['trainings']= cdata
+        context['trainings'] = cdata
         return context
 
     def get_object(self, queryset=None):
@@ -168,6 +174,7 @@ class ContributorListView(ListView):
 
 class LiveBroadCastView(TemplateView):
     template_name = 'pages/hacktrick/live_broadcast.html'
+
     def get_context_data(self, **kwargs):
         context = super(LiveBroadCastView, self).get_context_data(**kwargs)
         try:

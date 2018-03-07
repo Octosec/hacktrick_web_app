@@ -3,84 +3,118 @@
 {% block title %} Eğitim Seç {% endblock %}
 
 {% block page-header %}
-	<section class="page-header-content">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="page-header-content-inner">
-	                <ul class="breadcrumb">
-	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
-	                    <li><a href="{% url "profiles:profile" %}">Profil</a> </li>
-	                    <li class="active">Eğitim seç</li>
-	                </ul>
-	            </div>
-			</div>
-		</div>
-	</section>
+    <section class="page-header-content">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="page-header-content-inner">
+                    <ul class="breadcrumb">
+                        <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
+                        <li><a href="{% url "profiles:profile" %}">Profil</a></li>
+                        <li class="active">Eğitim seç</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
 
 {% block content %}
-	<section class="event-speaker homepage2">
-		<div class="container">
-			<div class="row">
-				<div class="section-head">
-					<h2 class="header-title">EĞİTİM SEÇİMİ</h2>
-				</div>
-				<div class="speak-wrapper-h2">
+    <section class="event-speaker homepage2">
+        <div class="container">
+            <div class="row">
+                <div class="section-head">
+                    <h2 class="header-title">EĞİTİM SEÇİMİ</h2>
+                </div>
+                <div class="speak-wrapper-h2">
                     <div class="col-sm-12 col-md-12">
-                    	<p> #TODO Düzenlenecek <br>
-                    		Aşağıdaki formu kullanarak iki eğitim tercihi yapabilirsiniz. Eğitimler eş zamanlı yapılacağından tercihleriniz arasından eğitmenler tarafından yalnızca birine kabul edileceksiniz. Eğitimleriniz eğitmenler tarafından onaylandıktan sonra sizin son olarak profil sayfanız üzerinden geleceğinizi teyit etmeniz gerekiyor. Kayıt işlemini tamamlamayan katılımcılar eğitime alınmayacaktır. Ayrıca kaydını onaylayıp geçerli gerekçesi olmadan eğitimlere gelmeyen katılımcılar sonraki etkinliklerimize alınmayacaktır.
-                    	</p>
-                    	<p>
-                    		Eğitimler ücretsizdir. Tüm eğitimlerin kontenjanı sınıf/salon büyüklüğüne göre belirlenmiştir ve üzerinde kayıt alınmayacaktır.
-                    	</p>
-                    	<p>
-                    		Eğitim sonrası katılımcılara katılım sertifikası verilecektir.
-                    	</p>
-                    	<p>
-                    		Eğitimler hakkındaki sorularınızı <a href="{% url "profiles:tickets" %}">buradan bize sorabilirsiniz.</a>
-						</p>
-						<br>
+                        <p> #TODO Düzenlenecek <br>
+                            Aşağıdaki formu kullanarak iki eğitim tercihi yapabilirsiniz. Eğitimler eş zamanlı
+                            yapılacağından tercihleriniz arasından eğitmenler tarafından yalnızca birine kabul
+                            edileceksiniz. Eğitimleriniz eğitmenler tarafından onaylandıktan sonra sizin son olarak
+                            profil sayfanız üzerinden geleceğinizi teyit etmeniz gerekiyor. Kayıt işlemini tamamlamayan
+                            katılımcılar eğitime alınmayacaktır. Ayrıca kaydını onaylayıp geçerli gerekçesi olmadan
+                            eğitimlere gelmeyen katılımcılar sonraki etkinliklerimize alınmayacaktır.
+                        </p>
+                        <p>
+                            Eğitimler ücretsizdir. Tüm eğitimlerin kontenjanı sınıf/salon büyüklüğüne göre
+                            belirlenmiştir ve üzerinde kayıt alınmayacaktır.
+                        </p>
+                        <p>
+                            Eğitim sonrası katılımcılara katılım sertifikası verilecektir.
+                        </p>
+                        <p>
+                            Eğitimler hakkındaki sorularınızı <a href="{% url "profiles:tickets" %}">buradan bize
+                            sorabilirsiniz.</a>
+                        </p>
+                        <br>
+                        {% if status %}
 
-						{% if section_training %}
-						<p>Seçtiğiniz Eğitim: <b> {% if section_training is not None %} {{ section_training }} {% else %} Eğitim Seçiniz {% endif %} </b> eğitim onayınız verilinceye kadar seçtiğiniz eğitimde değişiklikler yapabilirsiniz.</p>
-						{% else %}
-						<h1>Lütfen katılmak istediğiniz eğitimi seçiniz.</h1>
-						{% endif%}
-						<hr />
-						{% if status %}
-						<div class="col-sm-4 col-sm-offset-4">
-                        	<div class="massage-response-area">
-	                            {% include 'includes/__form_messages.html' %}
-	                            <form method="POST" action=""  enctype="multipart/form-data">
-	                                {% csrf_token %}
-	                                <div class="input-area">
-	                                    <div class="form-group input calculate-shipping">
-	                                        <label>Eğitim seçimi *</label>
-	                                            {{ form.training_first }}
-	                                    </div>
-	                                </div> {{ form.captcha }}
-	                                <p class="form-submit centered-area">
-	                                    <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
-	                                </p>
-	                            </form>
+                            {% if verify_selection %}
+                                <div class="col-sm-4 col-sm-offset-4">
+                                    <div class="massage-response-area">
+                                        <div class="alert alert-success fade in">
+                                            <p><b>Aşağıda belirtilen eğitiminiz Onaylanmıştır.</b></p>
+                                            <p>
+                                            <center>{{ verify_selection }}</center>
+                                            </p>
+                                            <p>
+                                                Eğitimler hakkındaki sorularınızı <a
+                                                    href="{% url "profiles:tickets" %}">buradan bize
+                                                sorabilirsiniz.</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                {% if section_training %}
+                                    <p>Seçtiğiniz Eğitim: <b> {% if section_training is not None %}
+                                        {{ section_training }} {% else %} Eğitim Seçiniz {% endif %} </b> eğitim
+                                        onayınız verilinceye kadar seçtiğiniz eğitimde değişiklikler yapabilirsiniz.</p>
+                                {% else %}
+                                    <h1>Lütfen katılmak istediğiniz eğitimi seçiniz.</h1>
+                                {% endif %}
+                                <hr>
+                                <div class="col-sm-4 col-sm-offset-4">
+                                    <div class="massage-response-area">
+                                        {% include 'includes/__form_messages.html' %}
+                                        <form method="POST" action="" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <div class="input-area">
+                                                <div class="form-group input calculate-shipping">
+                                                    <label>Eğitim seçimi *</label>
+                                                    {{ form.training_first }}
+                                                </div>
+                                            </div>
+                                            {{ form.captcha }}
+                                            <p class="form-submit centered-area">
+                                                <input name="submit" type="submit" id="submit" class="submit"
+                                                       value="Gönder">
+                                            </p>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                            {% endif %}
+
+                        {% else %}
+                            <div class="col-sm-4 col-sm-offset-4">
+                                <div class="massage-response-area">
+                                    <div class="alert alert-error fade in">
+                                        <p>Eğitim Kayıtları Sona Ermiştir.</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-						{% else %}
-						<div class="col-sm-4 col-sm-offset-4">
-								<div class="massage-response-area">
-							<div class="alert alert-error fade in">
-								<p>Eğitim Kayıtları Sona Ermiştir.</p>
-							</div>
-						</div>
-					</div>
-						{% endif %}
+
+
+                        {% endif %}
                     </div>
                 </div>
-			</div>
-		</div>
-	</section>
+            </div>
+        </div>
+    </section>
 {% endblock %}
 {% block script %}
-	<script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
+    <script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
 {% endblock %}
