@@ -449,6 +449,9 @@ class Setting(models.Model):
     about = RichTextField('Hakkında')
     training_note = RichTextField('Eğitim notu')
     cfp = RichTextField("CFP")
+    accommodation = RichTextField("Konaklama")
+    contact = RichTextField("İletişim")
+    transportation = RichTextField("Ulaşım")
     training_selection = models.BooleanField('Eğitim seçimi', default=False)
     participant_selection = models.BooleanField('Katılımcı seçimi',
                                                 default=False)

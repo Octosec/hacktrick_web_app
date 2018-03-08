@@ -71,8 +71,11 @@ class ProfileView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
             context['verify_selection'] = verify_selection.first_selection
         except UserTraining.DoesNotExist:
             context['verify_selection'] = False
-        context['status'] = Setting.objects.only(
-            'training_finish_date').get().training_finish_date >= timezone.localtime(timezone.now()).date()
+        try:
+           context['status'] = Setting.objects.only('training_finish_date').get().training_finish_date >= timezone.localtime(timezone.now()).date()
+        except Setting.DoesNotExist:
+           context['status'] = False;
+
         return context
 
     def get_initial(self):

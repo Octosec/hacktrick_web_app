@@ -17,7 +17,7 @@ def send_email_for_information(email_type, email_to, extra):
         subject, email_from = mail_object.title, "noreply@hacktrickconf.com"
         for m in email_to:
             mail_send = EmailMultiAlternatives(
-                mail_object.title, content, email_from, m)
+                mail_object.title, content, email_from, [m])
             mail_send.attach_alternative(content, "text/html")
             mail_send.send()
 

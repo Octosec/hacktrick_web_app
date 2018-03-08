@@ -55,6 +55,29 @@ class FAQListView(ListView):
     model = FAQ
     ordering = 'order'
 
+class ContactView(TemplateView):
+    template_name = 'pages/hacktrick/contact.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ContactView, self).get_context_data(**kwargs)
+        context["setting"] = Setting.objects.first()
+        return context
+
+class AccommodationView(TemplateView):
+    template_name = 'pages/hacktrick/accommodation.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(AccommodationView, self).get_context_data(**kwargs)
+        context["setting"] = Setting.objects.first()
+        return context
+
+class TransportationView(TemplateView):
+    template_name = 'pages/hacktrick/transportationview.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TransportationView, self).get_context_data(**kwargs)
+        context["setting"] = Setting.objects.first()
+        return context
 
 class BugMinerView(TemplateView):
     template_name = 'pages/hacktrick/bug-miner.html'
