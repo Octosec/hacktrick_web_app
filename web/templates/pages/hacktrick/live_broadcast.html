@@ -4,32 +4,24 @@
 {% block title %} Hacktrick Canlı Yayını {% endblock %}
 
 {% block page-header %}
-	<section class="page-header-content">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="page-header-content-inner">
-	                <ul class="breadcrumb">
-	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
-	                    <li class="active">Canlı yayın</li>
-	                </ul>
-	            </div>
-			</div>
-		</div>
-	</section>
+<section class="page-title parallax overlay bg-img-h">  
+    <div class="page-title-content"> 
+        <div class="container">   
+            <div class="col-sm-12 text-center white">
+                <h1>Canlı Yayın</h1>
+                <hr class="separator">
+            </div> 
+        </div>
+    </div>    
+</section>
 {% endblock %}
 
 {% block content %}
 	<!-- start event speaker  -->
-	<section class="event-speaker homepage2">
+	<section class="pt40">
 		<div class="container text-center">
 			<div class="row">
-				<div class="section-head">
-					<h2 class="header-title">Canlı Yayın</h2>
-				</div>
-
                 {{ broadcast|safe }}
-
 			</div><!-- /.row -->
 		</div><!-- /.container -->
 	</section>
