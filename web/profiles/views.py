@@ -55,6 +55,26 @@ class ProfileView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Profile
     success_message = "Bilgiler başarı ile güncellendi."
 
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        try:
+            section_training = UserTraining.objects.filter(user_id=self.request.user.id).get()
+            context['section_training'] = section_training.first_selection
+        except UserTraining.DoesNotExist:
+            context['section_training'] = False
+        try:
+            context['close_training'] = Setting.objects.get().training_selection
+        except Setting.DoesNotExist:
+            context['close_training'] = False
+        try:
+            verify_selection = UserTraining.objects.filter(user_id=self.request.user.id, accepted_training=True).get()
+            context['verify_selection'] = verify_selection.first_selection
+        except UserTraining.DoesNotExist:
+            context['verify_selection'] = False
+        context['status'] = Setting.objects.only(
+            'training_finish_date').get().training_finish_date >= timezone.localtime(timezone.now()).date()
+        return context
+
     def get_initial(self):
         return {
             'institution': self.request.user.institution,
