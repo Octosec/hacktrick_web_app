@@ -6,110 +6,62 @@
 {% block title %} Eğitimlerim {% endblock %}
 
 {% block page-header %}
-	<section class="page-header-content">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="page-header-content-inner">
-	                <ul class="breadcrumb">
-	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
-	                    <li class="active"><a href="{% url "hacktrick:trainings" %}">Eğitimlerim</a></li>
-	                </ul>
-	            </div>
-			</div>
-		</div>
-	</section>
+<section class="page-title parallax overlay bg-img-h">  
+    <div class="page-title-content"> 
+        <div class="container">   
+            <div class="col-sm-12 text-center white">
+                <h1>Eğitimlerim</h1>
+                <hr class="separator">
+            </div> 
+        </div>
+    </div>    
+</section>
 {% endblock %}
 
 {% block content %}
-	<!-- start event-schedule  -->
-	<section class="event-schedule">
+	<section class="pt20 pb20">
 		<div class="container">
 			<div class="row">
-				<div class="section-head">
-					<h2 class="header-title">Eğitimlerim</h2>
-				</div>
                 {% if not object_list.count > 0 %}
                     <div class="alert alert-danger">Size ait bir eğitim bulunamadı. Lütfen moderatör ile iletişime geçin.</div>
                 {% else %}
-                    <div class="event-schedule-inner">
-                        <div class="event-schedule-inner-fixed">
 
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane fade in active" id="first-date">
-                                    <div class="schedule-wrapper">
-                                        <div class="schedule-item header">
-                                            <div class="col-xs-4 col-sm-4 col-md-4">
-                                                <div class="item-inner">
-                                                    <span><i class="fa fa-train"></i></span>
-                                                    <span>Eğitim</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-3 col-sm-3 col-md-3">
-                                                <div class="item-inner">
-                                                    <span><i class="fa fa-thumbs-up"></i></span>
-                                                    <span>Kontenjan</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-3 col-sm-3 col-md-3">
-                                                <div class="item-inner">
-                                                    <span><i class="fa fa-calendar"></i></span>
-                                                    <span>Tarih</span>
-                                                </div>
-                                            </div>
-                                            <div class="col-xs-2 col-sm-2 col-md-2">
-                                                <div class="item-inner">
-                                                    <span><i class="fa fa-check"></i></span>
-                                                    <span>İşlem</span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {% for training in object_list %}
-                                            <div class="schedule-item">
-                                                <div class="col-xs-4 col-sm-4 col-md-4">
-                                                    <div class="item-inner event-session">
-                                                        <span><a href="{% url "profiles:training_update" training.pk %}">{{ training.title|title }}</a></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-3 col-sm-3 col-md-3">
-                                                    <div class="item-inner event-session">
-                                                        <span> {% if training.capacity %} 
-                                                            {{ training.capacity }}
-                                                            {% else %} 
-                                                                Sınırsız 
-                                                            {% endif %}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-3 col-sm-3 col-md-3">
-                                                    <div class="item-inner event-session">
-                                                        <span>{{ training.date }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-2 col-sm-2 col-md-2">
-                                                    <div class="item-inner">
-                                                        <span>
-                                                            <a href="{% url "profiles:participant_accept" training.pk %}" title="Katılımcı kabul et">
-                                                                <i class="fa fa-check"></i>&nbsp;Katılımcıları Onayla
-                                                            </a>
-                                                        </span>
-                                                        <br />
-                                                        <span>
-                                                           <!-- <a href="{% url "profiles:accepted_participants" training.pk %}" title="Katılmayı onaylayan kullanıcılar">
-                                                                <i class="fa fa-user"></i>&nbsp;Kesin Katılımcılar
-                                                            </a>-->
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-sm-12">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Eğitim
+                                </th>
+                                <th>
+                                    Kontenjan
+                                </th>
+                                <th>
+                                    Tarih
+                                </th>
+                                <th>
+                                    İşlem
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for training in object_list %}
+                            <tr>
+                                <td><a href="{% url "profiles:training_update" training.pk %}">{{ training.title|title }}</a></td>
+                                <td>{% if training.capacity %} {{ training.capacity }} {% else %} Sınırsız {% endif %}</td>
+                                <td>{{ training.date }}</td>
+                                <td>
+                                    <a href="{% url "profiles:participant_accept" training.pk %}" title="Katılımcı kabul et">
+                                        <i class="fa fa-check"></i>&nbsp;Katılımcıları Onayla
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
                 {% endif %}
-			</div><!-- /.row -->
-		</div><!-- /.container -->
+			</div>
+		</div>
 	</section>
 {% endblock %}

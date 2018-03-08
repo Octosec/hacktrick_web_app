@@ -4,118 +4,75 @@
 {% block title %} Eğitmen Bilgilerim {% endblock %}
 
 {% block page-header %}
-	<section class="page-header-content">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="page-header-content-inner">
-	                <ul class="breadcrumb">
-	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
-	                    <li class="active">Eğitmen Bilgilerim</li>
-	                </ul>
-	            </div>
-			</div>
-		</div>
-	</section>
+<section class="page-title parallax overlay bg-img-h">  
+    <div class="page-title-content"> 
+        <div class="container">   
+            <div class="col-sm-12 text-center white">
+                <h1>Eğitmen Bilgileri</h1>
+                <hr class="separator">
+            </div> 
+        </div>
+    </div>    
+</section>
 {% endblock %}
 
 {% block content %}
-	<section class="event-speaker homepage2">
-		<div class="container">
-			<div class="row">
-				<div class="section-head">
-					<h2 class="header-title">EĞİTMEN BİLGİLERİ ÖNİZLEME</h2>
-				</div>
-				<div class="speak-wrapper-h2">
-					<div class="col-sm-4 col-md-4">
-						<div class="speaker-item-h2">
-							<div class="speaker-pic">
-                                {% if not request.user.instructor.image or form.image.errors %}
-								    <img src="{% static "images/default/user.png" %}" alt="speaker">
-                                {% else  %}
-                                     <img src="{{ request.user.instructor.image.url }}" alt="{{ request.user.get_full_name }}">
-                                {% endif %}
-							</div>
-							<div class="speaker-content-bg"></div>
-							<div class="speaker-content-h2-out-side">
-								<div class="speaker-content-h2">
-									<div class="speaker-content-header-h2">
-										<h3><a href="#" class="speaker-name">{{ request.user.get_full_name }}</a></h3>
-										<p class="designation">{{ request.user.instructor.title }}</p>
-									</div>
 
-									<div class="speaker-social-h2">
-										<ul class="social-media">
-											{% if request.user.instructor.facebook %}
-                                                <li>
-                                                    <a href="https://www.facebook.com/{{ request.user.instructor.facebook }}" target="_blank">
-                                                    <i class="fa fa-facebook"></i>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                            {% if request.user.instructor.twitter %}
-											    <li>
-                                                    <a href="https://twitter.com/{{ request.user.instructor.twitter }}" target="_blank">
-                                                        <i class="fa fa-twitter"></i>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                            {% if request.user.instructor.linkedin %}
-                                                <li>
-                                                    <a href="https://www.linkedin.com/in/{{ request.user.instructor.linkedin }}" target="_blank">
-                                                        <i class="fa fa-linkedin"></i>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-                    <div class="col-sm-8 col-md-8">
-                        Eğitmen önizleniminiz sol tarafta gördüğünüz gibidir. Bilgilerinizi aşağıdaki formu kullanarak güncelleyebilirsiniz.
-                        <hr />
-                        <div class="massage-response-area">
-                            {% include 'includes/__form_messages.html' %}
-                            <form method="POST" action=""  enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="input-area">
-                                    <div class="form-group input">
-                                        <label>Ünvan *</label>
-                                            {{ form.title }}
-                                    </div>
-                                    <div class="form-group input">
-                                        <label>Kurum *</label>
-                                            {{ form.institution }}
-                                    </div>
-                                    <div class="form-group input">
-                                        <label>Facebook kullanıcı adı</label>
-                                            {{ form.facebook }}
-                                    </div>
-                                    <div class="form-group input">
-                                        <label>Twitter kullanıcı adı</label>
-                                            {{ form.twitter }}
-                                    </div>
-                                    <div class="form-group input">
-                                        <label>Linkedin kullanıcı adı</label>
-                                            {{ form.linkedin }}
-                                    </div>
-                                    <div class="form-group input">
-                                        <label>Resim</label>
-                                            {{ form.image }}
-                                    </div>
-                                </div> {{ form.captcha }}
-                                <p class="form-submit centered-area">
-                                    <input name="submit" type="submit" id="submit" class="submit" value="Güncelle">
-                                </p>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-			</div>
-		</div>
-	</section>
+<section class="pt70 pb50"> 
+    <div class="container">   
+        <div class="row"> 
+            <div class="col-md-4">
+                {% if not request.user.instructor.image or form.image.errors %}
+                    <img src="{% static "img/user.png" %}" alt="speaker">
+                {% else  %}
+                     <img src="{{ request.user.instructor.image.url }}" alt="{{ request.user.get_full_name }}">
+                {% endif %}
+
+                <ul class="social-media">
+                    {% if request.user.instructor.facebook %}
+                        <li>
+                            <a href="https://www.facebook.com/{{ request.user.instructor.facebook }}" target="_blank">
+                            <i class="fa fa-facebook"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+
+
+                    <h3><a href="#" class="speaker-name">{{ request.user.get_full_name }}</a></h3>
+                    <p class="designation">{{ request.user.instructor.title }}</p>
+
+                    {% if request.user.instructor.twitter %}
+                        <li>
+                            <a href="https://twitter.com/{{ request.user.instructor.twitter }}" target="_blank">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if request.user.instructor.linkedin %}
+                        <li>
+                            <a href="https://www.linkedin.com/in/{{ request.user.instructor.linkedin }}" target="_blank">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="col-md-7 col-md-offset-1 contact">
+                <form method="POST"  action="#">
+                    {% csrf_token %}
+                    {{ form.title }}
+                    {{ form.institution }}
+                    {{ form.facebook }}
+                    {{ form.twitter }}
+                    {{ form.linkedin }}
+                    {{ form.image }}
+                    {{ form.captcha }}
+                    <input name="submit" type="submit" id="submit" class="submit btn btn-md btn-primary" value="Kaydet">
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
 {% block script %}
 <script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>

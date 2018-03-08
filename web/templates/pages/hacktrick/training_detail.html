@@ -16,134 +16,83 @@
     </style>
 {% endblock %}
 
-{% block page-header %}
-	<section class="page-header-content">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="page-header-content-inner">
-	                <ul class="breadcrumb">
-	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
-	                    <li class="active"><a href="{% url "hacktrick:trainings" %}">Eğitimler</a></li>
-	                    <li class="active">{{ object.title }}</li>
-	                </ul>
-	            </div>
-			</div>
-		</div>
-	</section>
+{% block page-header %}<section class="page-title parallax overlay bg-img-h">  
+    <div class="page-title-content"> 
+        <div class="container">   
+            <div class="col-sm-12 text-center white">
+                <h1>{{ object.title }}</h1>
+                <hr class="separator">
+            </div> 
+        </div>
+    </div>    
+</section>
 {% endblock %}
 
 {% block content %}
-	<section id="content" class="blog-page">
+    <section class="blog">
 		<div class="container">
 			<div class="row">
-				<!--  start main content  -->
-				<main id="main-content" class="col-md-8">
-					<div class="theiaStickySidebar">
-						<article class="entry-single">
-							<div class="entry-header">
-								<img src="/assets/images/training-octo.png" alt="cover">
-							</div>
-							<div class="entry-content-outer">
-								<div class="entry-content">
-									<h2>{{ object.title }}</h2>
-									<div class="meta-post">
-										<span class="date"><i class="fa fa-calendar"></i>{{ object.date }}</span>
-									</div>
-
-									<div class="row">
-			                            <ul class="comment-list">
-                                            {% for instructor in object.instructor.all %}
-			                                <li class="comment">
-			                                    <article class="comment-item">
-			                                        <div class="profile-image">
-                                                        {% if not instructor.image %}
-                                                            <img src="{% static "images/default/user.png" %}" alt="Eğitmen">
-                                                        {% else  %}
-                                                             <img src="{{ instructor.image.url }}" alt="Eğitmen">
-                                                        {% endif %}
-			                                        </div>
-			                                        <div class="contents border-none">
-			                                            <div class="comment-meta">
-			                                                <strong>{{ instructor.user.get_full_name }}</strong> |
-			                                                <span class="date-time">
-		                                            			{{ instructor.title }} - {{ instructor.institution }}
-															</span>
-			                                            </div>
-			                                            <div class="content">
-				                                                <ul class="social-media">
-                                                                    {% if instructor.facebook %}
-                                                                        <li class="social-media-item">
-                                                                            <a href="https://www.facebook.com/{{ instructor.facebook }}" target="_blank">
-                                                                            <i class="fa fa-facebook"></i>
-                                                                            </a>
-                                                                        </li>
-                                                                    {% endif %}
-                                                                    {% if instructor.twitter %}
-                                                                        <li class="social-media-item">
-                                                                            <a href="https://twitter.com/{{ instructor.twitter }}" target="_blank">
-                                                                                <i class="fa fa-twitter"></i>
-                                                                            </a>
-                                                                        </li>
-                                                                    {% endif %}
-                                                                    {% if instructor.linkedin %}
-                                                                        <li class="social-media-item">
-                                                                            <a href="https://www.linkedin.com/in/{{ instructor.linkedin }}" target="_blank">
-                                                                                <i class="fa fa-linkedin"></i>
-                                                                            </a>
-                                                                        </li>
-                                                                    {% endif %}
-																</ul>
-			                                            </div>
-			                                        </div>
-			                                    </article>
-			                                </li>
-                                            {% endfor %}
-			                            </ul>
-									</div>
-									<blockquote>
-										<p>{{ training_note|safe }}</p>
-									</blockquote>
-
-									<p>{{ object.content|bleach }}</p>
-
-                                    <h3>Dökümanlar</h3><br/>
-                                    <ul>
-                                        {% for document in object.documents.all %}
-                                            <li><a href="{{ document.document_url }}" target="_blank">{{ document.name }}</a></li>
-                                        {% endfor %}
-                                    </ul>
-								</div>
-							</div>
-						</article>
-					</div>
-				</main>
-
-				<aside id="sidebar" class="col-md-4 page-sidebar">
-					<div class="widget-area theiaStickySidebar">
-
-	                    <div class="widget catagory">
-	                        <h3 class="widget-title">Diğer Eğitimler</h3>
-	                        <div class="clearfix"></div>
-
-	                        <ul class="catagory-list">
-                                {% for training in trainings %}
-                                    {% if not training == object %}
-                                        <li>
-                                            <a href="{% url "hacktrick:training_detail" training.id %}">
-                                                {{ training.title }}
-                                            </a><span>{% if training.capacity %} 
-													{{ training.record_traning}} - {{ training.capacity }}
-													{% else %} 
-														Sınırsız 
-													{% endif %}</span>
-                                        </li>
+				<div class="col-md-12">
+					<div class="blog-post">
+                        <p class="blog-post-categories">
+                            <span><i class="ion-ios-calendar"></i></span>
+                            {{ object.date }}
+                        </p>
+                        <p>
+                            {% for instructor in object.instructor.all %}
+	                        <div class="comment first depth-1">
+	                            <a class="pull-left" href="#">
+                                    {% if not instructor.image %}
+                                        <img class="avatar" src="{% static "images/default/user.png" %}" alt="Eğitmen">
+                                    {% else  %}
+                                         <img class="avatar" src="{{ instructor.image.url }}" alt="Eğitmen">
                                     {% endif %}
+	                            </a>
+	                            <div class="comment-body">
+	                                <h4 class="comment-heading">{{ instructor.user.get_full_name }}</h4> 
+	                                <p class="comment-time">{{ instructor.title }} - {{ instructor.institution }}</p>
+	                                <p>
+                                        <ul class="social-media">
+                                            {% if instructor.facebook %}
+                                                <li class="social-media-item">
+                                                    <a href="https://www.facebook.com/{{ instructor.facebook }}" target="_blank">
+                                                    <i class="fa fa-facebook"></i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% if instructor.twitter %}
+                                                <li class="social-media-item">
+                                                    <a href="https://twitter.com/{{ instructor.twitter }}" target="_blank">
+                                                        <i class="fa fa-twitter"></i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% if instructor.linkedin %}
+                                                <li class="social-media-item">
+                                                    <a href="https://www.linkedin.com/in/{{ instructor.linkedin }}" target="_blank">
+                                                        <i class="fa fa-linkedin"></i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+										</ul>
+	                                </p>
+	                            </div>
+	                        </div>
+                            {% endfor %}
+							<blockquote>
+								<p>{{ training_note|safe }}</p>
+							</blockquote>
+							<p>{{ object.content|bleach }}</p>
+
+                            <h3>Dökümanlar</h3><br/>
+                            <ul>
+                                {% for document in object.documents.all %}
+                                    <li><a href="{{ document.document_url }}" target="_blank">{{ document.name }}</a></li>
                                 {% endfor %}
-	                        </ul>
-	                    </div>
-	                </div>
-				</aside>
+                            </ul>
+                        </p>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
