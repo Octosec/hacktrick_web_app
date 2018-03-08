@@ -43,6 +43,7 @@ class IndexView(TemplateView):
         context["bronze_sponsors"] = Sponsor.objects.filter(category=5).order_by('order')
         context["stand_sponsors"] = Sponsor.objects.filter(category=6).order_by('order')
         context["speakers"] = Speaker.objects.filter(is_visible=True)
+        context['trainings'] = Training.objects.all().count()
         context["instructors"] = Instructor.objects.all()
         context['conference_slots'] = ConferenceSlot.objects.all()
         context['speaking_count'] = Speak.objects.all().count()

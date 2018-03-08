@@ -170,6 +170,7 @@ class DocumentForm(ModelForm):
 
 
 class TrainingSelectForm(forms.Form):
+    captcha = NoReCaptchaField()
     training_first = ModelChoiceField(
         queryset=None,
         widget=Select(attrs={'id': 'country'})
