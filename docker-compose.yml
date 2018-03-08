@@ -25,6 +25,16 @@ services:
         - db
         - rabbitmq
 
+  redis:
+    container_name: redis
+    image: redis:4.0.8-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - ../data/redis:/data
+    restart: always
+
+
   web:
     restart: always
     build: .
@@ -36,3 +46,4 @@ services:
     depends_on:
       - db
       - rabbitmq
+      - redis
