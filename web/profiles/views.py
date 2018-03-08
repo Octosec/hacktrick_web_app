@@ -58,11 +58,6 @@ class ProfileView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         try:
-            section_training = UserTraining.objects.filter(user_id=self.request.user.id).get()
-            context['section_training'] = section_training.first_selection
-        except UserTraining.DoesNotExist:
-            context['section_training'] = False
-        try:
             context['close_training'] = Setting.objects.get().training_selection
         except Setting.DoesNotExist:
             context['close_training'] = False
