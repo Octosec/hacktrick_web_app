@@ -9,6 +9,9 @@ from .views import (
     CsAwardView,
     TrainingListView,
     TrainingDetailView,
+    ContactView,
+    AccommodationView,
+    TransportationView,
     CFPView,
     ContributorListView,
     LiveBroadCastView
@@ -17,6 +20,9 @@ from .views import (
 urlpatterns = [
     url('^$', IndexView.as_view(), name='index'),
     url('^faq/$', FAQListView.as_view(), name='faq'),
+    url('^contact/$', ContactView.as_view(), name='contact'),
+    url('^accommodation/$', AccommodationView.as_view(), name='accommodation'),
+    url('transportation^/$', TransportationView.as_view(), name='transportation'),
     url(r'^events/cfp/$',CFPView.as_view(),name='cfp'),
     url(r'^events/game-of-pwners/$',GameOfPwnersView.as_view(),name='game-of-pwners'),
     url(r'^events/bugminer/$',BugMinerView.as_view(),name='bug-miner'),
