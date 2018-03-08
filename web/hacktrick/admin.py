@@ -109,7 +109,15 @@ class TicketInline(admin.StackedInline):
     model = TicketComment
     can_delete = True
     extra = 1
-
+    
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'user':
+            kwargs['initial'] = get_user_model().objects.filter(username=request.user.username)
+        return super(TicketInline, self).formfield_for_foreignkey(db_field, request, **kwargs)
+    
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        return super(TicketInline, self).save_model(request, obj, form, change)
 
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
@@ -128,10 +136,26 @@ class TicketCommentAdmin(admin.ModelAdmin):
     raw_id_fields = ['ticket']
     readonly_fields = ['user']
 
-    def save_model(self, request, obj, form, change):
-        if not change:
-            obj.user = request.user
-        obj.save()
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'user':
+            kwargs['initial'] = get_user_model().objects.filter(username=request.user.username, is_staff=True)
+            return db_field.formfield(**kwargs)
+        return super(TicketCommentAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj is not None:
+            return self.readonly_fields + ('user',)
+        return self.readonly_fields
+
+    def add_view(self, request, form_url="", extra_context=None):
+        data = request.GET.copy()
+        data['user'] = request.user
+        request.GET = data
+        return super(TicketCommentAdmin, self).add_view(request, form_url="", extra_context=extra_context)
+        
+    #def save_model(self, request, obj, form, change):
+    #    obj.user = request.user
+    #    super().save_model(request, obj, form, change)
 
 
 @admin.register(Setting)

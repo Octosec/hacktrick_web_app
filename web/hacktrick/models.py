@@ -400,7 +400,7 @@ class TicketComment(models.Model):
     date = models.DateTimeField("Tarih", auto_now_add=True)
     user = models.ForeignKey(
         Profile,
-        verbose_name='Katılımcı',
+        verbose_name='Yönetici',
         related_name='ticket_comments',
         related_query_name='ticket_comment',
         help_text='Otomatik doldurulur'
