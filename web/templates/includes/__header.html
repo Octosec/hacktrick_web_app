@@ -19,30 +19,26 @@
             <div class="container">
                 <ul class="nav navbar-nav menu-right">
 
+                    <li><a href="{% url "hacktrick:index" %}#program" class="btn-scroll">Program</a></li>
                     <li><a href="{% url "hacktrick:index" %}#sponsors" class="btn-scroll">Sponsorlar</a></li>
-                    <li><a href="{% url "hacktrick:trainings" %}">EGITIMLER</a> </li>
-                    <li><a href="{% url "hacktrick:faq" %}">SSS</a> </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle">ETKINLIKLER<i class="ti-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li class="">
-                                    <a href="{% url "hacktrick:cfp" %}">CFP</a>
-                            </li>
-                            <li class="">
-                                    <a href="{% url "hacktrick:game-of-pwners" %}">Game Of Pwners</a>
-                            </li>
-                            <li class="">
-                                    <a href="{% url "hacktrick:bug-miner" %}">Bug Miner</a>
-                                </li>
-                            <li class="">
-                                    <a href="{% url "hacktrick:demo-room" %}">Demo Room</a>
-                            </li>
-                            <li class="">
-                                    <a href="{% url "hacktrick:cs-award" %}">CS Award</a>
-                            </li>
+                            <li><a href="{% url "hacktrick:trainings" %}">Eğitimler</a></li>
+                            <li><a href="{% url "hacktrick:cfp" %}">CFP</a></li>
+                            <li><a href="{% url "hacktrick:game-of-pwners" %}">Game Of Pwners</a></li>
+                            <li><a href="{% url "hacktrick:bug-miner" %}">Bug Miner</a></li>
+                            <li><a href="{% url "hacktrick:demo-room" %}">Demo Room</a></li>
+                            <li><a href="{% url "hacktrick:cs-award" %}">CS Award</a></li>
                         </ul>
                     </li>
-                    <li><a href="{% url "hacktrick:contributors" %}">Katkıda Bulunanlar</a> </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle">Hakkında<i class="ti-angle-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{% url "hacktrick:faq" %}">SSS</a> </li>
+                            <li><a href="{% url "hacktrick:contributors" %}">Katkıda Bulunanlar</a> </li>
+                        </ul>
+                    </li>
                     <li class="nav-separator"></li>
                     {% include "includes/__header_extra.html" %}
                     <li class="nav-separator"></li>

@@ -17,13 +17,13 @@
 
 {% block content %}
 
-<section class="pt70 pb50 bg-grey"> 
+<section class="pt70 pb50"> 
     <div class="container">   
         <div class="row"> 
             <div class="col-md-12 section-heading">
             {% if request.user.institution == "" or request.user.phone_number == "" or request.user.first_name == "" or request.user.last_name == "" %}
                 <div class="alert alert-danger text-center">
-                    Sistem üzerinde işlemlere devam edebilmek için kullanıcı bilgilerini doldurmak zorundasınız. Lütfen aşağıdaki formu kullanarak güncelleyiniz.
+                    Eğitim seçimi ve diğer işlemler için lütfen kullanıcı bilgilerinizi güncelleyin.
                 </div>
             {% endif %}
             {% include "includes/__form_messages.html" %}
@@ -34,20 +34,15 @@
                     <li><strong>Email</strong>{{ request.user.email }}</li>
                 </ul>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-6 col-md-offset-3 contact">
                 <form method="POST"  action="#">
                     {% csrf_token %}
-                    <div class="input-area">
-                        <div class="input">
-                            {{ form.first_name }}
-                            {{ form.last_name }}
-                            {{ form.institution }}
-                            {{ form.phone_number }}
-                        </div>
-                    </div>{{ form.captcha }}
-                    <p class="form-submit centered-area">
-                        <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
-                    </p>
+                    {{ form.first_name }}
+                    {{ form.last_name }}
+                    {{ form.institution }}
+                    {{ form.phone_number }}
+                    {{ form.captcha }}
+                    <input name="submit" type="submit" id="submit" class="submit btn btn-md btn-primary" value="Kaydet">
                 </form>
             </div>
         </div>

@@ -20,97 +20,83 @@
 {% block content %}
 
 
-<section class="pt70 pb50 bg-grey"> 
+<section class="pt70 pb50"> 
     <div class="container">   
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-4 contact">
+                <div class="section-heading">
+                    <h4>Soru Sorun</h4>
+                </div>
                 {% include 'includes/__form_messages.html' %}
                 <form method="POST"  action="">
                     {% csrf_token %}
-                    <div class="input-area">
-                        <div class="input">
-                            {{ form.title }}
-                            {{ form.content }}
-                        </div>
-                    </div>{{ form.captcha }}
-                    <p class="form-submit text-center">
-                        <input name="submit" type="submit" id="submit" class="btn btn-primary" value="Gönder">
-                        <a href="#all-messages" class="btn btn-primary btn-scroll">Tüm Sorular</a>
-                    </p>
+                    {{ form.title }}
+                    {{ form.content }}
+                    {{ form.captcha }}
+                    <input name="submit" type="submit" id="submit" class="submit btn btn-md btn-primary" value="Gönder">
                 </form>
+            </div>
+            <div class="col-md-offset-1 col-md-7">
+
+                <div class="section-heading">
+                    <h4>Tüm Sorularınız</h4>
+                </div>
+                {% if object_list.count > 0 %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Tarih
+                            </th>
+                            <th>
+                                Başlık
+                            </th>
+                            <th>
+                                Durum
+                            </th>
+                            <th>
+                                Yanıt Sayısı
+                            </th>
+                            <th>
+                                Detaylar
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket in object_list %}
+                        <tr>
+                            <td>
+                                {{ ticket.date|date:"d M Y" }}
+                            </td>
+                            <td>
+                                {{ ticket.title }}
+                            </td>
+                            <td>
+                                {% if ticket.ticket_status %}
+                                    Açık
+                                {% else %}
+                                    Kapalı
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ ticket.ticket_comments.count }}
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" href="{% url "profiles:ticket_detail" ticket.pk %}"><span>Git</span></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                   <div class="alert alert-danger">
+                       Aklınıza takılan bir soru varsa lütfen formu kullanarak bize sorun.
+                   </div>
+                {% endif %}
             </div>
         </div>
     </div>
 </section>
-
-<section class="pt70 pb50" id="all-messages">
-		<div class="container">
-			<div class="row">
-                <div class="col-md-12 section-heading">
-                    <h3>Sorularınız</h3>
-                    <hr class="separator">
-                </div>
-
-				<div class="event-schedule-inner">
-					<div class="event-schedule-inner-fixed">
-						<!-- Tab panes -->
-                        {% if object_list.count > 0 %}
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Tarih
-                                    </th>
-                                    <th>
-                                        Başlık
-                                    </th>
-                                    <th>
-                                        Durum
-                                    </th>
-                                    <th>
-                                        Yanıt Sayısı
-                                    </th>
-                                    <th>
-                                        Detaylar
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for ticket in object_list %}
-                                <tr>
-                                    <td>
-                                        {{ ticket.date|date:"d M Y" }}
-                                    </td>
-                                    <td>
-                                        {{ ticket.title }}
-                                    </td>
-                                    <td>
-                                        {% if ticket.ticket_status %}
-                                            Açık
-                                        {% else %}
-                                            Kapalı
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {{ ticket.ticket_comments.count }}
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-primary" href="{% url "profiles:ticket_detail" ticket.pk %}"><span>Git</span></a>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        {% else %}
-                               <div class="alert alert-danger">
-                                    Onaylanmış bir soru bulunamadı. Aklınıza takılan bir soru varsa lütfen formu kullanarak bize sorun.
-                                </div>
-                        {% endif %}
-					</div><!-- /.event-schedule-inner-fixed -->
-				</div><!-- /.event-schedule-inner -->
-			</div><!-- /.row -->
-		</div><!-- /.container -->
-	</section>
 {% endblock %}
 {% block script %}
 <script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>

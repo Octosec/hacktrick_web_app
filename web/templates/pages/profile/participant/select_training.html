@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load hacktrick_extras %}
-{% block title %} Eğitim Seç {% endblock %}
+{% block title %} Eğitim Seçimi {% endblock %}
 
 {% block page-header %}
 <section class="page-title parallax overlay bg-img-h">  
     <div class="page-title-content"> 
         <div class="container">   
             <div class="col-sm-12 text-center white">
-                <h1>Eğitim Seç</h1>
+                <h1>Eğitim Seçimi</h1>
                 <hr class="separator">
             </div> 
         </div>
@@ -17,7 +17,7 @@
 
 {% block content %}
 
-<section class="pt70 pb50 bg-grey"> 
+<section class="pt70 pb50"> 
     <div class="container">   
         <div class="row"> 
             <div class="col-md-12 section-heading">
@@ -32,10 +32,7 @@
                         <div class="col-sm-4 col-sm-offset-4">
                             <div class="massage-response-area">
                                 <div class="alert alert-success fade in">
-                                    <p><b>Aşağıda belirtilen eğitiminiz Onaylanmıştır.</b></p>
-                                    <p>
-                                    <center>{{ verify_selection }}</center>
-                                    </p>
+                                    <p><strong>Onaylanan Eğitim:</strong> {{ verify_selection }}</p>
                                 </div>
                             </div>
                         </div>
@@ -49,30 +46,18 @@
                                         Eğitim Seçiniz
                                     {% endif %}
                                 </b>
-                                Eğitim onayınız verilinceye kadar seçtiğiniz eğitimde değişiklikler yapabilirsiniz.
+                                Seçiminiz onaylanmadıkça eğitim tercihinizi kontenjanı olan başka bir eğitimle değiştirebilirsiniz.
                             </p>
-                        {% else %}
-                            <h1>Lütfen katılmak istediğiniz eğitimi seçiniz.</h1>
                         {% endif %}
                         <hr class="separator">
-                        <div class="col-sm-4 col-sm-offset-4">
-                            <div class="massage-response-area">
-                                {% include 'includes/__form_messages.html' %}
-                                <form method="POST" action="" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    <div class="input-area">
-                                        <div class="form-group input calculate-shipping">
-                                            <label>Eğitim seçimi *</label>
-                                            {{ form.training_first }}
-                                        </div>
-                                    </div>
-                                    {{ form.captcha }}
-                                    <p class="form-submit centered-area">
-                                        <input name="submit" type="submit" id="submit" class="submit"
-                                               value="Gönder">
-                                    </p>
-                                </form>
-                            </div>
+                        <div class="col-sm-4 col-sm-offset-4 contact">
+                            {% include 'includes/__form_messages.html' %}
+                            <form method="POST" action="" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ form.training_first }}
+                                {{ form.captcha }}
+                                <input name="submit" type="submit" id="submit" class="btn btn-primary submit" value="Seç">
+                            </form>
                         </div>
                     {% endif %}
                 {% else %}

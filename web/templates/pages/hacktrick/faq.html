@@ -4,60 +4,49 @@
 {% block title %} Sıkça Sorulan Sorular {% endblock %}
 
 {% block page-header %}
-	<section class="page-header-content">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="page-header-content-inner">
-	                <ul class="breadcrumb">
-	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
-	                    <li class="active">SSS</li>
-	                </ul>
-	            </div>
-			</div>
-		</div>
-	</section>
+
+<section class="page-title parallax overlay bg-img-h">  
+    <div class="page-title-content"> 
+        <div class="container">   
+            <div class="col-sm-12 text-center white">
+                <h1>Sık Sorulan Sorular</h1>
+                <hr class="separator">
+            </div> 
+        </div>
+    </div>
+</section>
 {% endblock %}
 
 {% block content %}
-	<!--  Start testimonial v2  -->
-	<section class="testimonial-v2">
-		<div class="container">
-			<div class="row">
-					<div class="testimonial-wrapper">
-						<div class="section-head" style="text-align: center !important;">
-							<h2 class="header-title">Sıkça Sorulan Sorular</h2>
-							<p class="header-desc">Lütfen aklınıza takılan noktalar için soruları detaylıca okuyunuz.</p>
-						</div>
 
-                        {% if object_list.count > 0 %}
-						<div class="testimonial-inner">
-							<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                                {% for question in object_list %}
-                                    <div class="panel panel-default">
-                                        <div id="collapse{{ question.order }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                                            <div class="panel-body">
-                                                {{ question.answer|safe }}
-                                            </div>
-                                        </div>
-                                        <div class="panel-heading" role="tab" id="headingOne">
-                                            <a class="panel-title accordion-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ question.order }}" aria-expanded="true" aria-controls="collapseOne">
-                                                <h3><span>{{ question.question }}</span></h3>
-                                            </a>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-							</div>
-						</div>
-                        {% else %}
-                        	<div class="col-md-6 col-md-offset-3">
-                            	<div class="alert alert-danger text-center">Soru bulunamadı. En kısa sürede ekleyeceğiz.</div>
+<section class="pt60 pb80">
+    <div class="container"> 
+        <div class="row">
+	        <div class="col-md-12">
+                {% if object_list.count > 0 %}
+                    <div class="panel-group accordian-style1 mb0" id="accordion">
+                        {% for question in object_list %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                 <button class="panel-title collapsed" data-toggle="collapse" data-target="#collapse{{ question.order }}">
+                                     {{ question.question }}
+                                 </button>
                             </div>
-                        {% endif %}
-					</div><!-- /.testimonial-wrapper -->
-			</div><!-- /.row -->
-		</div><!-- /.container -->
-	</section>
-	<!--  End testimonial v2  -->
-
+                            <div id="collapse{{ question.order }}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                        {{ question.answer|safe }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                	<div class="col-md-6 col-md-offset-3">
+                    	<div class="alert alert-danger text-center">Soru bulunamadı. En kısa sürede ekleyeceğiz.</div>
+                    </div>
+                {% endif %}
+	        </div> 
+        </div>
+    </div>
+</section>
 {% endblock %}

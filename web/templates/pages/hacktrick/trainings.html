@@ -22,30 +22,47 @@
 <section class="pt60 pb80">
     <div class="container"> 
         <div class="row">
-
-            <div class="col-md-4 text-left text-center-sm-xs mt20 mb40">   
+            <div class="col-md-12 section-heading">
                 <h3>Eğitimler</h3>
-                <p class="pull-right"><small>TODO: küçük açıklayıcı metin yazılmalı</small></p>
             </div>
-
-            <div class="col-md-4 col-md-offset-4">
-                {% if not object_list.count > 0 %}
-                    <div class="alert alert-danger">Eğitimler en kısa sürede eklenecektir.</div>
-                {% else %}
-
-                <ul class="list-icons">
-                    {% for training in data %}
-                        <li>
-                            <i class="ion-android-done-all"></i>
-                            <a href="{% url "hacktrick:training_detail" training.id %}">{{ training.title|title }}</a>
-                            <span>{% if training.capacity %} {{ training.record_traning}} - {{ training.capacity }} {% else %} Sınırsız {% endif %}</span>
-                            <span>{{ training.date }} - {{ training.finish_date}} </span>
-                        </li>
-                    {% endfor %}
-                </ul>
-                {% endif %}
-            </div> 
         </div>
+        <div class="col-md-6 col-md-offset-3">
+            {% if not object_list.count > 0 %}
+                <div class="alert alert-danger text-center">Eğitimler en kısa sürede eklenecektir.</div>
+            {% else %}
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Adı
+                            </th>
+                            <th>
+                                Kayıt/Kontenjan
+                            </th>
+                            <th>
+                                Tarih
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for training in data %}
+                        <tr>
+                            <td>
+                                <a href="{% url "hacktrick:training_detail" training.id %}">{{ training.title|title }} <i class="ion-link"></i></a>
+                            </td>
+                            <td>
+                                {% if training.capacity %} {{ training.record_traning}} - {{ training.capacity }} {% else %} Sınırsız {% endif %}
+                            </td>
+                            <td>
+                                {{ training.date }} - {{ training.finish_date}}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div> 
     </div>
 </section>
 {% endblock %}
