@@ -42,7 +42,7 @@
 						<a href="{% url "profiles:login" %}" class="btn btn-primary btn-lg btn-appear mt40"><span>Giriş Yap <i class="ion-key"></i></span></a>
 						<br>
 					{% endif %}
-                    <a class="btn btn-primary btn-lg btn-appear mt40 mb40 hidden-xs" href="img/hacktrick18-brosur.pdf" download>
+                    <a class="btn btn-primary btn-lg btn-appear mt40 mb40 hidden-xs" href="https://github.com/Octosec/hacktrick-brosur/raw/master/img/hacktrick18-brosur.pdf" download>
                         <span>BROŞÜRÜ İNDİR <i class="ion-ios-cloud-download-outline"></i></span>
                     </a>
                     <a class="btn btn-primary btn-lg btn-appear mt40 mb40 hidden-xs" href="mailto:sponsorship@hacktrickconf.com">
@@ -353,7 +353,7 @@
                 <h5>Konuşmacı</h5> 
             </div>
             <div class="col-sm-4 counter"> 
-                <h1>15</h1> 
+                <h1>{{ trainings }}</h1> 
                 <h5>Eğitim</h5> 
             </div>
 

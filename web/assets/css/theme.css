@@ -815,7 +815,7 @@ nav.navbar.nav-grey {
 	padding: 0;
 }
 .navbar-brand img {
-	max-height: 66px;
+	height: 66px;
 }
 .nav-small .navbar-brand img {
 	max-height: 54px;

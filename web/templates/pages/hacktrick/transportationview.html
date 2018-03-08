@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %} Ulasim {% endblock %}
+
+{% block page-header %}
+<section class="page-title parallax overlay bg-img-h">  
+    <div class="page-title-content"> 
+        <div class="container">   
+            <div class="col-sm-12 text-center white">
+                <h1>Ulasim</h1>
+                <hr class="separator">
+            </div> 
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+
+<section class="pt60 pb80">
+    <div class="container"> 
+        <div class="row">
+	        <div class="col-md-6 col-md-offset-3">
+	            {% if setting %}
+	                {{ setting.transportation | safe }}
+	            {% else %}
+	                <div class="alert alert-danger">En kısa sürede eklenecektir.</div>
+	            {% endif %}
+	        </div> 
+        </div>
+    </div>
+</section>
+{% endblock %}
