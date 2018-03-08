@@ -149,8 +149,8 @@
 					<div class="">
 						<div class="row">
 	                        {% for sponsor in bronze_sponsors %}
-							<div class="silver-item space-bottom">
-								<div class="silver-item-inner ml10">
+                            <div class="col-sm-3 col-md-3 space-bottom">
+                                <div class="sponsor-item ml10">
 	                                <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}" style="max-width: 100%"></a>
 								</div>
 							</div>
@@ -168,8 +168,8 @@
 					<div class="">
 						<div class="row">
 	                        {% for sponsor in stand_sponsors %}
-							<div class="silver-item space-bottom">
-								<div class="silver-item-inner ml10">
+                            <div class="col-sm-3 col-md-3 space-bottom">
+                                <div class="sponsor-item ml10">
 	                                <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}" style="max-width: 100%"></a>
 								</div>
 							</div>
@@ -187,8 +187,8 @@
 					<div class="">
 						<div class="row">
 	                        {% for sponsor in supporter %}
-							<div class="silver-item space-bottom">
-								<div class="silver-item-inner ml10">
+                            <div class="col-sm-3 col-md-3 space-bottom">
+                                <div class="sponsor-item ml10">
 	                                <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}" style="max-width: 100%"></a>
 								</div>
 							</div>
@@ -207,8 +207,8 @@
 					<div class="">
 						<div class="row">
 	                        {% for sponsor in media_sponsors %}
-							<div class="silver-item space-bottom">
-								<div class="silver-item-inner">
+                            <div class="col-sm-3 col-md-3 space-bottom">
+                                <div class="sponsor-item ml10">
 	                                <a href="{{ sponsor.website }}" target="_blank"><img src="{{ sponsor.image.url }}" alt="{{ sponsor.name }}" style="max-width: 100%"></a>
 								</div>
 							</div>
@@ -319,10 +319,10 @@
                 <div class="col-sm-6 feature-left">
                     <div class="feature-left-content">
                         <h5>Başvuru Tarihleri:</h5>
-                        <p><strong>Eğitmen Başvuruları: </strong>1 Ocak - 21 Şubat 2018 | <a href="#trainer" class="btn-scroll">Detaylar</a></p>
+                        <p><strong>Eğitmen Başvuruları: </strong>1 Ocak - 21 Şubat 2018</p>
                         <p><strong>Sponsorluk Talepleri: </strong>1 Ocak - 23 Nisan 2018 | <a href="mailto:sponsorship@hacktrickconf.com">İletişim</a></p>
-                        <p><strong>CFP Başvuruları: </strong>1 Ocak - 31 Mart 2018 | <a href="cfp.html">Detaylar</a> </p>
-                        <p><strong>Demo Odaları Proje Başvuruları: </strong>1 Ocak - 31 Mart 2018 | <a href="#feature-details" class="btn-scroll">Detaylar</a></p>
+                        <p><strong>CFP Başvuruları: </strong>1 Ocak - 31 Mart 2018</p>
+                        <p><strong>Demo Odaları Proje Başvuruları: </strong>1 Ocak - 31 Mart 2018</p>
                     </div>
                 </div>   
                 <div class="col-sm-6 feature-left">
@@ -361,48 +361,6 @@
     </div>
 </section>
 
-<section class="pt130 pb120" id="feature-details">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 feature-left">
-                <i class="icon-circle-compass size-3x color"></i>
-                <i class="icon-circle-compass back-icon"></i>
-                <div class="feature-left-content">
-                    <h5>BugMiner</h5>
-                    <p>Bugminer, Octosec ekibinin uzun süredir altyapısını hazırladığı bir ödül avcılığı platformudur. Bugminer aracılığı ile şirketler ve kurumlar, hali hazırda var olan veya yeni yayına alacakları uygulamalarını birçok siber güvenlik uzmanının testine sunar.</p>
-                </div> 
-            </div>
-            <div class="col-sm-6 feature-left">
-                <i class="icon-genius size-3x color"></i>
-                <i class="icon-genius back-icon"></i> 
-                <div class="feature-left-content">
-                    <h5>Siber Güvenlik Ödülleri</h5>
-                    <p>Hacktrick Siber Güvenlik Konferansı 2018 yılı itibariyle Siber Güvenlik Ödülleri’ni organize ediyor. Belirlenen 10 farklı kategoride, sektörün önde gelen isimlerinin yer aldığı 32 kişilik jürinin adayları oylaması sonucu ödüller sahibini bulacak.</p>
-                </div> 
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-6 feature-left">
-                <i class="ion-speedometer size-3x color"></i>
-                <i class="ion-speedometer back-icon"></i> 
-                <div class="feature-left-content">
-                    <h5>Game of Pwners</h5>
-                    <p>Game of Pwners projesi siber güvenlik farkındalığını artırmak, bu alanda çalışmak isteyen kişileri eğlenceli bir ortamda yarıştırarak siber güvenlik alanına yönelik duyduğu ilgiyi yukarı çekmek ve siber güvenlik uzmanı eksikliğinin giderilmesine katkı sağlamak amacıyla, Octosec ve Canyoupwnme ekipleri tarafından düzenlenir.</p>
-                </div> 
-            </div>
-            <div class="col-sm-6 feature-left">
-                <i class="icon-telescope size-3x color"></i>
-                <i class="icon-telescope back-icon"></i> 
-                <div class="feature-left-content">
-                    <h5>Demo Odaları</h5>
-                    <p>Demo Odalarıyla siber güvenlik alanına yönelik geliştirilen proje veya ürünler binlerce katılımcıya sunulma imkanına sahip olacaklardır. Demo Odalarında kendinize yer ayırarak geliştirdiğiniz ürün veya projenizi yakından tanıtmak isterseniz <strong><a href="mailto:demoroom@hacktrickconf.com">demoroom@hacktrickconf.com</a></strong> adresine e-posta gönderebilirsiniz.</p> 
-                </div> 
-            </div>
-        </div>
-    </div>
-</section>
-
 <section class="pt130 pb120" id="speakers">
 	<div class="container">
 		<div class="row">
@@ -418,7 +376,7 @@
                             <div class="team-container">
                                 <div class="team-image">
                                     {% if not speaker.image %}
-                                        <img src="{% static "images/default/user.png" %}" alt="Konuşmacı">
+                                        <img src="{% static "img/user.png" %}" alt="Konuşmacı">
                                     {% else  %}
                                          <img src="{{ speaker.image.url }}" alt="Konuşmacı">
                                     {% endif %}
@@ -451,7 +409,7 @@
                             <div class="team-container">
                                 <div class="team-image">
                                     {% if not speaker.image %}
-                                        <img src="{% static "images/default/user.png" %}" alt="Konuşmacı">
+                                        <img src="{% static "img/user.png" %}" alt="Konuşmacı">
                                     {% else  %}
                                          <img src="{{ speaker.image.url }}" alt="Konuşmacı">
                                     {% endif %}

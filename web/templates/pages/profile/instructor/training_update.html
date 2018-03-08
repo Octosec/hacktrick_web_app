@@ -40,10 +40,10 @@
                         </p>
                         <p>
                             {% for instructor in object.instructor.all %}
-                            <div class="comment first depth-1">
+                            <div class="comment first depth-1" style="overflow: hidden;">
                                 <a class="pull-left" href="#">
                                     {% if not instructor.image %}
-                                        <img class="avatar" src="{% static "images/default/user.png" %}" alt="Eğitmen">
+                                        <img class="avatar" src="{% static "img/user.png" %}" alt="Eğitmen">
                                     {% else  %}
                                          <img class="avatar" src="{{ instructor.image.url }}" alt="Eğitmen">
                                     {% endif %}
@@ -106,50 +106,31 @@
 		</div>
 	</section>
 
-	<section class="homepage2">
+	<section class="pt50">
 		<div class="container">
 			<div class="row">
-				<div class="section-head">
-					<h2 class="header-title">EĞİTİM BİLGİLERİ GÜNCELLE</h2>
+				<div class="col-md-8 col-md-offset-2 section-heading">
+					<h2>Güncelle</h2>
+                    <hr class="separator">
 				</div>
-				<div class="speak-wrapper-h2">
-                    <div class="col-sm-12 col-md-12">
-                        <div class="massage-response-area">
-                            {% include 'includes/__form_messages.html' %}
-                            <form method="POST" action=""  enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="input-area">
-                                    <div class="form-group input">
-                                        <label>Başlık *</label>
-                                            {{ form.title }}
-                                    </div>
-                                    <div class="form-group input">
-                                        <label>İçerik *</label><br/>
-                                            {{ form.content }}
-                                    </div>
-                                    <div class="form-group input">
-                                        <label>Kapasite</label>
-                                            {{ form.capacity }}
-                                    </div>
-                                    <div class="form-group input">
-                                        <label>Tarih</label>
-                                            {{ form.date }}
-                                        <div class="help-text">Tarih formatı: 00-00-0000</div>
-                                    </div>
-                                    <div class="form-group input">
-                                        <label>Resim</label>
-                                        {{ form.cover_image }}
-                                    </div>
-                                    <div class="form-group">
-                                        Dökümanları güncellemek için <a href="{% url "profiles:training_documents" object.pk %}">tıklayınız</a>.
-                                    </div>
-                                </div> {{ form.captcha }}
-                                <p class="form-submit centered-area">
-                                    <input name="submit" type="submit" id="submit" class="submit" value="Güncelle">
-                                </p>
-                            </form>
-                        </div>
-                    </div>
+				<div class="col-md-8 col-md-offset-2 contact">
+                {% include 'includes/__form_messages.html' %}
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label>Başlık</label>
+                        {{ form.title }}
+                        <label>İçerik</label><br/>
+                        {{ form.content }}<br/>
+                        <label>Kapasite</label>
+                        {{ form.capacity }}
+                        <label>Tarih</label>
+                        {{ form.date }}
+                        <small>Tarih formatı: 2018-03-15</small>
+                        <br><br>
+                        {{ form.captcha }}
+                        <input name="submit" type="submit" id="submit" class="submit btn btn-primary" value="Güncelle">
+                        <p>Dökümanları güncellemek için <a href="{% url "profiles:training_documents" object.pk %}">tıklayınız</a>.</p>
+                    </form>
                 </div>
 			</div>
 		</div>
