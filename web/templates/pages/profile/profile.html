@@ -3,78 +3,53 @@
 {% block title %} Profil {% endblock %}
 
 {% block page-header %}
-	<section class="page-header-content">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="page-header-content-inner">
-	                <h3 class="page-title">PROFİL</h3>
-	                <ul class="breadcrumb">
-	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
-	                    <li class="active">Profil</li>
-	                </ul>
-	            </div>
-			</div>
-		</div>
-	</section>
+<section class="page-title parallax overlay bg-img-h">  
+    <div class="page-title-content"> 
+        <div class="container">   
+            <div class="col-sm-12 text-center white">
+                <h1>Profil</h1>
+                <hr class="separator">
+            </div> 
+        </div>
+    </div>    
+</section>
 {% endblock %}
 
 {% block content %}
-<section class="national-conference">
-    <div class="container">
-        <div class="row">
+
+<section class="pt70 pb50 bg-grey"> 
+    <div class="container">   
+        <div class="row"> 
+            <div class="col-md-12 section-heading">
             {% if request.user.institution == "" or request.user.phone_number == "" or request.user.first_name == "" or request.user.last_name == "" %}
                 <div class="alert alert-danger text-center">
                     Sistem üzerinde işlemlere devam edebilmek için kullanıcı bilgilerini doldurmak zorundasınız. Lütfen aşağıdaki formu kullanarak güncelleyiniz.
                 </div>
             {% endif %}
             {% include "includes/__form_messages.html" %}
-
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-item-inner">
-                            <span><i class="fa fa-user"></i></span>
-                            <div class="content">
-                                <h4 class="ccr-name">İsim</h4>
-                                <a href="#" class="ccr-detail">{{ request.user.get_full_name }}</a>
-                            </div>
+            </div>
+            <div class="col-md-12">
+                <ul class="project-info">
+                    <li><strong>İsim</strong>{{ request.user.get_full_name }}</li>
+                    <li><strong>Email</strong>{{ request.user.email }}</li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <form method="POST"  action="#">
+                    {% csrf_token %}
+                    <div class="input-area">
+                        <div class="input">
+                            {{ form.first_name }}
+                            {{ form.last_name }}
+                            {{ form.institution }}
+                            {{ form.phone_number }}
                         </div>
-                    </div>
-
-                    <div class="contact-item">
-                        <div class="contact-item-inner">
-                            <span><i class="fa fa-envelope"></i></span>
-                            <div class="content">
-                                <h4 class="ccr-name">E-Mail</h4>
-                                <a href="#" class="ccr-detail">{{ request.user.email }}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="massage-response-area">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h3>KİŞİSEL BİLGİLER</h3>
-                        </div>
-                        <div class="col-md-8 col-md-offset-2">
-                            <form method="POST"  action="#">
-                                {% csrf_token %}
-                                <div class="input-area">
-                                    <div class="input">
-                                        {{ form.first_name }}
-                                        {{ form.last_name }}
-                                        {{ form.institution }}
-                                        {{ form.phone_number }}
-                                    </div>
-                                </div>{{ form.captcha }}
-                                <p class="form-submit centered-area">
-                                    <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
-                                </p>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                    </div>{{ form.captcha }}
+                    <p class="form-submit centered-area">
+                        <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
+                    </p>
+                </form>
+            </div>
         </div>
     </div>
 </section>

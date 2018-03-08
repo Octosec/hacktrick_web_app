@@ -3,89 +3,84 @@
 {% block title %} Sorular - {{ object.title }} {% endblock %}
 
 {% block page-header %}
-	<section class="page-header-content">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="page-header-content-inner">
-	                <ul class="breadcrumb">
-	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
-	                    <li><a href="{% url "profiles:tickets" %}">Sorular</a></li>
-	                    <li class="active">{{ object.title }}</li>
-	                </ul>
-	            </div>
-			</div>
-		</div>
-	</section>
+
+<section class="page-title parallax overlay bg-img-h">  
+    <div class="page-title-content"> 
+        <div class="container">   
+            <div class="col-sm-12 text-center white">
+                <h1>Sorular - {{ object.title }}</h1>
+                <hr class="separator">
+            </div> 
+        </div>
+    </div>    
+</section>
 {% endblock %}
 
 {% block content %}
-<section class="event-schedule" style="padding-bottom: 30px">
-		<div class="container">
-			<div class="row">
-				<div class="section-head">
-					<h2 class="header-title">{{ object.title }}</h2>
-                    <p class="header-desc">{{ object.content }}</p>
 
-                    {% if not object.ticket_status %}
-                        <div class="alert alert-danger" style="margin-top: 10px"> Bu ticket kapatıldığı için yorum yapamazsınız. </div>
-                    {% endif %}
-				</div>
-                    {% if object.ticket_comments.all.count > 0 %}
-                        {% for comment in object.ticket_comments.all %}
-						<div class="post-item" style="margin-top:4px">
-							<div class="content-outer">
-								<div class="content">
-									<div class="meta-post">
-										<span class="date"><i class="fa fa-calendar"></i>{{ comment.date }}</span>
-										<span class="border"></span>
-										<i class="fa fa-user"></i>{{ comment.user }}
-									</div>
-									<div class="excerpt">
-                                        {{ comment.comment }}
-									</div>
-								</div><!-- /.content -->
-							</div><!-- /.content-outer -->
-						</div><!-- /.post-item -->
-                        {% endfor %}
-                    {% else %}
-                        <div class="alert alert-danger">
-                            Bu soruya henüz cevap verilmemiş.
-                        </div>
-                    {% endif %}
-			</div><!-- /.row -->
-		</div><!-- /.container -->
-	</section>
+<section class="pt70 pb50 bg-grey"> 
+    <div class="container">   
+        <div class="row"> 
+            <div class="col-md-12 section-heading">
+                <p>{{ object.content }}</p>
 
-    {% if object.ticket_status %}
-        <section style="padding: 60px 0 60px 0">
-            <div class="container">
-                <div class="row">
-                    <div class="massage-response-area" style="margin-bottom: 0 !important;">
-                            <div class="col-m-12">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-6">
-                                    {% include 'includes/__form_messages.html' %}
-                                    <form method="POST"  action="">
-                                        {% csrf_token %}
-                                        <div class="input-area">
-                                            <div class="input">
-                                                {{ form.comment }}
-                                            </div>
-                                        </div>{{ form.captcha }}
-                                        <p class="form-submit text-center">
-                                            <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
-                                        </p>
-                                    </form>
+                {% if not object.ticket_status %}
+                    <div class="alert alert-danger"> Bu ticket kapatıldığı için yorum yapamazsınız. </div>
+                {% endif %}
+            </div>
+            <div class="col-md-12">
+                {% if object.ticket_comments.all.count > 0 %}
+                    {% for comment in object.ticket_comments.all %}
+                    <div class="post-item" style="margin-top:4px">
+                        <div class="content-outer">
+                            <div class="content">
+                                <div class="meta-post">
+                                    <span class="date"><i class="fa fa-calendar"></i>{{ comment.date }}</span>
+                                    <span class="border"></span>
+                                    <i class="fa fa-user"></i>{{ comment.user }}
                                 </div>
-                                <div class="col-md-3"></div>
+                                <div class="excerpt">
+                                    {{ comment.comment }}
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-danger">
+                        Bu soruya henüz cevap verilmemiş.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if object.ticket_status %}
+    <section class="pt70 pb50">
+        <div class="container">
+            <div class="row">
+                <div class="massage-response-area" style="margin-bottom: 0 !important;">
+                        <div class="col-md-offset-4 col-md-4">
+                            {% include 'includes/__form_messages.html' %}
+                            <form method="POST"  action="">
+                                {% csrf_token %}
+                                <div class="input-area">
+                                    <div class="input">
+                                        {{ form.comment }}
+                                    </div>
+                                </div>{{ form.captcha }}
+                                <p class="form-submit text-center">
+                                    <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
+                                </p>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    {% endif %}
+        </div>
+    </section>
+{% endif %}
 {% endblock %}
 {% block script %}
 <script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>

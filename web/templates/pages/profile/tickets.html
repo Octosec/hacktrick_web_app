@@ -3,132 +3,104 @@
 {% block title %} Sorular {% endblock %}
 
 {% block page-header %}
-	<section class="page-header-content">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="page-header-content-inner">
-	                <ul class="breadcrumb">
-	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
-	                    <li class="active">İletişim</li>
-	                </ul>
-	            </div>
-			</div>
-		</div>
-	</section>
+
+<section class="page-title parallax overlay bg-img-h">  
+    <div class="page-title-content"> 
+        <div class="container">   
+            <div class="col-sm-12 text-center white">
+                <h1>İletişim</h1>
+                <hr class="separator">
+                <p>Etkinlik hakkında tüm sorularınızı bu form aracılığıyla bize ulaştırabilirsiniz. Lütfen soru sormadan önce yanıtın <a href="{% url "hacktrick:faq" %}">Sık Sorulan Sorular</a>'da olmadığından emin olunuz.</p>
+            </div> 
+        </div>
+    </div>    
+</section>
 {% endblock %}
 
 {% block content %}
-<section class="event-schedule" style="padding: 60px 0 60px 0">
-    <div class="container">
+
+
+<section class="pt70 pb50 bg-grey"> 
+    <div class="container">   
         <div class="row">
             <div class="col-md-12">
-                <p>
-                    Etkinlik hakkında tüm sorularınızı bu form aracılığıyla bize ulaştırabilirsiniz. Lütfen soru sormadan önce yanıtın <a href="{% url "hacktrick:faq" %}">Sık Sorulan Sorular</a>'da olmadığından emin olunuz.
-                </p>
-            </div>
-            <div class="col-md-12">
-                <div class="massage-response-area" style="margin-bottom: 0 !important;">
-                    <div class="col-m-12">
-                        <div class="col-md-6 col-md-offset-3">
-                            {% include 'includes/__form_messages.html' %}
-                            <form method="POST"  action="">
-                                {% csrf_token %}
-                                <div class="input-area">
-                                    <div class="input">
-                                        {{ form.title }}
-                                        {{ form.content }}
-                                    </div>
-                                </div>{{ form.captcha }}
-                                <p class="form-submit text-center">
-                                    <input name="submit" type="submit" id="submit" class="submit" value="Gönder">
-                                </p>
-                            </form>
+                {% include 'includes/__form_messages.html' %}
+                <form method="POST"  action="">
+                    {% csrf_token %}
+                    <div class="input-area">
+                        <div class="input">
+                            {{ form.title }}
+                            {{ form.content }}
                         </div>
-                    </div>
-                </div>
+                    </div>{{ form.captcha }}
+                    <p class="form-submit text-center">
+                        <input name="submit" type="submit" id="submit" class="btn btn-primary" value="Gönder">
+                        <a href="#all-messages" class="btn btn-primary btn-scroll">Tüm Sorular</a>
+                    </p>
+                </form>
             </div>
         </div>
     </div>
 </section>
 
-
-<section class="event-schedule">
+<section class="pt70 pb50" id="all-messages">
 		<div class="container">
 			<div class="row">
-				<div class="section-head">
-					<h2 class="header-title">Sorular</h2>
-					<p class="header-desc">Sizin tarafınızdan sorulmuş sorular. Cevaplamak için elimizden geleni yapıyoruz.</p>
-				</div>
+                <div class="col-md-12 section-heading">
+                    <h3>Sorularınız</h3>
+                    <hr class="separator">
+                </div>
 
 				<div class="event-schedule-inner">
 					<div class="event-schedule-inner-fixed">
 						<!-- Tab panes -->
                         {% if object_list.count > 0 %}
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane fade in active" id="first-date">
-                                    <div class="schedule-wrapper">
-                                        <div class="schedule-item header">
-                                            <div class="col-xs-2 col-sm-2 col-md-2">
-                                                <div class="item-inner">
-                                                    <span><i class="fa fa-calendar"></i></span>
-                                                    <span>Tarih</span>
-                                                </div>
-                                            </div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
-                                            <div class="col-xs-6 col-sm-6 col-md-6">
-                                                <div class="item-inner">
-                                                    <span><i class="fa fa-list-alt"></i></span>
-                                                    <span>Soru</span>
-                                                </div>
-                                            </div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
-                                            <div class="col-xs-2 col-sm-2 col-md-2">
-                                                <div class="item-inner">
-                                                    <span><i class="fa fa-microphone"></i></span>
-                                                    <span>Durum</span>
-                                                </div>
-                                            </div><!-- /.col-md-3 -->
-                                            <div class="col-xs-2 col-sm-3 col-md-2">
-                                                <div class="item-inner">
-                                                    <span><i class="fa fa-comment"></i></span>
-                                                    <span>Yorum Sayısı</span>
-                                                </div>
-                                            </div><!-- /.col-md-3 -->
-                                        </div><!-- /.schedule-item -->
-                                            {% for ticket in object_list %}
-                                                <div class="schedule-item">
-                                                    <div class="col-xs-2 col-sm-2 col-md-2">
-                                                        <div class="item-inner event-time">
-                                                            <span>{{ ticket.date|date:"d M Y" }}</span>
-                                                        </div>
-                                                    </div><!-- /.col-xs-2 col-sm-2 col-md-2 -->
-                                                    <div class="col-xs-6 col-sm-6 col-md-6">
-                                                        <div class="item-inner event-session">
-                                                            <span><a href="{% url "profiles:ticket_detail" ticket.pk %}">{{ ticket.title }}</a></span>
-                                                        </div>
-                                                    </div><!-- /.col-xs-4 col-sm-4 col-md-4 -->
-                                                    <div class="col-xs-2 col-sm-2 col-md-2">
-                                                        <div class="item-inner vanue">
-                                                            <span>
-                                                                {% if ticket.ticket_status %}
-                                                                    Açık
-                                                                {% else %}
-                                                                    Kapalı
-                                                                {% endif %}
-                                                            </span>
-                                                        </div>
-                                                    </div><!-- /.col-md-3 -->
-                                                     <div class="col-xs-2 col-sm-2 col-md-2">
-                                                        <div class="item-inner vanue">
-                                                            <span>
-                                                                {{ ticket.ticket_comments.count }}
-                                                            </span>
-                                                        </div>
-                                                    </div><!-- /.col-md-3 -->
-                                                </div><!-- /.schedule-item -->
-                                            {% endfor %}
-                                    </div><!-- /.schedule-wrapper -->
-                                </div>
-                            </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Tarih
+                                    </th>
+                                    <th>
+                                        Başlık
+                                    </th>
+                                    <th>
+                                        Durum
+                                    </th>
+                                    <th>
+                                        Yanıt Sayısı
+                                    </th>
+                                    <th>
+                                        Detaylar
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for ticket in object_list %}
+                                <tr>
+                                    <td>
+                                        {{ ticket.date|date:"d M Y" }}
+                                    </td>
+                                    <td>
+                                        {{ ticket.title }}
+                                    </td>
+                                    <td>
+                                        {% if ticket.ticket_status %}
+                                            Açık
+                                        {% else %}
+                                            Kapalı
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ ticket.ticket_comments.count }}
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-primary" href="{% url "profiles:ticket_detail" ticket.pk %}"><span>Git</span></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                         {% else %}
                                <div class="alert alert-danger">
                                     Onaylanmış bir soru bulunamadı. Aklınıza takılan bir soru varsa lütfen formu kullanarak bize sorun.

@@ -3,33 +3,28 @@
 {% block title %} Giriş Hatası {% endblock %}
 
 {% block page-header %}
-	<section class="page-header-content">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row">
-				<div class="page-header-content-inner">
-	                <ul class="breadcrumb">
-	                    <li><a href="{% url "hacktrick:index" %}">Anasayfa</a></li>
-	                    <li class="active">Giriş hatası</li>
-	                </ul>
-	            </div>
-			</div>
-		</div>
-	</section>
+<section class="page-title parallax overlay bg-img-h">  
+    <div class="page-title-content"> 
+        <div class="container">   
+            <div class="col-sm-12 text-center white">
+                <h1>Hatalı Giriş</h1>
+                <hr class="separator">
+            </div> 
+        </div>
+    </div>    
+</section>
 {% endblock %}
 
 {% block content %}
-<section class="national-conference">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="conference-main">
-                    <div class="section-head">
-                        <h2 class="header-title">GİRİŞ Hatası</h2>
-                    </div>
 
-                    <p>Giriş yapılırken bir hata ile karşılaşıldı.</p>
-                    {% include "includes/__messages.html" %}
+<section class="pt70 pb50 bg-grey"> 
+    <div class="container">   
+        <div class="row"> 
+            <div class="col-md-12 section-heading">
+                <p>Giriş yapılırken bir hata ile karşılaşıldı.</p>
+            </div>
+            <div class="col-md-12 text-center">
+                {% include "includes/__messages.html" %}
             </div>
         </div>
     </div>
