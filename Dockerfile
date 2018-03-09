@@ -1,6 +1,6 @@
-FROM python:3.5.2
+FROM python:3.5.5
 ENV PYTHONUNBUFFERED 1
-RUN apt-get update && apt-get upgrade -y && apt-get install -y lz4
+RUN apt-get update && apt-get upgrade -y && apt-get install -y python-lz4 liblz4-tool
 RUN mkdir /code
 RUN mkdir /code/logs/
 RUN touch /code/logs/logfile
