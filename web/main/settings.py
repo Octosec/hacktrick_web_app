@@ -32,7 +32,7 @@ SECRET_KEY = 'this data will be changed'
 # SECURITY WARNING: don't run with debug turned on in production!
 IS_DEV = True
 
-ALLOWED_HOSTS = ['localhost', 'www.hacktrickconf.com', 'dev0001.hacktrickconf.com', '185.44.192.125', '127.0.0.1','94.55.146.209','192.168.193.227']
+ALLOWED_HOSTS = ['localhost', 'www.hacktrickconf.com', 'dev0001.hacktrickconf.com', '185.44.192.125', '127.0.0.1', '94.55.146.209', '192.168.193.227']
 
 # Application definition
 INSTALLED_APPS = [
@@ -72,8 +72,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'main.middleware.logging.LogVariablesMiddleware',
     'main.middleware.logging.DisableCacheIfLoginUser',
-    'main.middleware.logging.SessionIdleTimeout',
-    'main.middleware.logging.OneSessionPerUserMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'htmlmin.middleware.HtmlMinifyMiddleware',
