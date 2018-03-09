@@ -29,60 +29,54 @@
 {% endblock %}
 
 {% block content %}
-    <section class="blog">
+    <section class="blog pt10">
 		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<div class="blog-post">
+            <div class="blog-post">
+    			<div class="row">
+    				<div class="col-md-6">
+                        {% for instructor in object.instructor.all %}
+                            <div class="col-md-4 col-sm-6 team"> 
+                                <div class="team-container">
+                                    <div class="team-image">
+                                        {% if not instructor.image %}
+                                            <img src="{% static "img/user.png" %}" alt="Konuşmacı" class="img-responsive">
+                                        {% else %}
+                                            <img src="{{ speaker.image.url }}" alt="Konuşmacı" class="img-responsive">
+                                        {% endif %}
+                                    </div> 
+                                    <div class="team-caption">
+                                        <div>
+                                            <div>
+                                                <h4>{{ instructor.user.get_full_name }}</h4>
+                                                <p>{{ instructor.title }} - {{ instructor.institution }}</p>
+                                                <ul>
+                                                    {% if instructor.facebook %}
+                                                    <li class="social-icon"><a href="https://www.facebook.com/{{ instructor.facebook }}"><i class="ion-social-facebook"></i></a></li>
+                                                    {% endif %} {% if instructor.twitter %}
+                                                    <li class="social-icon"><a href="https://twitter.com/{{ instructor.twitter }}"><i class="ion-social-twitter"></i></a></li>
+                                                    {% endif %} {% if instructor.linkedin %}
+                                                    <li class="social-icon"><a href="https://www.linkedin.com/in/{{ instructor.linkedin }}"><i class="ion-social-linkedin"></i></a></li>
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </div> 
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-6">
                         <p class="blog-post-categories">
                             <span><i class="ion-ios-calendar"></i></span>
                             {{ object.date }}
                         </p>
+                        <blockquote>
+                            <p>{{ training_note|safe }}</p>
+                        </blockquote>
+                    </div>
+                    <div class="col-md-12">
                         <p>
-                            {% for instructor in object.instructor.all %}
-                            <div class="comment first depth-1" style="overflow: hidden;">
-	                            <a class="pull-left" href="#">
-                                    {% if not instructor.image %}
-                                        <img class="avatar" src="{% static "img/user.png" %}" alt="Eğitmen">
-                                    {% else  %}
-                                         <img class="avatar" src="{{ instructor.image.url }}" alt="Eğitmen">
-                                    {% endif %}
-	                            </a>
-	                            <div class="comment-body">
-	                                <h4 class="comment-heading">{{ instructor.user.get_full_name }}</h4> 
-	                                <p class="comment-time">{{ instructor.title }} - {{ instructor.institution }}</p>
-	                                <p>
-                                        <ul class="social-media">
-                                            {% if instructor.facebook %}
-                                                <li class="social-media-item">
-                                                    <a href="https://www.facebook.com/{{ instructor.facebook }}" target="_blank">
-                                                    <i class="fa fa-facebook"></i>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                            {% if instructor.twitter %}
-                                                <li class="social-media-item">
-                                                    <a href="https://twitter.com/{{ instructor.twitter }}" target="_blank">
-                                                        <i class="fa fa-twitter"></i>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                            {% if instructor.linkedin %}
-                                                <li class="social-media-item">
-                                                    <a href="https://www.linkedin.com/in/{{ instructor.linkedin }}" target="_blank">
-                                                        <i class="fa fa-linkedin"></i>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-										</ul>
-	                                </p>
-	                            </div>
-	                        </div>
-                            {% endfor %}
-							<blockquote>
-								<p>{{ training_note|safe }}</p>
-							</blockquote>
-							<p>{{ object.content|bleach }}</p>
+    						<p>{{ object.content|bleach }}</p>
 
                             <h3>Dökümanlar</h3><br/>
                             <ul>
@@ -91,9 +85,9 @@
                                 {% endfor %}
                             </ul>
                         </p>
-					</div>
-				</div>
-			</div>
+    				</div>
+    			</div>
+            </div>
 		</div>
 	</section>
 {% endblock %}
