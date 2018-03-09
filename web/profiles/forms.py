@@ -49,11 +49,11 @@ class InstructorForm(ModelForm):
         fields = ['title', 'institution', 'image', 'facebook', 'twitter', 'linkedin']
 
         widgets = {
-            'institution': TextInput(),
-            'title': TextInput(),
-            'facebook': TextInput(),
-            'twitter': TextInput(),
-            'linkedin': TextInput(),
+            'institution': TextInput(attrs={'placeHolder': 'Kurum'}),
+            'title': TextInput(attrs={'placeHolder': 'Ünvan'}),
+            'facebook': TextInput(attrs={'placeHolder': 'Facebook'}),
+            'twitter': TextInput(attrs={'placeHolder': 'Twitter'}),
+            'linkedin': TextInput(attrs={'placeHolder': 'Linkedin'}),
         }
 
 

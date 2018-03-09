@@ -288,6 +288,11 @@ class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
             context['status'] = Setting.objects.only('training_finish_date').get().training_finish_date >= timezone.localtime(timezone.now()).date()
         except Setting.DoesNotExist:
             context['status'] = False
+        
+        try:
+            context['agreement_notes'] = Setting.objects.only('agreement_note').get()
+        except Setting.DoesNotExist:
+            context['agreement_notes'] = False
         return context
 
     def form_valid(self, form):
