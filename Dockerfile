@@ -1,6 +1,6 @@
 FROM python:3.5.2
 ENV PYTHONUNBUFFERED 1
-RUN apt-get update && apt-get upgrade && apt-get install -y lz4
+RUN apt-get update && apt-get upgrade -y && apt-get install -y lz4
 RUN mkdir /code
 RUN mkdir /code/logs/
 RUN touch /code/logs/logfile
