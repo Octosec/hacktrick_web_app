@@ -164,7 +164,7 @@ MEDIA_URL = "/m/"
 GRAPPELLI_ADMIN_TITLE = "Hacktrick Admin Panel"
 
 # Admin
-ADMINS = [('Mazlum', 'info@mazlumagar.com')]
+ADMINS = [('Mazlum', 'info@mazlumagar.com'), ('Mertcan','mgokgoz@horus.com.tr'), ('Hakan','hakan@hakanyildiz.net.tr')]
 
 # Logging
 LOGGING = {
@@ -325,7 +325,7 @@ HIJACK_REGISTER_ADMIN = False
 HIJACK_ALLOW_GET_REQUESTS = True
 
 # Cache
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_CACHE_ALIAS = "default"
 
