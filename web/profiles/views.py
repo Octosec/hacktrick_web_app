@@ -268,7 +268,7 @@ class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
     template_name = 'pages/profile/participant/select_training.html'
     form_class = TrainingSelectForm
     success_message = "Seçim işleminizi başarı ile gerçekleştirdiniz."
-    error_message = "Onaylanan eğitimi değiştiremezsiniz."
+    error_message = "Eğitime katılabilmeniz için 'Şartları' kabul etmeniz gerekir."
 
     def get_context_data(self, **kwargs):
         context = super(ParticipantSelectTrainingView, self).get_context_data(**kwargs)
@@ -283,8 +283,11 @@ class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
             context['verify_selection'] = verify_selection.first_selection
         except UserTraining.DoesNotExist:
             context['verify_selection'] = False
-        context['status'] = Setting.objects.only(
-            'training_finish_date').get().training_finish_date >= timezone.localtime(timezone.now()).date()
+        
+        try:
+            context['status'] = Setting.objects.only('training_finish_date').get().training_finish_date >= timezone.localtime(timezone.now()).date()
+        except Setting.DoesNotExist:
+            context['status'] = False
         return context
 
     def form_valid(self, form):
@@ -292,9 +295,10 @@ class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
         first_selection = cleaned_data.get('training_first', None)
         user_training, _ = UserTraining.objects.get_or_create(user=self.request.user)
         user_training.first_selection = first_selection
-        if user_training.accepted_training:
+        if user_training.agreement:
             messages.add_message(self.request, messages.ERROR, self.error_message)
         else:
+            user_training.agreement = True
             user_training.save()
             messages.add_message(self.request, messages.SUCCESS, self.success_message)
         return super(ParticipantSelectTrainingView, self).form_valid(form)

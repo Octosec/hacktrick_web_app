@@ -53,7 +53,10 @@
                 <div class="col-sm-4 col-sm-offset-4 contact">
                     {% include 'includes/__form_messages.html' %}
                     <form method="POST" action="" enctype="multipart/form-data">
-                        {% csrf_token %} {{ form.training_first }} {{ form.captcha }}
+                        {% csrf_token %} 
+                        {{ form.training_first }}
+                        <p> <i><a id="tos" href="">Okudum,</a></i> Anladım. Kabul Ediyorum. {{ form.agreement }}</p>
+                        {{ form.captcha }}
                         <input name="submit" type="submit" id="submit" class="btn btn-primary submit" value="Seç">
                     </form>
                 </div>

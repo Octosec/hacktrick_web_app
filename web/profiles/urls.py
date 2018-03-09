@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.contrib.auth.decorators import user_passes_test
 
 from .views import (
     LoginView,
@@ -17,8 +18,10 @@ from .views import (
     user_logout
 )
 
+login_forbidden =  user_passes_test(lambda u: u.is_anonymous(), '/')
+
 urlpatterns = [
-    url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^login/$', login_forbidden(LoginView.as_view()), name='login'),
     url(r'^login/error/$', LoginErrorView.as_view(), name='login_error'),
     url(r'^logout/$', user_logout, name='logout'),
     url(r'^profile/$', ProfileView.as_view(), name='profile'),
