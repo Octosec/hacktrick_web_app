@@ -369,61 +369,66 @@
             </div>
 
             {% if speakers.count > 0 or instructors.count > 0 %}
-            <div class="team-slider owl-carousel dark-pagination">
+            <div class="col-sm-12">
                 {% for speaker in speakers %}
-                <div class="team">
-                    <div class="team-container">
-                        <div class="team-image">
-                            {% if not speaker.image %}
-                            <img src="{% static "img/user.png" %}" alt="Konuşmacı"> {% else %}
-                            <img src="{{ speaker.image.url }}" alt="Konuşmacı"> {% endif %}
-                        </div>
-                        <div class="team-caption">
-                            <div>
+                    <div class="col-md-15 col-sm-6 team"> 
+                        <div class="team-container">
+                            <div class="team-image">
+                                {% if not speaker.image %}
+                                    <img src="{% static "img/user.png" %}" alt="Konuşmacı" class="img-responsive">
+                                {% else %}
+                                    <img src="{{ speaker.image.url }}" alt="Konuşmacı" class="img-responsive">
+                                {% endif %}
+                            </div> 
+                            <div class="team-caption">
                                 <div>
-                                    <h4>{{ speaker.full_name }}</h4>
-                                    <p>{{ speaker.institution }}</p>
-                                    <ul>
-                                        {% if speaker.facebook %}
-                                        <li class="social-icon"><a href="https://www.facebook.com/{{ speaker.facebook }}"><i class="ion-social-facebook"></i></a></li>
-                                        {% endif %} {% if speaker.twitter %}
-                                        <li class="social-icon"><a href="https://twitter.com/{{ speaker.twitter }}"><i class="ion-social-twitter"></i></a></li>
-                                        {% endif %} {% if speaker.linkedin %}
-                                        <li class="social-icon"><a href="https://www.linkedin.com/in/{{ speaker.linkedin }}"><i class="ion-social-linkedin"></i></a></li>
-                                        {% endif %}
-                                    </ul>
+                                    <div>
+                                        <h4>{{ speaker.full_name }}</h4>
+                                        <p>{{ speaker.institution }}</p>
+                                        <ul>
+                                            {% if speaker.facebook %}
+                                            <li class="social-icon"><a href="https://www.facebook.com/{{ speaker.facebook }}"><i class="ion-social-facebook"></i></a></li>
+                                            {% endif %} {% if speaker.twitter %}
+                                            <li class="social-icon"><a href="https://twitter.com/{{ speaker.twitter }}"><i class="ion-social-twitter"></i></a></li>
+                                            {% endif %} {% if speaker.linkedin %}
+                                            <li class="social-icon"><a href="https://www.linkedin.com/in/{{ speaker.linkedin }}"><i class="ion-social-linkedin"></i></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div>  
+                        </div> 
                     </div>
-                </div>
-                {% endfor %} {% for speaker in instructors %}
-                <div class="team">
-                    <div class="team-container">
-                        <div class="team-image">
-                            {% if not speaker.image %}
-                            <img src="{% static "img/user.png" %}" alt="Konuşmacı"> {% else %}
-                            <img src="{{ speaker.image.url }}" alt="Konuşmacı"> {% endif %}
-                        </div>
-                        <div class="team-caption">
-                            <div>
+                {% endfor %}
+                {% for speaker in instructors %}
+                    <div class="col-md-15 col-sm-6 team"> 
+                        <div class="team-container">
+                            <div class="team-image">
+                                {% if not speaker.image %}
+                                    <img src="{% static "img/user.png" %}" alt="Konuşmacı" class="img-responsive">
+                                {% else %}
+                                    <img src="{{ speaker.image.url }}" alt="Konuşmacı" class="img-responsive">
+                                {% endif %}
+                            </div> 
+                            <div class="team-caption">
                                 <div>
-                                    <h4>{{ speaker.full_name }}</h4>
-                                    <p>{{ speaker.institution }}</p>
-                                    <ul>
-                                        {% if speaker.facebook %}
-                                        <li class="social-icon"><a href="https://www.facebook.com/{{ speaker.facebook }}"><i class="ion-social-facebook"></i></a></li>
-                                        {% endif %} {% if speaker.twitter %}
-                                        <li class="social-icon"><a href="https://twitter.com/{{ speaker.twitter }}"><i class="ion-social-twitter"></i></a></li>
-                                        {% endif %} {% if speaker.linkedin %}
-                                        <li class="social-icon"><a href="https://www.linkedin.com/in/{{ speaker.linkedin }}"><i class="ion-social-linkedin"></i></a></li>
-                                        {% endif %}
-                                    </ul>
+                                    <div>
+                                        <h4>{{ speaker.user.get_full_name }}</h4>
+                                        <p>{{ speaker.institution }}</p>
+                                        <ul>
+                                            {% if speaker.facebook %}
+                                            <li class="social-icon"><a href="https://www.facebook.com/{{ speaker.facebook }}"><i class="ion-social-facebook"></i></a></li>
+                                            {% endif %} {% if speaker.twitter %}
+                                            <li class="social-icon"><a href="https://twitter.com/{{ speaker.twitter }}"><i class="ion-social-twitter"></i></a></li>
+                                            {% endif %} {% if speaker.linkedin %}
+                                            <li class="social-icon"><a href="https://www.linkedin.com/in/{{ speaker.linkedin }}"><i class="ion-social-linkedin"></i></a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div>  
+                        </div> 
                     </div>
-                </div>
                 {% endfor %}
             </div>
             {% else %}

@@ -19,127 +19,90 @@
 
 {% block content %}
 	<!-- start event-schedule  -->
-	<section class="event-schedule">
+	<section class="pt50 pb50">
 		<div class="container">
 			<div class="row">
-				<div class="section-head">
-					<h2 class="header-title">Katılımcı Onayla</h2>
-                    <div>
-                        "{{ training.title|title }}" eğitimi için ilk tercihleri onayla. Kabul edilen katılımcının onayını kaldıramazsınız.
-                        <br/> Yeşil (Kabul ettikleriniz)
-                        <br/> Kırmızı (Onay Bekleyenler)
-                    </div>
+				<div class="section-heading">
+                    <p>"{{ training.title|title }}" eğitimini tercih eden kullanıcıları görebilir ve eğitim kayıtlarını onaylayabilirsiniz. Kabul edilen katılımcının onayı daha sonra kaldırılamaz. Lütfen bunu göz önünde bulundurun.
+                    </p>
 
 
 				</div>
                     {% if object_list.count > 0 %}
-                    <div class="widget search" style="margin-top: 4px; margin-bottom: 20px">
+                    <div class="col-md-6 contact">
 	                        <form action="#" method="GET">
 	                            <input type="text" value="{{ request.GET.search }}" name="search" placeholder="Katılımcı ara">
 	                            <span><i class="fa fa-search"></i></span>
 	                        </form>
                     </div>
 
-                    <div style="float: right">Kontenjan: {% if training.capacity is not None %} {{ training.capacity }} {% else %} Sınırsız {% endif %} | Kabul edilen: {{ accepted_count }}</div>
-                    <br/>
-                    {% include "includes/__messages.html" %}
-                    <div class="event-schedule-inner">
-                        <div class="event-schedule-inner-fixed">
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane fade in active" id="first-date">
-                                    <div class="schedule-wrapper">
-                                        <form action="" method="POST" id="accept-form">
-                                        {% csrf_token %}
-                                            <div class="schedule-item header">
-                                                <div class="col-xs-3 col-sm-3 col-md-3">
-                                                    <div class="item-inner">
-                                                        <span><i class="fa fa-user"></i></span>
-                                                        <span>İsim</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-3 col-sm-3 col-md-3">
-                                                    <div class="item-inner">
-                                                        <span><i class="fa fa-envelope"></i></span>
-                                                        <span>Mail</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-4 col-sm-4 col-md-4">
-                                                    <div class="item-inner">
-                                                        <span><i class="fa fa-thumbs-up"></i></span>
-                                                        <span>Kurum/Üniversite</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xs-2 col-sm-2 col-md-2">
-                                                    <div class="item-inner">
-                                                        <span><i class="fa fa-check"></i></span>
-                                                        <span>Onay</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                    <div class="col-md-6">
+                        <ul>
+                            <li>Kontenjan: {% if training.capacity is not None %} {{ training.capacity }} {% else %} Sınırsız {% endif %}</li>
+                            <li>Kabul edilen: {{ accepted_count }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-12">
+                        {% include "includes/__messages.html" %}
 
-                                            {% for participant in object_list %}
-                                                <div class="schedule-item"
-                                                        {% if participant.accepted_training %}
-                                                            style="background-color: lightgreen"
-                                                        {% else %}
-                                                            style="background-color: indianred"
-                                                        {% endif %}
+                        <form action="" method="POST" id="accept-form">
+                        {% csrf_token %}
+                            <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>İsim</th>
+                                    <th>Mail</th>
+                                    <th>Üniversite/Kurum</th>
+                                    <th>Onay Durumu</th>
+                                </tr>
+                            </thead>
+                            {% for participant in object_list %}
+                                <tr {% if participant.accepted_training %}
+                                        class="alert alert-success"
+                                    {% endif %}
+                                    >
+                                    <td>{{ participant.user.get_full_name }}</td>
+                                    <td>{{ participant.user.email }}</td>
+                                    <td>{{ participant.user.institution }}</td>
+                                    <td>
+                                        {% if not participant.accepted_training %}
+                                            <input type="checkbox" name="first" value="{{ participant.pk }}"/>
+                                        {% else %}
+                                            <span><i class="ion-checkmark-round"></i></span>
+                                            <span>Onaylandı</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </table>
 
-                                                >
-                                                    <div class="col-xs-3 col-sm-3 col-md-3">
-                                                        <div class="item-inner event-session">
-                                                            <span>{{ participant.user.get_full_name }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-3 col-sm-3 col-md-3">
-                                                        <div class="item-inner event-session">
-                                                            <span>{{ participant.user.email }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-4 col-sm-4 col-md-4">
-                                                        <div class="item-inner event-session">
-                                                            <span>{{ participant.user.institution }}</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-2 col-sm-2 col-md-2">
-                                                        <div class="item-inner event-session">
-                                                            <span>
-                                                                {% if not participant.accepted_training %}
-                                                                    <input type="checkbox" name="first" value="{{ participant.pk }}"/>
-                                                                {% else %}
-                                                                    <span><i class="fa fa-check"></i></span>
-                                                                    <span>Onaylandı</span>
-                                                                {% endif %}
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-                                            <div class="checkout" style="float: none">
-                                                <button name="accept" class="custom-btn hvr-bounce-to-bottom">Onayla</button>
-                                                <button name="export" class="custom-btn hvr-bounce-to-bottom">Dışa aktar (Katılımcı seçmeyiniz)</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    {% include "includes/__pagination.html" %}
-
-                                </div>
-                            </div>
-                        </div>
+                            <button name="accept" class="btn btn-primary submit pull-right">Seçilenlerin Eğitimini Onayla</button>
+                            <button name="export" class="btn btn-primary submit pull-right">Seçimi Onaylananları Dışa Aktar</button>
+                        </form>
                     </div>
                     {% else %}
-                         <div class="alert alert-danger">Bu eğitimi birinci tercih olarak seçen katılımcı bulunamadı.</div>
+                         <div class="alert alert-danger">Henüz eğitimi seçen katılımcı bulunamadı.</div>
                     {% endif %}
-			</div><!-- /.row -->
-		</div><!-- /.container -->
+			</div>
+		</div>
 	</section>
 {% endblock %}
 
 {% block script %}
     <script type="text/javascript">
         $(document).ready(function() {
+            var clickedButton = "";
+
+            $("button[name=accept]").click(function(e){
+                clickedButton = "accept";
+            });
+
+            $("button[name=export]").click(function(e){
+                clickedButton = "export";
+            });
+
             $("#accept-form").submit(function(event) {
-                if( !confirm('Onaylama işlemini gerçekleştirmek istediğinize emin misini? Onaylamadan sonra bir kullanıcının onayını kaldıramazsınız.') )
+                if(clickedButton === "accept" && !confirm('Onaylama işlemini gerçekleştirmek istediğinize emin misiniz? Onaylanan kullanıcının onayı daha sonra geri alınamaz!') )
                     event.preventDefault();
             });
         });

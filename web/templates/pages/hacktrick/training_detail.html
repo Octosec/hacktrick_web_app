@@ -40,7 +40,7 @@
                         </p>
                         <p>
                             {% for instructor in object.instructor.all %}
-	                        <div class="comment first depth-1">
+                            <div class="comment first depth-1" style="overflow: hidden;">
 	                            <a class="pull-left" href="#">
                                     {% if not instructor.image %}
                                         <img class="avatar" src="{% static "img/user.png" %}" alt="Eğitmen">
