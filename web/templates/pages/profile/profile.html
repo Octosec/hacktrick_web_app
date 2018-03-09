@@ -21,31 +21,27 @@
     <div class="container">   
         <div class="row"> 
             <div class="col-md-12 section-heading">
-            {% if request.user.institution == "" or request.user.phone_number == "" or request.user.first_name == "" or request.user.last_name == "" %}
-                <div class="alert alert-danger text-center">
-                    Eğitim seçimi ve diğer işlemler için lütfen kullanıcı bilgilerinizi güncelleyin.
-                </div>
-            {% endif %}
-            {% include "includes/__form_messages.html" %}
-            </div>
-            <div class="col-md-12">
-                <ul class="project-info">
-                    <li><strong>İsim</strong>{{ request.user.get_full_name }}</li>
-                    <li><strong>Email</strong>{{ request.user.email }}</li>
-                </ul>
-            {% if verify_selection %}
-                <div class="col-sm-4 col-sm-offset-4">
-                    <div class="massage-response-area">
-                        <div class="alert alert-success fade in">
-                            <p><strong>Onaylanan Eğitiminiz:</strong> {{ verify_selection }}</p>
-                        </div>
+                {% if request.user.institution == "" or request.user.phone_number == "" or request.user.first_name == "" or request.user.last_name == "" %}
+                    <div class="alert alert-danger text-center">
+                        Eğitim seçimi ve diğer işlemler için lütfen kullanıcı bilgilerinizi güncelleyin.
                     </div>
-                </div>
-            {% else %}
-                <h3>Seçtiğiniz Eğitim Onaylandığında Bu Alanda Görüntüleyebilirsiniz. </h3>
-            {% endif %}
+                {% endif %}
+                    {% include "includes/__form_messages.html" %}
             </div>
-            <div class="col-md-6 col-md-offset-3 contact">
+            <div class="col-sm-6 col-sm-offset-3">
+                <ul class="project-info">
+                    <li><strong>İsim:</strong>{{ request.user.get_full_name }}</li>
+                    <li><strong>Email:</strong>{{ request.user.email }}</li>
+                    {% if verify_selection %}
+                        <li><strong>Onaylanan Eğitim:</strong> {{ verify_selection }}</li>
+                    {% else %}
+                    {% if request.user.user_type == 3 %}
+                        <li><strong>Eğitim:</strong> Seçtiğiniz eğitime onaylanmanız halinde buradan görebilirsiniz</li>
+                    {% endif %}
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="col-md-8 col-md-offset-2 contact">
                 <form method="POST"  action="#">
                     {% csrf_token %}
                     {{ form.first_name }}

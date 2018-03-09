@@ -14,62 +14,54 @@
 <section class="pt70 pb50">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 section-heading">
+            <div class="col-md-12">
                 <p>Aşağıdaki formu kullanarak eğitim tercihinizi yapabilirsiniz. Her eğitimin kontenjanı kendi sayfasında belirtilmiştir.</p>
                 <p>Her eğitim için en fazla sınıf mevcudunun iki katı kadar başvuru kabul edilecektir. Başvurular arasından eğitmenler kendi belirleyeceği değerlendirme yöntemi ile eleme yaparak eğitime hak kazanan kişileri belirleyecektir.</p>
                 <p>Lütfen eğitim seçimi yapmadan önce ilgili eğitmin detaylarını ve ön koşullarını okuduğunuzdan emin olunuz.</p>
                 <p>Eğitim sonrası katılımcılara katılım sertifikası verilecektir.</p>
             </div>
-            <div class="col-md-12">
-                {% if status %} {% if verify_selection %}
-                <div class="col-md-4">
-                    <div class="massage-response-area">
-                        <div class="alert alert-success fade in">
-                            <p><strong>Onaylanan Eğitim:</strong> {{ verify_selection }}</p>
-                        </div>
-                    </div>
+            {% if status %}
+                <div class="col-sm-12">
+                    <ul class="project-info">
+                        {% if verify_selection %}
+                            <li><strong>Onaylanan Eğitim:&nbsp;</strong>{{ verify_selection }}</li>
+                        {% else %}
+                            {% if section_training %}
+                                <li>
+                                    <strong>Seçilen Eğitim:&nbsp;</strong>
+                                    {% if section_training is not None %}
+                                        {{ section_training }}
+                                    {% else %}
+                                        Eğitim Seçiniz
+                                    {% endif %}
+                                </li>
+                                <li>Seçiminiz onaylanmadıkça eğitim tercihinizi kontenjanı olan başka bir eğitimle değiştirebilirsiniz.</li>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
                 </div>
-                {% else %} {% if section_training %}
-                <div class="row">
-                    <div class="col-md-4">
-                        <p>Seçtiğiniz Eğitim:
-                            <b>
-                                                {% if section_training is not None %}
-                                                    <h2>{{ section_training }}</h2>
-                                                {% else %}
-                                                    Eğitim Seçiniz
-                                                {% endif %}
-                                            </b>
-                        </p>
+                {% if not verify_selection %}
+                    <div class="col-sm-8 col-sm-offset-2 contact">
+                        {% include 'includes/__form_messages.html' %}
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="col-sm-12">{{ form.training_first }}</div>
+                            <div class="col-sm-2">{{ form.agreement }}</div>
+                            <div class="col-sm-10">
+                                <a id="tos" href="">Eğitim katılım şartlarını</a> okudum, anladım, kabul ediyorum.
+                            </div>
+                            <div class="col-sm-12">{{ form.captcha }}</div>
+                            <div class="col-sm-12"><input name="submit" type="submit" id="submit" class="btn btn-primary submit" value="Seç"></div>
+                        </form>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <p> Seçiminiz onaylanmadıkça eğitim tercihinizi kontenjanı olan başka bir eğitimle değiştirebilirsiniz.</p>
-                    </div>
-                </div>
                 {% endif %}
-                <hr class="separator">
-                <div class="col-sm-4 col-sm-offset-4 contact">
-                    {% include 'includes/__form_messages.html' %}
-                    <form method="POST" action="" enctype="multipart/form-data">
-                        {% csrf_token %} 
-                        {{ form.training_first }}
-                        <p> <i><a id="tos" href="">Okudum,</a></i> Anladım. Kabul Ediyorum. {{ form.agreement }}</p>
-                        {{ form.captcha }}
-                        <input name="submit" type="submit" id="submit" class="btn btn-primary submit" value="Seç">
-                    </form>
-                </div>
-                {% endif %} {% else %}
+            {% else %}
                 <div class="col-sm-4 col-sm-offset-4">
-                    <div class="massage-response-area">
-                        <div class="alert alert-error fade in">
-                            <p>Eğitim Kayıtları Sona Ermiştir.</p>
-                        </div>
+                    <div class="alert alert-error fade in">
+                        <p>Eğitim Kayıtları Sona Ermiştir.</p>
                     </div>
                 </div>
-                {% endif %}
-            </div>
+            {% endif %}
         </div>
     </div>
 </section>
