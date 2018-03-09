@@ -450,6 +450,7 @@ class Setting(models.Model):
     about = RichTextField('Hakkında')
     training_note = RichTextField('Eğitim notu')
     cfp = RichTextField("CFP")
+    agreement_note = RichTextField('Eğitim kabul sözleşmesi')
     accommodation = RichTextField("Konaklama")
     contact = RichTextField("İletişim")
     transportation = RichTextField("Ulaşım")
