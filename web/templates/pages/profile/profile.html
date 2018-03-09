@@ -33,6 +33,17 @@
                     <li><strong>İsim</strong>{{ request.user.get_full_name }}</li>
                     <li><strong>Email</strong>{{ request.user.email }}</li>
                 </ul>
+            {% if verify_selection %}
+                <div class="col-sm-4 col-sm-offset-4">
+                    <div class="massage-response-area">
+                        <div class="alert alert-success fade in">
+                            <p><strong>Onaylanan Eğitiminiz:</strong> {{ verify_selection }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <h3>Seçtiğiniz Eğitim Onaylandığında Bu Alanda Görüntüleyebilirsiniz. </h3>
+            {% endif %}
             </div>
             <div class="col-md-6 col-md-offset-3 contact">
                 <form method="POST"  action="#">

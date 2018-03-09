@@ -1,25 +1,19 @@
-{% extends "base.html" %}
-{% load hacktrick_extras %}
-{% block title %} Eğitim Seçimi {% endblock %}
-
-{% block page-header %}
-<section class="page-title parallax overlay bg-img-h">  
-    <div class="page-title-content"> 
-        <div class="container">   
+{% extends "base.html" %} {% load hacktrick_extras %} {% block title %} Eğitim Seçimi {% endblock %} {% block page-header %}
+<section class="page-title parallax overlay bg-img-h">
+    <div class="page-title-content">
+        <div class="container">
             <div class="col-sm-12 text-center white">
                 <h1>Eğitim Seçimi</h1>
                 <hr class="separator">
-            </div> 
+            </div>
         </div>
-    </div>    
+    </div>
 </section>
-{% endblock %}
+{% endblock %} {% block content %}
 
-{% block content %}
-
-<section class="pt70 pb50"> 
-    <div class="container">   
-        <div class="row"> 
+<section class="pt70 pb50">
+    <div class="container">
+        <div class="row">
             <div class="col-md-12 section-heading">
                 <p>Aşağıdaki formu kullanarak eğitim tercihinizi yapabilirsiniz. Her eğitimin kontenjanı kendi sayfasında belirtilmiştir.</p>
                 <p>Her eğitim için en fazla sınıf mevcudunun iki katı kadar başvuru kabul edilecektir. Başvurular arasından eğitmenler kendi belirleyeceği değerlendirme yöntemi ile eleme yaparak eğitime hak kazanan kişileri belirleyecektir.</p>
@@ -27,53 +21,55 @@
                 <p>Eğitim sonrası katılımcılara katılım sertifikası verilecektir.</p>
             </div>
             <div class="col-md-12">
-                {% if status %}
-                    {% if verify_selection %}
-                        <div class="col-sm-4 col-sm-offset-4">
-                            <div class="massage-response-area">
-                                <div class="alert alert-success fade in">
-                                    <p><strong>Onaylanan Eğitim:</strong> {{ verify_selection }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    {% else %}
-                        {% if section_training %}
-                            <p>Seçtiğiniz Eğitim:
-                                <b>
-                                    {% if section_training is not None %}
-                                        {{ section_training }}
-                                    {% else %}
-                                        Eğitim Seçiniz
-                                    {% endif %}
-                                </b>
-                                Seçiminiz onaylanmadıkça eğitim tercihinizi kontenjanı olan başka bir eğitimle değiştirebilirsiniz.
-                            </p>
-                        {% endif %}
-                        <hr class="separator">
-                        <div class="col-sm-4 col-sm-offset-4 contact">
-                            {% include 'includes/__form_messages.html' %}
-                            <form method="POST" action="" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                {{ form.training_first }}
-                                {{ form.captcha }}
-                                <input name="submit" type="submit" id="submit" class="btn btn-primary submit" value="Seç">
-                            </form>
-                        </div>
-                    {% endif %}
-                {% else %}
-                    <div class="col-sm-4 col-sm-offset-4">
-                        <div class="massage-response-area">
-                            <div class="alert alert-error fade in">
-                                <p>Eğitim Kayıtları Sona Ermiştir.</p>
-                            </div>
+                {% if status %} {% if verify_selection %}
+                <div class="col-md-4">
+                    <div class="massage-response-area">
+                        <div class="alert alert-success fade in">
+                            <p><strong>Onaylanan Eğitim:</strong> {{ verify_selection }}</p>
                         </div>
                     </div>
+                </div>
+                {% else %} {% if section_training %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <p>Seçtiğiniz Eğitim:
+                            <b>
+                                                {% if section_training is not None %}
+                                                    <h2>{{ section_training }}</h2>
+                                                {% else %}
+                                                    Eğitim Seçiniz
+                                                {% endif %}
+                                            </b>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <p> Seçiminiz onaylanmadıkça eğitim tercihinizi kontenjanı olan başka bir eğitimle değiştirebilirsiniz.</p>
+                    </div>
+                </div>
+                {% endif %}
+                <hr class="separator">
+                <div class="col-sm-4 col-sm-offset-4 contact">
+                    {% include 'includes/__form_messages.html' %}
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        {% csrf_token %} {{ form.training_first }} {{ form.captcha }}
+                        <input name="submit" type="submit" id="submit" class="btn btn-primary submit" value="Seç">
+                    </form>
+                </div>
+                {% endif %} {% else %}
+                <div class="col-sm-4 col-sm-offset-4">
+                    <div class="massage-response-area">
+                        <div class="alert alert-error fade in">
+                            <p>Eğitim Kayıtları Sona Ermiştir.</p>
+                        </div>
+                    </div>
+                </div>
                 {% endif %}
             </div>
         </div>
     </div>
 </section>
-{% endblock %}
-{% block script %}
-    <script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
+{% endblock %} {% block script %}
+<script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
 {% endblock %}

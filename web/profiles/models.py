@@ -36,6 +36,9 @@ class Profile(AbstractUser):
     def __unicode__(self):
         return self.username
 
+class Visitor(models.Model):
+    user = models.OneToOneField(Profile)
+    session_key = models.CharField(max_length=40, null=True, blank=True)
 
 class Instructor(models.Model):
     user = models.OneToOneField(

@@ -455,6 +455,7 @@ class Setting(models.Model):
     training_selection = models.BooleanField('Eğitim seçimi', default=False)
     participant_selection = models.BooleanField('Katılımcı seçimi',
                                                 default=False)
+    speaker_selection = models.BooleanField('Konuşmacı alanları:', default=False)
 
     # participant_accept = models.BooleanField('Katılımcı onay', default=False)
 
