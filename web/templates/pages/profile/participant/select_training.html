@@ -1,4 +1,5 @@
 {% extends "base.html" %} {% load hacktrick_extras %} {% block title %} Eğitim Seçimi {% endblock %} {% block page-header %}
+
 <section class="page-title parallax overlay bg-img-h">
     <div class="page-title-content">
         <div class="container">
@@ -41,17 +42,16 @@
                     </ul>
                 </div>
                 {% if not verify_selection %}
-                    <div class="col-sm-8 col-sm-offset-2 contact">
+                    <div class="col-sm-8 col-sm-offset-2 checkout">
                         {% include 'includes/__form_messages.html' %}
                         <form method="POST" action="" enctype="multipart/form-data">
                             {% csrf_token %}
-                            <div class="col-sm-12">{{ form.training_first }}</div>
-                            <div class="col-sm-2">{{ form.agreement }}</div>
-                            <div class="col-sm-10">
-                                <a id="tos" href="">Eğitim katılım şartlarını</a> okudum, anladım, kabul ediyorum.
+                            {{ form.training_first }}
+                            {{ form.agreement }} <a href="#openModal">Eğitim tercih şartlarını</a> okudum, anladım, kabul ediyorum.
+                            {{ form.captcha }}
+                            <div class="col-sm-4 col-sm-offset-4">
+                                <a name="submit" type="submit" id="submit" class="btn btn-primary btn-md btn-appear btn-cart-checkout"><span>Seç<i class="ion-ios-arrow-forward"></i></span></a>
                             </div>
-                            <div class="col-sm-12">{{ form.captcha }}</div>
-                            <div class="col-sm-12"><input name="submit" type="submit" id="submit" class="btn btn-primary submit" value="Seç"></div>
                         </form>
                     </div>
                 {% endif %}
@@ -65,6 +65,14 @@
         </div>
     </div>
 </section>
+
+<div id="openModal" class="modalDialog">
+    <div class="pt70 pb50 pl50 pr50">
+        <a href="#close" title="Close" class="modalDialogClose">X</a>
+        <h2>Eğitim Tercih Şartları</h2>
+        {{agreement_notes|safe}}
+    </div>
+</div>
 {% endblock %} {% block script %}
 <script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
 {% endblock %}

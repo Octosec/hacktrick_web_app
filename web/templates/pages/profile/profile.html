@@ -41,15 +41,27 @@
                     {% endif %}
                 </ul>
             </div>
-            <div class="col-md-8 col-md-offset-2 contact">
+            <div class="col-md-8 col-md-offset-2 checkout">
                 <form method="POST"  action="#">
                     {% csrf_token %}
-                    {{ form.first_name }}
-                    {{ form.last_name }}
-                    {{ form.institution }}
-                    {{ form.phone_number }}
-                    {{ form.captcha }}
-                    <input name="submit" type="submit" id="submit" class="submit btn btn-md btn-primary" value="Kaydet">
+                    <div class="half-left col-sm-6">
+                        {{ form.first_name }}
+                    </div>
+                    <div class="half-right col-sm-6">
+                        {{ form.last_name }}
+                    </div>
+                    <div class="half-left col-sm-6">
+                        {{ form.institution }}
+                    </div>
+                    <div class="half-right col-sm-6">
+                        {{ form.phone_number }}
+                    </div>
+                    <div class="col-sm-6">
+                        {{ form.captcha }}
+                    </div>
+                    <div class="col-sm-4 col-sm-offset-4">
+                        <a name="submit" type="submit" id="submit" class="btn btn-primary btn-md btn-appear btn-cart-checkout"><span>Kaydet<i class="ion-ios-arrow-forward"></i></span></a>
+                    </div>
                 </form>
             </div>
         </div>
