@@ -326,6 +326,11 @@ HIJACK_LOGOUT_REDIRECT_URL = ADMIN_URL
 HIJACK_REGISTER_ADMIN = False
 HIJACK_ALLOW_GET_REQUESTS = True
 
+#Cache
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+
 # Minify and compress
 HTML_MINIFY = not IS_DEV
 COMPRESS_ENABLED = not IS_DEV
