@@ -1,3 +1,5 @@
+import lz4
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -15,6 +17,7 @@ CACHES = {
         "LOCATION": "redis://redis/",
         'TIMEOUT': 60,
         "OPTIONS": {
+            "COMPRESSOR": "django_redis.compressors.lz4.Lz4Compressor",
             'MAX_ENTRIES': 1000,
             'server_max_value_length': 1024 * 1024 * 2,
             "DB": 1,
