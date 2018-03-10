@@ -290,7 +290,7 @@ class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
             context['status'] = False
         
         try:
-            context['agreement_notes'] = Setting.objects.only('agreement_note').get()
+            context['agreement_notes'] = Setting.objects.get().agreement_note
         except Setting.DoesNotExist:
             context['agreement_notes'] = False
         return context
