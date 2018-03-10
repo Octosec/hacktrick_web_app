@@ -300,12 +300,8 @@ class ParticipantSelectTrainingView(LoginRequiredMixin, InfoRequiredMixin, Parti
         first_selection = cleaned_data.get('training_first', None)
         user_training, _ = UserTraining.objects.get_or_create(user=self.request.user)
         user_training.first_selection = first_selection
-        if user_training.agreement is True:
-            user_training.agreement = True
-            user_training.save()
-            messages.add_message(self.request, messages.SUCCESS, self.success_message)
-        else:
-            messages.add_message(self.request, messages.ERROR, self.error_message)
+        user_training.save()
+        messages.add_message(self.request, messages.SUCCESS, self.success_message)
         return super(ParticipantSelectTrainingView, self).form_valid(form)
 
     def get_success_url(self):
