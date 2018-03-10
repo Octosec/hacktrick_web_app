@@ -50,7 +50,7 @@
                             {{ form.agreement }} <a href="#openModal">Eğitim tercih şartlarını</a> okudum, anladım, kabul ediyorum.
                             {{ form.captcha }}
                             <div class="col-sm-4 col-sm-offset-4">
-                                <a name="submit" type="submit" id="submit" class="btn btn-primary btn-md btn-appear btn-cart-checkout"><span>Seç<i class="ion-ios-arrow-forward"></i></span></a>
+                                <button name="submit" type="submit" id="submit" class="btn btn-primary btn-md btn-appear btn-cart-checkout"><span>Seç<i class="ion-ios-arrow-forward"></i></span></button>
                             </div>
                         </form>
                     </div>
@@ -70,7 +70,7 @@
     <div class="pt70 pb50 pl50 pr50">
         <a href="#close" title="Close" class="modalDialogClose">X</a>
         <h2>Eğitim Tercih Şartları</h2>
-        {{agreement_notes|safe}}
+        {{ agreement_notes|safe }}
     </div>
 </div>
 {% endblock %} {% block script %}
