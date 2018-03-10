@@ -47,7 +47,23 @@
                         <form method="POST" action="" enctype="multipart/form-data">
                             {% csrf_token %}
                             {{ form.training_first }}
-                            {{ form.agreement }} <a href="#openModal">Eğitim tercih şartlarını</a> okudum, anladım, kabul ediyorum.
+                            
+
+                        <div class="panel-group accordian-style1 mb10" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    {{ form.agreement }}
+                                     <button type="button" class="panel-title collapsed" style="width: auto;" data-toggle="collapse" data-target="#collapse55">
+                                         Eğitim tercih şartlarını okudum, anladım, kabul ediyorum. &nbsp;&nbsp;&nbsp;
+                                     </button>
+                                </div>
+                                <div id="collapse55" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                    {{ agreement_notes|safe }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                             {{ form.captcha }}
                             <div class="col-sm-4 col-sm-offset-4">
                                 <button name="submit" type="submit" id="submit" class="btn btn-primary btn-md btn-appear btn-cart-checkout"><span>Seç<i class="ion-ios-arrow-forward"></i></span></button>
@@ -65,14 +81,6 @@
         </div>
     </div>
 </section>
-
-<div id="openModal" class="modalDialog">
-    <div class="pt70 pb50 pl50 pr50">
-        <a href="#close" title="Close" class="modalDialogClose">X</a>
-        <h2>Eğitim Tercih Şartları</h2>
-        {{ agreement_notes|safe }}
-    </div>
-</div>
 {% endblock %} {% block script %}
 <script src="https://www.google.com/recaptcha/api.js" async="" defer=""></script>
 {% endblock %}
