@@ -317,7 +317,7 @@ class UserTraining(models.Model):
         verbose_name='Katılımcı',
     )
     user_status = models.BooleanField("Katılımcı durumu", default=True)
-    agreement = models.BooleanField("Anlaşma kabul durumu", default=False)
+    #agreement = models.BooleanField("Anlaşma kabul durumu", default=False)
 
     class Meta:
         verbose_name_plural = "Katılımcı eğitim"

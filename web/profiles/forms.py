@@ -175,7 +175,7 @@ class TrainingSelectForm(forms.Form):
         queryset=None,
         widget=Select(attrs={'id': 'country'})
     )
-    agreement = forms.BooleanField(widget=forms.CheckboxInput(attrs={'style':'width: 20px;'}))
+    #agreement = forms.BooleanField(widget=forms.CheckboxInput(attrs={'style':'width: 20px;'}))
 
     def __init__(self, *args, **kwargs):
         super(TrainingSelectForm, self).__init__(*args, **kwargs)
