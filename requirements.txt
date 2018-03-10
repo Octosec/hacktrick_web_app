@@ -44,4 +44,5 @@ rjsmin==1.0.12
 six==1.10.0
 social-auth-app-django==1.1.0
 social-auth-core==1.2.0
+wsgi
 vine==1.1.3
